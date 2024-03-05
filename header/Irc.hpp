@@ -2,6 +2,7 @@
 # define IRC_HPP
 
 # include <iostream>
+# include <sstream>
 
 # ifndef MUTE
 #  define MUTE 0
