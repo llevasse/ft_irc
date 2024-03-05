@@ -12,28 +12,28 @@ class Irc{
 		std::string	_pw;
 		int			_port;
 	public:
-		Irc(std::string pw, int port);
+		Irc(const std::string &pw, int port);
 		~Irc( void );
 
 		class readErrorException : public std::exception{
 			public:
 				virtual const char	*what(void) const throw();
-		}
+		};
 
 		class writeErrorException : public std::exception{
 			public:
 				virtual const char	*what(void) const throw();
-		}
+		};
 
 		class pingTimeoutException : public std::exception{
 			public:
 				virtual const char	*what(void) const throw();
-		}
+		};
 
 		class brokenPipeException : public std::exception{
 			public:
 				virtual const char	*what(void) const throw();
-		}
+		};
 };
 
 std::ostream &operator << (std::ostream &out, const Irc &obj);
