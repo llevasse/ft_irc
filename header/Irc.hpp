@@ -11,8 +11,10 @@ class Irc{
 	private:
 		std::string	_pw;
 		int			_port;
+
+		std::string	trim(const std::string str);
 	public:
-		Irc(const std::string &pw, int port);
+		Irc(const std::string &pw, const std::string &port);
 		~Irc( void );
 
 		class readErrorException : public std::exception{
@@ -31,6 +33,16 @@ class Irc{
 		};
 
 		class brokenPipeException : public std::exception{
+			public:
+				virtual const char	*what(void) const throw();
+		};
+
+		class invalidPortException : public std::exception{
+			public:
+				virtual const char	*what(void) const throw();
+		};
+
+		class ErrorOpeningPortException : public std::exception{
 			public:
 				virtual const char	*what(void) const throw();
 		};
