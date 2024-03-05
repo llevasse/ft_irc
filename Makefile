@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/04 19:12:15 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/03/05 16:29:17 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,13 +54,15 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 
 #  example below
 
-# ALL_FILES		= main.cpp
+ ALL_FILES		=	srcs/main.cpp \
+					srcs/Irc.cpp
+ 				
 
 # SOCKET_DIR		= socket/
 # SOCKET_FILES	= Socket.cpp
 # ALL_FILES		+= $(addprefix $(SOCKET_DIR), $(SOCKET_FILES))
 
-# PARSE_DIR		= parse/
+# PARSE_DIR		= parsing/
 # PARSE_FILES		= Parse.cpp
 # ALL_FILES		+= $(addprefix $(PARSE_DIR), $(PARSE_FILES))
 
