@@ -8,9 +8,12 @@ std::string Irc::trim( const std::string str ){
 }
 
 bool Irc::check_pw( const std::string &pw ){
+
 	if (pw.length() < 5)
 		return (false);
-	for (size_t i=0; i<pw.length(); i++){
+
+	for (size_t i = 0; i < pw.length(); i++ )
+	{
 		if (!isalnum(pw[i]))
 			return (false);
 	}
