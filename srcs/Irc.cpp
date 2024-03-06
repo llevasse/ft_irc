@@ -1,4 +1,5 @@
 #include "Irc.hpp"
+#include "IrcExc.hpp"
 
 std::string Irc::trim( const std::string str ){
 	int	beg=0, end=str.length()-1;
@@ -28,11 +29,11 @@ Irc::Irc( const std::string &pw, const std::string &port ){
 	ss << trim(port);
 	ss >> _port;
 	if (check_pw(pw) == false)
-		throw (invalidPasswordException());
+		throw (IrcExc::invalidPasswordException());
 	if (_port < 0 || _port > 65535)
-		throw (invalidPortException());
+		throw (IrcExc::invalidPortException());
 	if (_port < 1023)
-		throw (reservedPortException());
+		throw (IrcExc::reservedPortException());
 	_pw = pw;
 }
 
@@ -45,16 +46,4 @@ std::ostream &operator << (std::ostream &out, const Irc &obj){
 	out << "Irc";
 	(void)obj;
 	return (out);
-}
-
-const char *Irc::invalidPortException::what() const throw(){
-	return ("Invalid port value");
-}
-
-const char *Irc::reservedPortException::what() const throw(){
-	return ("Port is already reserved");
-}
-
-const char *Irc::invalidPasswordException::what() const throw(){
-	return ("Invalid password");
 }

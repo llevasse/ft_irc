@@ -6,7 +6,7 @@
 #    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/06 13:57:13 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/06 14:53:03 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,8 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 #  example below
 
  ALL_FILES		=	main.cpp \
-					Irc.cpp
+					Irc.cpp \
+					IrcExc.cpp
 
 
 # SOCKET_DIR		= socket/

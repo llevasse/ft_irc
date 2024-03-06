@@ -18,46 +18,6 @@ class Irc{
 	public:
 		Irc(const std::string &pw, const std::string &port);
 		~Irc( void );
-
-		class readErrorException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class writeErrorException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class pingTimeoutException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class brokenPipeException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class invalidPortException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class reservedPortException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class ErrorOpeningPortException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class invalidPasswordException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
 };
 
 
