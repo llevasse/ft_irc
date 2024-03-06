@@ -17,6 +17,9 @@ Irc::Irc( const std::string &pw, const std::string &port ){
 	ss >> _port;
 	if (_port < 0 || _port > 65535)
 		throw (invalidPortException());
+	if (_port < 1023)
+		throw (reservedPortException());
+	_pw = pw;
 }
 
 Irc::~Irc( void ){
@@ -32,4 +35,8 @@ std::ostream &operator << (std::ostream &out, const Irc &obj){
 
 const char *Irc::invalidPortException::what() const throw(){
 	return ("Invalid port value");
+}
+
+const char *Irc::reservedPortException::what() const throw(){
+	return ("Port is already reserved");
 }

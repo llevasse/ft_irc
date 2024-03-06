@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/05 16:29:17 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/06 13:10:36 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,8 +54,8 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 
 #  example below
 
- ALL_FILES		=	srcs/main.cpp \
-					srcs/Irc.cpp
+ ALL_FILES		=	main.cpp \
+					Irc.cpp
  				
 
 # SOCKET_DIR		= socket/
@@ -96,6 +96,6 @@ fclean: clean
 re: fclean all
 
 $(ALL_OBJS_DIR):
-	mkdir -p $@
+	mkdir -p $(OBJS_DIR)
 
 -include $(DEP_FILES)
