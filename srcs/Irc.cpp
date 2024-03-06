@@ -1,5 +1,4 @@
 #include "Irc.hpp"
-#include "IrcExc.hpp"
 
 std::string Irc::trim( const std::string str ){
 	int	beg=0, end=str.length()-1;
@@ -23,8 +22,6 @@ bool Irc::check_pw( const std::string &pw ){
 
 Irc::Irc( const std::string &pw, const std::string &port ){
 	std::string str;
-	if (!MUTE)
-		std::cout << "Irc default \033[32mconstructor\033[0m called!" << std::endl;
 	std::stringstream ss;
 	ss << trim(port);
 	ss >> _port;
@@ -38,8 +35,6 @@ Irc::Irc( const std::string &pw, const std::string &port ){
 }
 
 Irc::~Irc( void ){
-	if (!MUTE)
-		std::cout << "Irc \033[31mdestructor\033[0m called!" << std::endl;
 }
 
 std::ostream &operator << (std::ostream &out, const Irc &obj){
