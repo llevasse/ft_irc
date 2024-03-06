@@ -29,11 +29,11 @@ Irc::Irc( const std::string &pw, const std::string &port ){
 	ss << trim(port);
 	ss >> _port;
 	if (check_pw(pw) == false)
-		throw (IrcExc::invalidPasswordException());
+		throw (std::runtime_error("Invalid password"));
 	if (_port < 0 || _port > 65535)
-		throw (IrcExc::invalidPortException());
+		throw (std::runtime_error("Invalid port value"));
 	if (_port < 1023)
-		throw (IrcExc::reservedPortException());
+		throw (std::runtime_error("Port is already reserved"));
 	_pw = pw;
 }
 

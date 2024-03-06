@@ -28,25 +28,5 @@ class IrcExc{
 			public:
 				virtual const char	*what(void) const throw();
 		};
-
-		class invalidPortException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class reservedPortException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class ErrorOpeningPortException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
-
-		class invalidPasswordException : public std::exception{
-			public:
-				virtual const char	*what(void) const throw();
-		};
 };
 #endif
