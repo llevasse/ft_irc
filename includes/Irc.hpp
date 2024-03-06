@@ -13,6 +13,7 @@ class Irc{
 		std::string	_pw;
 		int			_port;
 
+		bool		check_pw(const std::string &pw);
 		std::string	trim(const std::string str);
 	public:
 		Irc(const std::string &pw, const std::string &port);
@@ -52,7 +53,13 @@ class Irc{
 			public:
 				virtual const char	*what(void) const throw();
 		};
+
+		class invalidPasswordException : public std::exception{
+			public:
+				virtual const char	*what(void) const throw();
+		};
 };
+
 
 std::ostream &operator << (std::ostream &out, const Irc &obj);
 #endif

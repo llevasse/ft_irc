@@ -9,4 +9,6 @@ int main(int argc, char **argv){
 			std::cerr << e.what() << std::endl;
 		}
 	}
+	else
+		std::cerr << "Usage: ./irc <password> <port>" << std::endl;
 }
