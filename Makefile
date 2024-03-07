@@ -6,7 +6,7 @@
 #    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/06 15:42:11 by naterrie         ###   ########lyon.fr    #
+#    Updated: 2024/03/07 14:22:34 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,13 +58,13 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 					Irc.cpp 
 
 
-# SOCKET_DIR		= socket/
+# SOCKET_DIR	= socket/
 # SOCKET_FILES	= Socket.cpp
 # ALL_FILES		+= $(addprefix $(SOCKET_DIR), $(SOCKET_FILES))
 
-# PARSE_DIR		= parsing/
-# PARSE_FILES		= Parse.cpp
-# ALL_FILES		+= $(addprefix $(PARSE_DIR), $(PARSE_FILES))
+PARSE_DIR		= parsing/
+PARSE_FILES		= Request.cpp
+ALL_FILES		+= $(addprefix $(PARSE_DIR), $(PARSE_FILES))
 
 OBJ_FILES		= $(addprefix $(OBJS_DIR), $(ALL_FILES:.cpp=.o))
 
@@ -97,5 +97,7 @@ re: fclean all
 
 $(ALL_OBJS_DIR):
 	mkdir -p $(OBJS_DIR)
+	mkdir -p $(OBJS_DIR)$(PARSE_DIR)
+#	mkdir -p $(OBJS_DIR)$(SOCKET_DIR)
 
 -include $(DEP_FILES)
