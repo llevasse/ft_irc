@@ -1,6 +1,12 @@
 #include "Request.hpp"
 
-Request::Request( void ){
+Request::Request( const std::string raw ){
+	_raw = raw;
+
+	if (_raw[0] == ':'){
+		_nickname = _raw.substr(1, _raw.find("!") - 1);
+		std::cout << _nickname << std::endl;
+	}
 }
 
 Request::Request( Request const &obj){
