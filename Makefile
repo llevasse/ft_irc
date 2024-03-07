@@ -6,7 +6,7 @@
 #    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/07 14:22:34 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/07 15:53:53 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,8 +96,6 @@ fclean: clean
 re: fclean all
 
 $(ALL_OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
-	mkdir -p $(OBJS_DIR)$(PARSE_DIR)
-#	mkdir -p $(OBJS_DIR)$(SOCKET_DIR)
+	mkdir -p $(ALL_OBJS_DIR)
 
 -include $(DEP_FILES)
