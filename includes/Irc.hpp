@@ -12,7 +12,7 @@ class Irc{
 		bool		check_pw(const std::string &pw);
 		std::string	trim(const std::string str);
 	public:
-		Irc(const std::string &pw, const std::string &port);
+		Irc(const std::string &port, const std::string &pw);
 		~Irc( void );
 };
 

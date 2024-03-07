@@ -20,7 +20,7 @@ bool Irc::check_pw( const std::string &pw ){
 	return (true);
 }
 
-Irc::Irc( const std::string &pw, const std::string &port ){
+Irc::Irc( const std::string &port, const std::string &pw ){
 	std::string str;
 	std::stringstream ss;
 	ss << trim(port);
