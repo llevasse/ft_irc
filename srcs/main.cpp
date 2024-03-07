@@ -4,8 +4,10 @@
 int main(int argc, char **argv){
 	if (argc == 3){
 		try {
-			Request req(argv[1]);
 			Irc irc(argv[1], argv[2]);
+
+			Request req(":llevasse!me@localhost NICK :elise");
+			std::cout << req << std::endl;
 		}
 		catch (const std::exception &e){
 			std::cerr << e.what() << std::endl;
