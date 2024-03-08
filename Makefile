@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/04 19:12:15 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/03/08 13:52:30 by eguelin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,17 +52,14 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 #                                    Sources                                   #
 # **************************************************************************** #
 
-#  example below
+ALL_FILES		= main.cpp
 
-# ALL_FILES		= main.cpp
+CLASS_DIR		= class/
+CLASS_FILES		= Server.cpp \
+				  Client.cpp
+ALL_FILES		+= $(addprefix $(CLASS_DIR), $(CLASS_FILES))
 
-# SOCKET_DIR		= socket/
-# SOCKET_FILES	= Socket.cpp
-# ALL_FILES		+= $(addprefix $(SOCKET_DIR), $(SOCKET_FILES))
-
-# PARSE_DIR		= parse/
-# PARSE_FILES		= Parse.cpp
-# ALL_FILES		+= $(addprefix $(PARSE_DIR), $(PARSE_FILES))
+INC				+= -I $(INC_DIR)$(CLASS_DIR)
 
 OBJ_FILES		= $(addprefix $(OBJS_DIR), $(ALL_FILES:.cpp=.o))
 
