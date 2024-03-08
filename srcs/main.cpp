@@ -8,6 +8,9 @@ int main(int argc, char **argv){
 
 			Request req(":llevasse!me@localhost NICK :elise");
 			std::cout << req << std::endl;
+			
+			Request req2(":llevasse!me@localhost 352 llevasse #cc llevasse localhost  llevasse H :0 realname");
+			std::cout << req2 << std::endl;
 		}
 		catch (const std::exception &e){
 			std::cerr << e.what() << std::endl;

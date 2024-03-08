@@ -8,6 +8,7 @@ Request::Request( const std::string raw ){
 		_username = _raw.substr(_raw.find("!") + 1, _raw.find("@") - 1 - _raw.find("!"));
 		_host = _raw.substr(_raw.find("@") + 1, _raw.find(" ") - 1 - _raw.find("@"));
 		_cmd = _raw.substr(_raw.find(" ") + 1, _raw.find(" ", _raw.find(" ") + 1) - 1 - _raw.find(" "));
+		_chan = _raw.substr(_raw.find("#") + 1, _raw.find(" ", _raw.find("#") + 1) - 1 - _raw.find("#"));
 		_content = _raw.substr(_raw.find(":", 2) + 1);
 	}
 }
