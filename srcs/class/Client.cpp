@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/08 16:35:05 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/09 18:18:27 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,24 @@
 /*                         Constructors & Destructors                         */
 /* ************************************************************************** */
 
+Client::Client( void )
+{
+	this->_fd = -1;
+	memset(&this->_addr, 0, sizeof(this->_addr));
+	this->_lenAddr = sizeof(this->_addr);
+}
+
 Client::Client( int serverSocket )
 {
-	this->_pollfd.fd = accept(serverSocket, reinterpret_cast<sockaddr *>(&this->_addr), &this->_lenAddr);
-	this->_pollfd.events = POLLIN;
-	this->_pollfd.revents = 0;
+	this->_fd = accept(serverSocket, reinterpret_cast<sockaddr *>(&this->_addr), &this->_lenAddr);
 
+	if (this->_fd == -1)
+		throw Client::FailedToAcceptClient();
+}
+
+Client::Client( const Client &src )
+{
+	*this = src;
 }
 
 Client::~Client( void )
@@ -34,8 +46,10 @@ Client::~Client( void )
 
 Client	&Client::operator=( const Client &src )
 {
-	static_cast<void>(src);
-	//code
+	this->_fd = src._fd;
+	memcpy(&this->_addr, &src._addr, sizeof(this->_addr));
+	this->_lenAddr = src._lenAddr;
+
 	return (*this);
 }
 
@@ -43,15 +57,17 @@ Client	&Client::operator=( const Client &src )
 /*                           Public member functions                          */
 /* ************************************************************************** */
 
+int	Client::getFd( void ) const {return (this->_fd);}
+
+const sockaddr_in	&Client::getAddr( void ) const {return (this->_addr);}
+
+const socklen_t		&Client::getLenAddr( void ) const {return (this->_lenAddr);}
 
 /* ************************************************************************** */
-/*                               Print overload                               */
+/*                             Exceptions classes                             */
 /* ************************************************************************** */
 
-std::ostream	&operator<<( std::ostream &o, const Client &src )
+const char	*Client::FailedToAcceptClient::what() const throw()
 {
-	static_cast<void>(o);
-	static_cast<void>(src);
-	//code
-	return (o);
+	return ("Failed to accept client");
 }

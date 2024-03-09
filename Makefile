@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/08 13:52:30 by eguelin          ###   ########.fr        #
+#    Updated: 2024/03/09 18:22:57 by eguelin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,9 @@ fclean: clean
 	echo $(FULL_CLEAN_MSG)
 
 re: fclean all
+
+run: all
+	./$(NAME)
 
 $(ALL_OBJS_DIR):
 	mkdir -p $@
