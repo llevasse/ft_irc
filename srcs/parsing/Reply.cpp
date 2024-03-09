@@ -1,6 +1,6 @@
-#include "Request.hpp"
+#include "Reply.hpp"
 
-Request::Request( const std::string raw ){
+Reply::Reply( const std::string raw ){
 	_raw = raw;
 
 	if (_raw[0] == ':'){
@@ -13,30 +13,30 @@ Request::Request( const std::string raw ){
 	}
 }
 
-Request::Request( Request const &obj){
+Reply::Reply( Reply const &obj){
 	if (this != &obj)
 		*this = obj;
 }
 
-Request &Request::operator= ( Request const &obj){
+Reply &Reply::operator= ( Reply const &obj){
 	(void)obj;
 	return (*this);
 }
 
-Request::~Request( void ){
+Reply::~Reply( void ){
 }
 
-const	std::string	Request::getRaw()const { return _raw;}
-const	std::string	Request::getContent()const { return _content;}
-const	std::string	Request::getUsername()const { return _username;}
-const	std::string	Request::getNickname()const { return _nickname;}
-const	std::string	Request::getPassWord()const { return _passWord;}
-const	std::string	Request::getChan() const{ return _chan;}
-const	std::string	Request::getCmd() const{ return _cmd;}
-const	std::string	Request::getHost() const{ return _host;}
+const	std::string	Reply::getRaw()const { return _raw;}
+const	std::string	Reply::getContent()const { return _content;}
+const	std::string	Reply::getUsername()const { return _username;}
+const	std::string	Reply::getNickname()const { return _nickname;}
+const	std::string	Reply::getPassWord()const { return _passWord;}
+const	std::string	Reply::getChan() const{ return _chan;}
+const	std::string	Reply::getCmd() const{ return _cmd;}
+const	std::string	Reply::getHost() const{ return _host;}
 
-std::ostream &operator << (std::ostream &out, const Request &obj){
-	out << "Request : " << std::endl;
+std::ostream &operator << (std::ostream &out, const Reply &obj){
+	out << "Reply : " << std::endl;
 	out << "\t" << "raw : " << obj.getRaw() << std::endl; 
 	out << "\t" << "content : " << obj.getContent() << std::endl; 
 	out << "\t" << "username : " << obj.getUsername() << std::endl; 

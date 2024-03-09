@@ -1,9 +1,9 @@
-#ifndef REQUEST_HPP
-# define REQUEST_HPP
+#ifndef REPLY_HPP
+# define REPLY_HPP
 
 # include <iostream>
 
-class Request{
+class Reply{
 	private:
 		std::string	_raw;
 		std::string	_content;
@@ -16,10 +16,10 @@ class Request{
 		bool		_isOperator;
 
 	public:
-		Request( const std::string raw );
-		Request( Request const &obj );
-		Request &operator= ( Request const &obj );
-		~Request( void );
+		Reply( const std::string raw );
+		Reply( Reply const &obj );
+		Reply &operator= ( Reply const &obj );
+		~Reply( void );
 
 		const	std::string	getRaw()const;
 		const	std::string	getContent()const;
@@ -31,5 +31,5 @@ class Request{
 		const	std::string	getHost()const;
 };
 
-std::ostream &operator << (std::ostream &out, const Request &obj);
+std::ostream &operator << (std::ostream &out, const Reply &obj);
 #endif
