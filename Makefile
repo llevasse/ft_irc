@@ -6,7 +6,7 @@
 #    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/07 15:53:53 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/10 22:52:45 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,9 +62,23 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 # SOCKET_FILES	= Socket.cpp
 # ALL_FILES		+= $(addprefix $(SOCKET_DIR), $(SOCKET_FILES))
 
-PARSE_DIR		= parsing/
-PARSE_FILES		= Request.cpp
-ALL_FILES		+= $(addprefix $(PARSE_DIR), $(PARSE_FILES))
+COMMAND_DIR		= command/
+COMMAND_FILES	=	Invite.cpp\
+					Join.cpp\
+					Kick.cpp\
+					Message.cpp\
+					Mode.cpp\
+					Nick.cpp\
+					Pass.cpp\
+					Privmsg.cpp\
+					Topic.cpp\
+					User.cpp
+
+ALL_FILES		+= $(addprefix $(COMMAND_DIR), $(COMMAND_FILES))
+
+#PARSE_DIR		= parsing/
+#PARSE_FILES		= Request.cpp
+#ALL_FILES		+= $(addprefix $(PARSE_DIR), $(PARSE_FILES))
 
 OBJ_FILES		= $(addprefix $(OBJS_DIR), $(ALL_FILES:.cpp=.o))
 
