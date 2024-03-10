@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/10 16:50:30 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/10 22:35:43 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -51,22 +51,21 @@ const socklen_t		&Client::getLenAddr( void ) const {return (this->_lenAddr);}
 
 std::string	Client::receiveData( void ) const
 {
-	std::string	data;
-	char		buffer[1024];
+	char		buffer[512];
 	int			ret;
 
-	do {
-		ret = recv(this->_fd, buffer, 1024, 0);
+	ret = recv(this->_fd, buffer, 512, 0);
 
-		if (ret == -1)
-			throw Client::FailedToReceiveData();
-		else if (ret == 0)
-			break;
+	if (ret == -1)
+		throw Client::FailedToReceiveData();
 
-		data += std::string(buffer, ret);
-	} while (ret == 1024 && data[data.size() - 1] != '\n');
+	if (ret == 512)
+	{
+		buffer[510] = '\r';
+		buffer[511] = '\n';
+	}
 
-	return (data);
+	return (std::string(buffer, ret));
 }
 
 void	Client::sendData( const std::string &data ) const
@@ -94,3 +93,4 @@ const char	*Client::FailedToSendData::what() const throw()
 	return ("Failed to send data");
 }
 
+00000
