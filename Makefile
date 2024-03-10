@@ -1,4 +1,4 @@
-# **************************************************************************** #
+#******************************************************************************#
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,9 +6,9 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/09 18:22:57 by eguelin          ###   ########.fr        #
+#    Updated: 2024/03/10 13:25:27 by eguelin          ###   ########.fr        #
 #                                                                              #
-# **************************************************************************** #
+#******************************************************************************#
 
 .PHONY: all clean fclean re
 .SILENT:
@@ -22,7 +22,7 @@ OBJS_DIR	= .objs/
 SRCS_DIR	= srcs/
 INC_DIR		= includes/
 CC			= c++
-CFLAGS		= -Wall -Werror -Wextra -std=c++98
+CFLAGS		= -Wall -Werror -Wextra -std=c++98 -g3
 INC			= -I $(INC_DIR)
 RM			= rm -fr
 
@@ -92,6 +92,9 @@ re: fclean all
 
 run: all
 	./$(NAME)
+
+leaks: all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME)
 
 $(ALL_OBJS_DIR):
 	mkdir -p $@

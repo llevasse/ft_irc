@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/09 18:22:13 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/10 16:57:21 by eguelin          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "Server.hpp"
 
@@ -25,6 +25,11 @@ Server::Server( u_short port, const std::string &password) : _port(port), _passw
 
 Server::~Server( void )
 {
+	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+		delete it->second;
+
+	if (this->_pollfds[0].fd != -1)
+		close(this->_pollfds[0].fd);
 }
 
 /* ************************************************************************** */
@@ -48,39 +53,44 @@ void	Server::run( void )
 	pollfd	server;
 
 	server.fd = socket(PF_INET, SOCK_STREAM, 0);
+	if (server.fd == -1)
+		throw Server::FailedToCreateSocket();
+
 	server.events = POLLIN;
 	server.revents = 0;
 
 	this->_pollfds.push_back(server);
 
-	bind(server.fd, reinterpret_cast<sockaddr *>(&this->_addr), sizeof(this->_addr));
+	if (bind(server.fd, reinterpret_cast<sockaddr *>(&this->_addr), sizeof(this->_addr)) == -1)
+		throw Server::FailedToBindSocket();
 
-	listen(server.fd, 100);
+	if (listen(server.fd, 100) == -1)
+		throw Server::FailedToListenSocket();
 
 	this->loop();
 }
 
 void	Server::newClient( void )
 {
-	Client	client(this->_pollfds[0].fd);
+	Client	*client = new Client(this->_pollfds[0].fd);
 	pollfd	pollfd;
 
-	this->_clients[client.getFd()] = client;
+	this->_clients[client->getFd()] = client;
 
-	pollfd.fd = client.getFd();
+	pollfd.fd = client->getFd();
 	pollfd.events = POLLIN;
 	pollfd.revents = 0;
 
 	this->_pollfds.push_back(pollfd);
 
-	std::cout << "New client " << client.getFd() << " connected" << std::endl;
+	std::cout << "New client " << client->getFd() << " connected" << std::endl;
 }
 
 void	Server::removeClient( int fd, int index )
 {
+	delete this->_clients[fd];
 	this->_clients.erase(fd);
 	this->_pollfds.erase(this->_pollfds.begin() + index);
-	close(fd);
 
 	std::cout << "Client " << fd << " disconnected" << std::endl;
 }
@@ -89,7 +99,8 @@ void	Server::loop( void )
 {
 	while (true)
 	{
-		poll(this->_pollfds.data(), this->_pollfds.size(), -1);
+		if (poll(this->_pollfds.data(), this->_pollfds.size(), -1) == -1)
+			throw Server::FailedToPoll();
 
 		if (this->_pollfds[0].revents & POLLIN)
 			this->newClient();
@@ -97,19 +108,57 @@ void	Server::loop( void )
 		for (size_t i = 1; i < this->_pollfds.size(); i++)
 		{
 			if (this->_pollfds[i].revents & POLLIN)
-			{
-				char	buffer[1024];
-				ssize_t	size;
-
-				size = recv(this->_pollfds[i].fd, buffer, 1023, 0);
-				if (size < 1)
-					this->removeClient(this->_pollfds[i].fd, i);
-				else
-				{
-					buffer[size] = 0;
-					std::cout << "Client " << this->_pollfds[i].fd << " sent: " << buffer;
-				}
-			}
+				this->clientAction(i);
 		}
 	}
+}
+
+void	Server::clientAction( int index )
+{
+	Client	*client = this->_clients[this->_pollfds[index].fd];
+	std::string	data;
+
+	try
+	{
+		data = client->receiveData();
+
+		if (data.empty())
+		{
+			this->removeClient(client->getFd(), index);
+			return ;
+		}
+
+		std::cout << "Client " << client->getFd() << " sent: " << data;
+
+		client->sendData(data);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << "Error: Client:" << client->getFd() << ": " << e.what() << std::endl;
+		this->removeClient(client->getFd(), index);
+	}
+}
+
+/* ************************************************************************** */
+/*                             Exceptions classes                             */
+/* ************************************************************************** */
+
+const char	*Server::FailedToCreateSocket::what() const throw()
+{
+	return ("Failed to create socket");
+}
+
+const char	*Server::FailedToBindSocket::what() const throw()
+{
+	return ("Failed to bind socket");
+}
+
+const char	*Server::FailedToListenSocket::what() const throw()
+{
+	return ("Failed to listen socket");
+}
+
+const char	*Server::FailedToPoll::what() const throw()
+{
+	return ("Failed to poll");
 }
