@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/10 22:35:43 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/10 22:39:12 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -93,4 +93,3 @@ const char	*Client::FailedToSendData::what() const throw()
 	return ("Failed to send data");
 }
 
-00000
