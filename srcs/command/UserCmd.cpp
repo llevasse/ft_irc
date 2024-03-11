@@ -1,31 +1,25 @@
-#include "User.hpp"
+#include "UserCmd.hpp"
 
-User::User( void ){
-	if (!MUTE)
-		std::cout << "User default \033[32mconstructor\033[0m called!" << std::endl;
+UserCmd::UserCmd( std::string command, std::string param ){
+	(void)command;
+	(void)param;
 }
 
-User::User( User const &obj){
-	if (!MUTE)
-		std::cout << "User copy \033[32mconstructor\033[0m called!" << std::endl;
+UserCmd::UserCmd( UserCmd const &obj){
 	if (this != &obj)
 		*this = obj;
 }
 
-User &User::operator= ( User const &obj){
-	if (!MUTE)
-		std::cout << "User copy assignment operator called!" << std::endl;
+UserCmd &UserCmd::operator= ( UserCmd const &obj){
 	(void)obj;
 	return (*this);
 }
 
-User::~User( void ){
-	if (!MUTE)
-		std::cout << "User \033[31mdestructor\033[0m called!" << std::endl;
+UserCmd::~UserCmd( void ){
 }
 
-std::ostream &operator << (std::ostream &out, const User &obj){
-	out << "User";
+std::ostream &operator << (std::ostream &out, const UserCmd &obj){
+	out << "UserCmd";
 	(void)obj;
 	return (out);
 }

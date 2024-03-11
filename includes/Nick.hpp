@@ -9,7 +9,7 @@
 
 class Nick{
 	public:
-		Nick( void );
+		Nick( std::string command, std::string param );
 		Nick( Nick const &obj );
 		Nick &operator= ( Nick const &obj );
 		~Nick( void );

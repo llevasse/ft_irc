@@ -37,6 +37,11 @@ Irc::Irc( const std::string &port, const std::string &pw ){
 Irc::~Irc( void ){
 }
 
+void	Irc::createUser(int socket){
+	_users.push_back(User(socket));
+}
+
+
 std::ostream &operator << (std::ostream &out, const Irc &obj){
 	out << "Irc";
 	(void)obj;

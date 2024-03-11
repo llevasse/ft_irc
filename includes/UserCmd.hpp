@@ -1,5 +1,5 @@
-#ifndef USER_HPP
-# define USER_HPP
+#ifndef USERCMD_HPP
+# define USERCMD_HPP
 
 # include <iostream>
 
@@ -7,13 +7,13 @@
 #  define MUTE 0
 # endif
 
-class User{
+class UserCmd{
 	public:
-		User( void );
-		User( User const &obj );
-		User &operator= ( User const &obj );
-		~User( void );
+		UserCmd( std::string command, std::string param );
+		UserCmd( UserCmd const &obj );
+		UserCmd &operator= ( UserCmd const &obj );
+		~UserCmd( void );
 };
 
-std::ostream &operator << (std::ostream &out, const User &obj);
+std::ostream &operator << (std::ostream &out, const UserCmd &obj);
 #endif

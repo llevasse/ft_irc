@@ -1,8 +1,8 @@
 #include "Privmsg.hpp"
 
-Privmsg::Privmsg( void ){
-	if (!MUTE)
-		std::cout << "Privmsg default \033[32mconstructor\033[0m called!" << std::endl;
+Privmsg::Privmsg( std::string command, std::string param ){
+	(void)command;
+	(void)param;
 }
 
 Privmsg::Privmsg( Privmsg const &obj){

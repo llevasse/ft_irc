@@ -9,7 +9,7 @@
 
 class Invite{
 	public:
-		Invite( void );
+		Invite( std::string command, std::string param );
 		Invite( Invite const &obj );
 		Invite &operator= ( Invite const &obj );
 		~Invite( void );

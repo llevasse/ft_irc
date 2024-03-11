@@ -9,7 +9,7 @@
 
 class Pass{
 	public:
-		Pass( void );
+		Pass( std::string command, std::string param );
 		Pass( Pass const &obj );
 		Pass &operator= ( Pass const &obj );
 		~Pass( void );

@@ -5,9 +5,9 @@ Message::Message( const std::string message ){
 	_command = message.substr(0,sep);
 	_param = message.substr(sep);
 	if (_command == "NICK")
-		Nick(_command, _param);
+		Nick(_command, _param);/*
 	else if (_command == "USER")
-		User(_command, _param);
+		UserCmd(_command, _param);
 	else if (_command == "PASS")
 		Pass(_command, _param);
 	else if (_command == "JOIN")
@@ -21,7 +21,7 @@ Message::Message( const std::string message ){
 	else if (_command == "TOPIC")
 		Topic(_command, _param);
 	else if (_command == "MODE")
-		Mode(_command, _param);
+		Mode(_command, _param);*/
 }
 
 Message::Message( Message const &obj){

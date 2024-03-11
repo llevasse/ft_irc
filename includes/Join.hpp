@@ -9,7 +9,7 @@
 
 class Join{
 	public:
-		Join( void );
+		Join( std::string command, std::string param );
 		Join( Join const &obj );
 		Join &operator= ( Join const &obj );
 		~Join( void );
