@@ -5,10 +5,11 @@
 # include <sstream>
 # include "User.hpp"
 # include <vector>
+# include "Message.hpp"
 
 class Irc{
 	private:
-		std::vector<User> _users;
+		std::vector<User *> _users;
 
 		std::string	_pw;
 		int			_port;
@@ -20,7 +21,7 @@ class Irc{
 		~Irc( void );
 
 		void createUser(int socket);
-		User getUser(int socket);
+		User* getUser(int socket);
 };
 
 std::ostream &operator << (std::ostream &out, const Irc &obj);

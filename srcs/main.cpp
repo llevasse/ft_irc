@@ -8,7 +8,9 @@ int main(int argc, char **argv){
 			server.createUser(1);
 			server.createUser(2);
 
-			server.getUser(1);
+			Message(server.getUser(0)->getSocket(), "NICK elise");
+			Message(server.getUser(0)->getSocket(), "NICK elise");
+			Message(server.getUser(1)->getSocket(), "NICK elise");
 		}
 		catch ( std::exception &e ){
 			std::cerr << "Error : " << e.what() << std::endl;
