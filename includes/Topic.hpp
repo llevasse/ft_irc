@@ -9,7 +9,7 @@
 
 class Topic{
 	public:
-		Topic( std::string command, std::string param );
+		Topic( std::string command, std::string param, int socket );
 		Topic( Topic const &obj );
 		Topic &operator= ( Topic const &obj );
 		~Topic( void );

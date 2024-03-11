@@ -1,6 +1,6 @@
 #include "Topic.hpp"
 
-Topic::Topic( std::string command, std::string param ){
+Topic::Topic( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

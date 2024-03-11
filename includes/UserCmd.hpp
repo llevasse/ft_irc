@@ -9,7 +9,7 @@
 
 class UserCmd{
 	public:
-		UserCmd( std::string command, std::string param );
+		UserCmd( std::string command, std::string param, int socket );
 		UserCmd( UserCmd const &obj );
 		UserCmd &operator= ( UserCmd const &obj );
 		~UserCmd( void );

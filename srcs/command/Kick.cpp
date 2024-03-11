@@ -1,6 +1,6 @@
 #include "Kick.hpp"
 
-Kick::Kick( std::string command, std::string param ){
+Kick::Kick( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

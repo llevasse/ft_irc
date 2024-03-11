@@ -1,6 +1,6 @@
 #include "Privmsg.hpp"
 
-Privmsg::Privmsg( std::string command, std::string param ){
+Privmsg::Privmsg( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

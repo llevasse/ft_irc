@@ -9,7 +9,7 @@
 
 class Privmsg{
 	public:
-		Privmsg( std::string command, std::string param );
+		Privmsg( std::string command, std::string param, int socket );
 		Privmsg( Privmsg const &obj );
 		Privmsg &operator= ( Privmsg const &obj );
 		~Privmsg( void );

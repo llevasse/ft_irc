@@ -1,6 +1,6 @@
 #include "Invite.hpp"
 
-Invite::Invite( std::string command, std::string param ){
+Invite::Invite( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

@@ -9,7 +9,7 @@
 
 class Kick{
 	public:
-		Kick( std::string command, std::string param );
+		Kick( std::string command, std::string param, int socket );
 		Kick( Kick const &obj );
 		Kick &operator= ( Kick const &obj );
 		~Kick( void );

@@ -1,6 +1,6 @@
 #include "Nick.hpp"
 
-Nick::Nick( std::string command, std::string param ){
+Nick::Nick( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

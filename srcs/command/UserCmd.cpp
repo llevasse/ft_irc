@@ -1,6 +1,6 @@
 #include "UserCmd.hpp"
 
-UserCmd::UserCmd( std::string command, std::string param ){
+UserCmd::UserCmd( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

@@ -1,6 +1,6 @@
 #include "Join.hpp"
 
-Join::Join( std::string command, std::string param ){
+Join::Join( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

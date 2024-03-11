@@ -9,7 +9,7 @@
 
 class Mode{
 	public:
-		Mode( std::string command, std::string param );
+		Mode( std::string command, std::string param, int socket );
 		Mode( Mode const &obj );
 		Mode &operator= ( Mode const &obj );
 		~Mode( void );

@@ -1,6 +1,6 @@
 #include "Pass.hpp"
 
-Pass::Pass( std::string command, std::string param ){
+Pass::Pass( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }

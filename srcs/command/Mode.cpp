@@ -1,6 +1,6 @@
 #include "Mode.hpp"
 
-Mode::Mode( std::string command, std::string param ){
+Mode::Mode( std::string command, std::string param, int socket ){
 	(void)command;
 	(void)param;
 }
