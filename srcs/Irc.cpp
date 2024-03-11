@@ -41,6 +41,14 @@ void	Irc::createUser(int socket){
 	_users.push_back(User(socket));
 }
 
+User Irc::getUser(int socket){
+	for (unsigned long i=0; i< _users.size(); i++){
+		if (_users[i].getSocket() == socket)
+			return (_users[i]);
+	}
+	throw (std::runtime_error("User not found"));
+}
+
 
 std::ostream &operator << (std::ostream &out, const Irc &obj){
 	out << "Irc";

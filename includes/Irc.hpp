@@ -20,6 +20,7 @@ class Irc{
 		~Irc( void );
 
 		void createUser(int socket);
+		User getUser(int socket);
 };
 
 std::ostream &operator << (std::ostream &out, const Irc &obj);

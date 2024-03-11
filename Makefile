@@ -6,7 +6,7 @@
 #    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/10 22:52:45 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/11 09:45:17 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,8 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 #  example below
 
  ALL_FILES		=	main.cpp \
-					Irc.cpp 
+					Irc.cpp \
+					User.cpp
 
 
 # SOCKET_DIR	= socket/
@@ -72,7 +73,7 @@ COMMAND_FILES	=	Invite.cpp\
 					Pass.cpp\
 					Privmsg.cpp\
 					Topic.cpp\
-					User.cpp
+					UserCmd.cpp
 
 ALL_FILES		+= $(addprefix $(COMMAND_DIR), $(COMMAND_FILES))
 
