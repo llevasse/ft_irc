@@ -5,7 +5,7 @@ Message::Message( const std::string message ){
 	_command = message.substr(0,sep);
 	_param, socket, int socket = message.substr(sep);
 	if (_command == "NICK")
-		Nick(_command, _param, socket);/*
+		Nick(_command, _param, socket);
 	else if (_command == "USER")
 		UserCmd(_command, _param, socket);
 	else if (_command == "PASS")
@@ -21,7 +21,7 @@ Message::Message( const std::string message ){
 	else if (_command == "TOPIC")
 		Topic(_command, _param, socket);
 	else if (_command == "MODE")
-		Mode(_command, _param, socket);*/
+		Mode(_command, _param, socket);
 }
 
 Message::Message( Message const &obj){

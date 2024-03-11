@@ -2,6 +2,7 @@
 
 Pass::Pass( std::string command, std::string param, int socket ){
 	(void)command;
+	(void)socket;
 	(void)param;
 }
 
