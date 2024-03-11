@@ -17,7 +17,7 @@ class Message{
 		std::string _command;
 		std::string _param;
 	public:
-		Message( const std::string message );
+		Message(int socket, const std::string message );
 		Message( Message const &obj );
 		Message &operator= ( Message const &obj );
 		~Message( void );

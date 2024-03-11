@@ -1,9 +1,9 @@
 #include "Message.hpp"
 
-Message::Message( const std::string message ){
+Message::Message(int socket, const std::string message ){
 	int	sep = message.find(" ");
 	_command = message.substr(0,sep);
-	_param, socket, int socket = message.substr(sep);
+	_param = message.substr(sep);
 	if (_command == "NICK")
 		Nick(_command, _param, socket);
 	else if (_command == "USER")
