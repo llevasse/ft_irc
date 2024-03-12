@@ -21,6 +21,9 @@ class User{
 		int	getSocket();
 		std::string	getNickname();
 		std::string	getUsername();
+
+		void	setNickname(std::string name);
+		void	setUsername(std::string name);
 };
 
 std::ostream &operator << (std::ostream &out, const User &obj);

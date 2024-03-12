@@ -10,7 +10,6 @@ int main(int argc, char **argv){
 			server.createUser(2);
 
 			Message(&server, server.getUserByIndex(0)->getSocket(), "NICK elise");
-			Message(&server, server.getUserByIndex(0)->getSocket(), "NICK elise");
 			Message(&server, server.getUserByIndex(1)->getSocket(), "NICK elise");
 		}
 		catch ( std::exception &e ){
