@@ -1,4 +1,5 @@
 #include "Irc.hpp"
+#include "Message.hpp"
 
 int main(int argc, char **argv){
 	if (argc == 3){
@@ -8,9 +9,9 @@ int main(int argc, char **argv){
 			server.createUser(1);
 			server.createUser(2);
 
-			Message(server.getUser(0)->getSocket(), "NICK elise");
-			Message(server.getUser(0)->getSocket(), "NICK elise");
-			Message(server.getUser(1)->getSocket(), "NICK elise");
+			Message(&server, server.getUserByIndex(0)->getSocket(), "NICK elise");
+			Message(&server, server.getUserByIndex(0)->getSocket(), "NICK elise");
+			Message(&server, server.getUserByIndex(1)->getSocket(), "NICK elise");
 		}
 		catch ( std::exception &e ){
 			std::cerr << "Error : " << e.what() << std::endl;

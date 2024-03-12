@@ -41,12 +41,22 @@ void	Irc::createUser(int socket){
 	_users.push_back( new User(socket));
 }
 
-User* Irc::getUser(int socket){
+User* Irc::getUserBySocket(int socket){
 	for (unsigned long i=0; i< _users.size(); i++){
 		if (_users[i]->getSocket() == socket)
 			return (_users[i]);
 	}
 	throw (std::runtime_error("User not found"));
+}
+
+User* Irc::getUserByIndex(unsigned long index){
+	if (index >= _users.size())
+		throw (std::runtime_error("Index out of bound"));
+	return (_users[index]);
+}
+
+unsigned long Irc::getNbUsers(){
+	return (_users.size());
 }
 
 

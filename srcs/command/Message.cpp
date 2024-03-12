@@ -1,11 +1,12 @@
 #include "Message.hpp"
 
-Message::Message(int socket, const std::string message ){
+Message::Message(Irc *server, int socket, const std::string message ){
+	_server = server;
 	int	sep = message.find(" ");
 	_command = message.substr(0,sep);
 	_param = message.substr(sep);
 	if (_command == "NICK")
-		Nick(_command, _param, socket);
+		Nick(server, _command, _param, socket);
 	else if (_command == "USER")
 		UserCmd(_command, _param, socket);
 	else if (_command == "PASS")
