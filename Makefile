@@ -1,4 +1,4 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,9 +6,9 @@
 #    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/13 11:22:43 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/11 09:45:17 by llevasse         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 .PHONY: all clean fclean re
 .SILENT:
@@ -22,8 +22,8 @@ OBJS_DIR	= .objs/
 SRCS_DIR	= srcs/
 INC_DIR		= includes/
 CC			= c++
-CFLAGS		= -Wall -Werror -Wextra -std=c++98 -g3
-INC			= -I $(INC_DIR) -I includes/class/
+CFLAGS		= -Wall -Werror -Wextra -std=c++98
+INC			= -I $(INC_DIR)
 RM			= rm -fr
 
 # **************************************************************************** #
@@ -57,12 +57,6 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
  ALL_FILES		=	main.cpp \
 					Irc.cpp \
 					User.cpp
-
-CLASS_DIR		=	class/
-CLASS_FILES		=	Server.cpp\
-					Client.cpp
-
-ALL_FILES		+= $(addprefix $(CLASS_DIR), $(CLASS_FILES))
 
 
 # SOCKET_DIR	= socket/
@@ -116,13 +110,7 @@ fclean: clean
 
 re: fclean all
 
-run: all
-	./$(NAME)
-
-leaks: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME)
-
 $(ALL_OBJS_DIR):
-	mkdir -p $@
+	mkdir -p $(ALL_OBJS_DIR)
 
 -include $(DEP_FILES)
