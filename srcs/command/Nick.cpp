@@ -1,12 +1,12 @@
 #include "Nick.hpp"
 
-Nick::Nick( Irc *server, std::string command, std::string param, int socket ){
+Nick::Nick( Server *server, std::string command, std::string param, int socket ){
 	std::cout << "(" << socket << ") :" << command << " " << param << std::endl;
-	for (unsigned long i = 0; i < server->getNbUsers(); i++){
-		if (server->getUserByIndex(i)->getNickname() == param)
+	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
+		if (it->second->getNickname() == param)
 			throw (std::runtime_error("Nickname already in use"));
 	}
-	server->getUserBySocket(socket)->setNickname(param);
+	server->getClientsMap()[socket]->setNickname(param);
 }
 
 Nick::Nick( Nick const &obj){

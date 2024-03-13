@@ -11,15 +11,15 @@
 # include "Mode.hpp"
 # include "Kick.hpp"
 # include "Invite.hpp"
-# include "Irc.hpp"
+# include "Server.hpp"
 
 class Message{
 	private:
 		std::string _command;
 		std::string _param;
-		Irc*		_server;
+		Server*		_server;
 	public:
-		Message(Irc *server, int socket, const std::string message );
+		Message(Server *server, int socket, const std::string message );
 		Message( Message const &obj );
 		Message &operator= ( Message const &obj );
 		~Message( void );

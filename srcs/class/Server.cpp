@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/10 16:57:21 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:37:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -94,6 +94,9 @@ void	Server::removeClient( int fd, int index )
 
 	std::cout << "Client " << fd << " disconnected" << std::endl;
 }
+
+unsigned int	Server::getNbClients(){ return _clients.size();}
+std::map< int, Client*>	&Server::getClientsMap(){return _clients;}
 
 void	Server::loop( void )
 {

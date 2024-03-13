@@ -15,8 +15,6 @@ User &User::operator= ( User const &obj){
 }
 
 int	User::getSocket(){ return _socket;}
-std::string User::getNickname(){ return _nickname;}
-std::string User::getUsername(){ return _username;}
 
 void	User::setNickname(std::string name){_nickname = name;}
 void	User::setUsername(std::string name){_username = name;}

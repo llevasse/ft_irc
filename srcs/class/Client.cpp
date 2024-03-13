@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/10 22:39:12 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:20:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -44,6 +44,16 @@ int	Client::getFd( void ) const {return (this->_fd);}
 const sockaddr_in	&Client::getAddr( void ) const {return (this->_addr);}
 
 const socklen_t		&Client::getLenAddr( void ) const {return (this->_lenAddr);}
+
+const std::string	&Client::getNickname() const { return _nickname;}
+const std::string	&Client::getUsername() const { return _username;}
+
+/* ************************************************************************** */
+/*                                  Setters                                   */
+/* ************************************************************************** */
+
+void				Client::setNickname(const std::string name){_nickname = name;}
+void				Client::setUsername(const std::string name){_username = name;}
 
 /* ************************************************************************** */
 /*                           Public member functions                          */

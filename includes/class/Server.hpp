@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/10 16:15:48 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:37:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -43,6 +43,11 @@ class Server
 
 		/* removeClient will remove a client from the clients map */
 		void	removeClient( int fd, int index );
+
+		/* return size of _clients */
+		unsigned int	getNbClients();
+
+		std::map<int, Client *>	&getClientsMap();
 
 		/* loop will loop to accept new clients and handle them
 		loop can throw the following exceptions:

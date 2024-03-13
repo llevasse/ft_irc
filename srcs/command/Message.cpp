@@ -1,6 +1,6 @@
 #include "Message.hpp"
 
-Message::Message(Irc *server, int socket, const std::string message ){
+Message::Message(Server *server, int socket, const std::string message ){
 	_server = server;
 	int	sep = message.find(" ");
 	_command = message.substr(0,sep);

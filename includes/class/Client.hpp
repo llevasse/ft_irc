@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/10 16:58:56 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:20:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -26,6 +26,11 @@ class Client
 		int					getFd( void ) const;
 		const sockaddr_in	&getAddr( void ) const;
 		const socklen_t		&getLenAddr( void ) const;
+		const std::string	&getNickname() const;
+		const std::string	&getUsername() const;
+
+		void				setNickname(const std::string name);
+		void				setUsername(const std::string name);
 
 		/* receiveData will receive data from the client
 		receiveData can throw the following exceptions:
@@ -60,6 +65,8 @@ class Client
 		int 		_fd;
 		sockaddr_in	_addr;
 		socklen_t	_lenAddr;
+		std::string _nickname;
+		std::string _username;
 };
 
 #endif
