@@ -1,19 +1,34 @@
-#include "Irc.hpp"
-#include "Message.hpp"
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/08 10:50:23 by eguelin           #+#    #+#             */
+/*   Updated: 2024/03/13 11:20:08 by llevasse         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
 
-int main(int argc, char **argv){
-	if (argc == 3){
-		try {
-			Irc server(argv[1], argv[2]);
-			server.createUser(0);
-			server.createUser(1);
-			server.createUser(2);
+#include "ft_irc.hpp"
 
-			Message(&server, server.getUserByIndex(0)->getSocket(), "NICK elise");
-			Message(&server, server.getUserByIndex(1)->getSocket(), "NICK elise");
-		}
-		catch ( std::exception &e ){
-			std::cerr << "Error : " << e.what() << std::endl;
-		}
+int	main(int argc, char **argv)
+{
+	static_cast<void>(argc);
+	static_cast<void>(argv);
+
+	Server	server(4242, "password");
+
+	try
+	{
+		server.run();
 	}
+	catch (std::exception &e)
+	{
+		std::cerr << "Error: Run failed: " << e.what() << std::endl;
+
+		return (1);
+	}
+
+	return (0);
 }
