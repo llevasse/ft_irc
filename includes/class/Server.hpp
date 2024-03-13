@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/13 16:37:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:52:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include "tools.hpp"
 # include "Client.hpp"
+# include "Message.hpp"
 
 class Server
 {

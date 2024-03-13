@@ -7,7 +7,9 @@
 #  define MUTE 0
 # endif
 
-# include "Server.hpp"
+# include "Message.hpp"
+
+class Server;
 
 class Nick{
 	public:

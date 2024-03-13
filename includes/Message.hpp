@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MESSAGE_HPP
 # define MESSAGE_HPP
 
@@ -12,6 +13,8 @@
 # include "Kick.hpp"
 # include "Invite.hpp"
 # include "Server.hpp"
+
+class Server;
 
 class Message{
 	private:

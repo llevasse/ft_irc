@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/13 16:37:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:54:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -132,6 +132,7 @@ void	Server::clientAction( int index )
 		}
 
 		std::cout << "Client " << client->getFd() << " sent: " << data;
+		Message(this, client->getFd(), data);
 
 		client->sendData(data);
 	}
