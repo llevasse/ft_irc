@@ -13,6 +13,7 @@
 # include "Kick.hpp"
 # include "Invite.hpp"
 # include "Server.hpp"
+# include "Client.hpp"
 
 class Server;
 
@@ -22,7 +23,7 @@ class Message{
 		std::string _param;
 		Server*		_server;
 	public:
-		Message(Server *server, int socket, const std::string message );
+		Message(Server *server, Client *client, const std::string message );
 		Message( Message const &obj );
 		Message &operator= ( Message const &obj );
 		~Message( void );

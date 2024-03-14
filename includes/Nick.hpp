@@ -10,10 +10,11 @@
 # include "Message.hpp"
 
 class Server;
+class Client;
 
 class Nick{
 	public:
-		Nick( Server *server, std::string command, std::string param, int socket );
+		Nick( Server *server, Client *client, std::string param);
 		Nick( Nick const &obj );
 		Nick &operator= ( Nick const &obj );
 		~Nick( void );
