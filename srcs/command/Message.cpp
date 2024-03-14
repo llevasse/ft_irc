@@ -7,9 +7,9 @@ Message::Message(Server *server, Client *client, const std::string message ){
 	_param = message.substr(sep + 1);
 	if (_command == "NICK")
 		Nick(server, client, _param);
-/*	else if (_command == "USER")
-		UserCmd(_command, _param, socket);
-	else if (_command == "PASS")
+	else if (_command == "USER")
+		UserCmd(server, client, _param);
+/*	else if (_command == "PASS")
 		Pass(_command, _param, socket);
 	else if (_command == "JOIN")
 		Join(_command, _param, socket);

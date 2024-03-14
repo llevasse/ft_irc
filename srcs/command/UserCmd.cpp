@@ -1,9 +1,20 @@
 #include "UserCmd.hpp"
 
-UserCmd::UserCmd( std::string command, std::string param, int socket ){
-	(void)command;
-	(void)socket;
-	(void)param;
+
+// typical USER command example
+//
+// USER guest 0 * : realname 
+
+UserCmd::UserCmd( Server *server, Client *client, std::string param){
+	int socket = client->getFd();
+	std::string	name = param.substr(0, param.find(" "));
+	std::cout << "(" << socket << ") :USER " << param << std::endl;
+	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
+		if (it->second->getUsername() == name)
+			throw (std::runtime_error("Username already in use"));
+	}
+	server->getClientsMap()[socket]->setUsername(name);
+//	client->sendData(reply);
 }
 
 UserCmd::UserCmd( UserCmd const &obj){
