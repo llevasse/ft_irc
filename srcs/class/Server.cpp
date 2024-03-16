@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/14 15:27:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/16 13:37:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -120,6 +120,7 @@ void	Server::clientAction( int index )
 {
 	Client	*client = this->_clients[this->_pollfds[index].fd];
 	std::string	data;
+	std::string tmp;
 
 	try
 	{
@@ -131,10 +132,15 @@ void	Server::clientAction( int index )
 			return ;
 		}
 
-		std::cout << "Client " << client->getFd() << " sent: " << data;
-		Message(this, client, data);
-
-		client->sendData(data);
+		std::size_t found = data.find("\r\n");
+		std::size_t prev = 0;
+		while (found != std::string::npos){
+			tmp = data.substr(prev, found + 2);
+			std::cout << "Client " << client->getFd() << " sent: " << tmp;
+			prev = found + 2;
+			found = data.find("\r\n", found + 2);
+			Message(this, client, tmp);
+		}
 	}
 	catch (const std::exception &e)
 	{

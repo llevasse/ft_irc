@@ -7,13 +7,14 @@
 
 UserCmd::UserCmd( Server *server, Client *client, std::string param){
 	int socket = client->getFd();
-	std::string	name = param.substr(0, param.find(" "));
+	std::string	name = param.substr(0, param.find_first_of(" \n\r\t"));
 	std::cout << "(" << socket << ") :USER " << param << std::endl;
 	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
-		if (it->second->getUsername() == name)
+		if (it->second->getUsername() == name || it->second->getNickname() == name)
 			throw (std::runtime_error("Username already in use"));
 	}
 	server->getClientsMap()[socket]->setUsername(name);
+	server->getClientsMap()[socket]->setNickname(name);
 //	client->sendData(reply);
 }
 
