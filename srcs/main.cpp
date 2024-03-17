@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:23 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/16 16:35:52 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/17 16:52:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	static_cast<void>(argc);
 	static_cast<void>(argv);
 
-	Server	server(6666, "password");
+	Server	server(6667, "password");
 
 	try
 	{

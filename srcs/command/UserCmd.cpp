@@ -8,9 +8,10 @@
 UserCmd::UserCmd( Server *server, Client *client, std::string param){
 	int socket = client->getFd();
 	std::string	reply;
-	if (server->getCliensMap()[socket]->getUsername() != ""){
-		reply = "" 
+	if (server->getClientsMap()[socket]->getUsername() != ""){
+		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 462 " + client->getNickname() +  " :You may not register\r\n";
 		client->sendData(reply);
+		return ;
 	}
 	std::string	name = param.substr(0, param.find_first_of(" \n\r\t"));
 	std::cout << "(" << socket << ") :USER " << param << std::endl;
