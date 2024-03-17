@@ -1,11 +1,11 @@
-#include "UserCmd.hpp"
+#include "User.hpp"
 
 
 // typical USER command example
 //
 // USER guest 0 * : realname 
 
-UserCmd::UserCmd( Server *server, Client *client, std::string param){
+User::User( Server *server, Client *client, std::string param){
 	int socket = client->getFd();
 	std::string	reply;
 	if (server->getClientsMap()[socket]->getUsername() != ""){
@@ -24,21 +24,21 @@ UserCmd::UserCmd( Server *server, Client *client, std::string param){
 		client->setNickname(name);
 }
 
-UserCmd::UserCmd( UserCmd const &obj){
+User::User( User const &obj){
 	if (this != &obj)
 		*this = obj;
 }
 
-UserCmd &UserCmd::operator= ( UserCmd const &obj){
+User &User::operator= ( User const &obj){
 	(void)obj;
 	return (*this);
 }
 
-UserCmd::~UserCmd( void ){
+User::~User( void ){
 }
 
-std::ostream &operator << (std::ostream &out, const UserCmd &obj){
-	out << "UserCmd";
+std::ostream &operator << (std::ostream &out, const User &obj){
+	out << "User";
 	(void)obj;
 	return (out);
 }
