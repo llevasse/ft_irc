@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/13 16:52:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/16 16:49:34 by eguelin          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
@@ -56,8 +56,14 @@ class Server
 		- FailedToAcceptClient */
 		void	loop( void );
 
+		/* clear will clear the server */
+		void	clear( void );
+
 		/* clientAction will handle the client action */
 		void	clientAction( int index );
+
+		/* stop will stop the server */
+		static void	stop( int signal );
 
 		class FailedToCreateSocket : public std::exception
 		{
@@ -90,6 +96,8 @@ class Server
 		sockaddr_in					_addr;
 		std::map< int, Client * >	_clients;
 		std::vector< pollfd > 		_pollfds;
+
+		static bool					_loop;
 };
 
 #endif

@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/16 13:40:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:39:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "Server.hpp"
 
@@ -21,15 +21,12 @@ Server::Server( u_short port, const std::string &password) : _port(port), _passw
 	this->_addr.sin_port = htons(port);
 	this->_addr.sin_family = PF_INET;
 	this->_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+	signal(SIGINT, Server::stop);
 }
 
 Server::~Server( void )
 {
-	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
-		delete it->second;
-
-	if (this->_pollfds[0].fd != -1)
-		close(this->_pollfds[0].fd);
 }
 
 /* ************************************************************************** */
@@ -46,7 +43,6 @@ Server	&Server::operator=( const Server &src )
 /* ************************************************************************** */
 /*                           Public member functions                          */
 /* ************************************************************************** */
-
 
 void	Server::run( void )
 {
@@ -66,6 +62,8 @@ void	Server::run( void )
 
 	if (listen(server.fd, 100) == -1)
 		throw Server::FailedToListenSocket();
+
+	std::cout << "Server started on port " << this->_port << std::endl;
 
 	this->loop();
 }
@@ -100,9 +98,9 @@ std::map< int, Client*>	&Server::getClientsMap(){return _clients;}
 
 void	Server::loop( void )
 {
-	while (true)
+	while (Server::_loop)
 	{
-		if (poll(this->_pollfds.data(), this->_pollfds.size(), -1) == -1)
+		if (poll(this->_pollfds.data(), this->_pollfds.size(), -1) == -1 && Server::_loop)
 			throw Server::FailedToPoll();
 
 		if (this->_pollfds[0].revents & POLLIN)
@@ -114,6 +112,24 @@ void	Server::loop( void )
 				this->clientAction(i);
 		}
 	}
+
+	this->clear();
+}
+
+void	Server::clear( void )
+{
+	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+		delete it->second;
+
+	if (this->_pollfds[0].fd != -1)
+		close(this->_pollfds[0].fd);
+
+	this->_clients.clear();
+	this->_pollfds.clear();
+
+	Server::_loop = true;
+
+	std::cout << "Server stopped" << std::endl;
 }
 
 void	Server::clientAction( int index )
@@ -150,6 +166,19 @@ void	Server::clientAction( int index )
 }
 
 /* ************************************************************************** */
+/*                           Static member functions                          */
+/* ************************************************************************** */
+
+void	Server::stop( int signal )
+{
+	static_cast<void>(signal);
+
+	Server::_loop = false;
+
+	std::cout << std::endl;
+}
+
+/* ************************************************************************** */
 /*                             Exceptions classes                             */
 /* ************************************************************************** */
 
@@ -172,3 +201,9 @@ const char	*Server::FailedToPoll::what() const throw()
 {
 	return ("Failed to poll");
 }
+
+/* ************************************************************************** */
+/*                           Static member variables                          */
+/* ************************************************************************** */
+
+bool	Server::_loop = true;
