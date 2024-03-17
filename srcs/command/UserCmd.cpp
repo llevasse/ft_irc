@@ -19,8 +19,9 @@ UserCmd::UserCmd( Server *server, Client *client, std::string param){
 		if (it->second->getUsername() == name || it->second->getNickname() == name)
 			throw (std::runtime_error("Username already in use"));
 	}
-	server->getClientsMap()[socket]->setUsername(name);
-	server->getClientsMap()[socket]->setNickname(name);
+	client->setUsername(name);
+	if (client->getNickname() == "")
+		client->setNickname(name);
 }
 
 UserCmd::UserCmd( UserCmd const &obj){
