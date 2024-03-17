@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/13 16:20:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:45:21 by eguelin          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "Client.hpp"
 
@@ -43,24 +43,21 @@ int	Client::getFd( void ) const {return (this->_fd);}
 
 const sockaddr_in	&Client::getAddr( void ) const {return (this->_addr);}
 
-const socklen_t		&Client::getLenAddr( void ) const {return (this->_lenAddr);}
+const socklen_t	&Client::getLenAddr( void ) const {return (this->_lenAddr);}
 
 const std::string	&Client::getNickname() const { return _nickname;}
 const std::string	&Client::getUsername() const { return _username;}
 
-/* ************************************************************************** */
-/*                                  Setters                                   */
-/* ************************************************************************** */
-
-void				Client::setNickname(const std::string name){_nickname = name;}
-void				Client::setUsername(const std::string name){_username = name;}
+void	Client::setNickname(const std::string name) {_nickname = name;}
+void	Client::setUsername(const std::string name) {_username = name;}
 
 /* ************************************************************************** */
 /*                           Public member functions                          */
 /* ************************************************************************** */
 
-std::string	Client::receiveData( void ) const
+std::string	Client::receiveData( void )
 {
+	std::string	data;
 	char		buffer[512];
 	int			ret;
 
@@ -69,13 +66,18 @@ std::string	Client::receiveData( void ) const
 	if (ret == -1)
 		throw Client::FailedToReceiveData();
 
-	if (ret == 512)
+	if (this->_data.size() > 0)
 	{
-		buffer[510] = '\r';
-		buffer[511] = '\n';
+		data = this->_data + std::string(buffer, ret);
+		this->_data.clear();
 	}
+	else
+		data = std::string(buffer, ret);
 
-	return (std::string(buffer, ret));
+	if (data.find("\n") == std::string::npos)
+		this->_data = data;
+
+	return (data);
 }
 
 void	Client::sendData( const std::string &data ) const

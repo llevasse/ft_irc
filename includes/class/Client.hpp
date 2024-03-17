@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/13 16:51:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:23:09 by eguelin          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
@@ -35,7 +35,7 @@ class Client
 		/* receiveData will receive data from the client
 		receiveData can throw the following exceptions:
 		- FailedToReceiveData */
-		std::string	receiveData( void ) const;
+		std::string	receiveData( void );
 
 		/* sendData will send data to the client
 		sendData can throw the following exceptions:
@@ -67,6 +67,7 @@ class Client
 		socklen_t	_lenAddr;
 		std::string _nickname;
 		std::string _username;
+		std::string _data;
 };
 
 #endif
