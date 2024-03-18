@@ -10,7 +10,23 @@
 
 User::User( Server *server, Client *client, std::string param){
 	int socket = client->getFd();
-	std::string	reply;
+	size_t nameDel = param.find(" ");
+	size_t	modeDel = param.find(" ", nameDel + 1);
+	size_t	unusedDel = param.find(" ", modeDel + 1);
+	std::string	reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 461 " + client->getNickname() +  " :Not enough parameters\r\n";
+	if (nameDel == std::string::npos || modeDel == std::string::npos || unusedDel == std::string::npos){
+		client->sendData(reply);
+		return ;
+	}
+	unusedDel = 0;
+	for (std::string::reverse_iterator rit=param.rbegin(); rit!=param.rend(); rit++){
+		if (!isspace(*rit) && *rit != ':')
+			break ;
+		else if (*rit == ':'){
+			client->sendData(reply);
+			return ;
+		}
+	}
 	if (server->getPassword() != client->getPass()){
 		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 464 " + client->getNickname() +  " :Password Incorrect\r\n";
 		client->sendData(reply);
@@ -21,7 +37,7 @@ User::User( Server *server, Client *client, std::string param){
 		client->sendData(reply);
 		return ;
 	}
-	std::string	name = param.substr(0, param.find_first_of(" \n\r\t"));
+	std::string	name = param.substr(0, nameDel);
 	std::cout << "(" << socket << ") :USER " << param << std::endl;
 	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
 		if (it->second->getUsername() == name || it->second->getNickname() == name)
