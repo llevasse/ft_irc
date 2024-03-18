@@ -9,9 +9,9 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		Nick(server, client, _param);
 	else if (_command == "USER")
 		User(server, client, _param);
-/*	else if (_command == "PASS")
-		Pass(_command, _param, socket);
-	else if (_command == "JOIN")
+	else if (_command == "PASS")
+		Pass(server, client, _param);
+/*	else if (_command == "JOIN")
 		Join(_command, _param, socket);
 	else if (_command == "PRIVMSG")
 		Privmsg(_command, _param, socket);

@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 16:51:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/17 17:53:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	Server::removeClient( int fd, int index )
 
 unsigned int	Server::getNbClients(){ return _clients.size();}
 std::map< int, Client*>	&Server::getClientsMap(){return _clients;}
+std::string		Server::getPassword(){ return _password;}
 
 void	Server::loop( void )
 {

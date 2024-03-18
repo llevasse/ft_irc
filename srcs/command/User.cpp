@@ -5,10 +5,18 @@
 //
 // USER guest 0 * : realname 
 
+
+//TODO handle not enough argument error
+
 User::User( Server *server, Client *client, std::string param){
 	int socket = client->getFd();
 	std::string	reply;
-	if (server->getClientsMap()[socket]->getUsername() != ""){
+	if (server->getPassword() != client->getPass()){
+		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 464 " + client->getNickname() +  " :Password Incorrect\r\n";
+		client->sendData(reply);
+		return ;
+	}
+	if (client->getUsername() != ""){
 		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 462 " + client->getNickname() +  " :You may not register\r\n";
 		client->sendData(reply);
 		return ;

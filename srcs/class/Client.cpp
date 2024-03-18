@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 14:45:21 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/17 17:57:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ const socklen_t	&Client::getLenAddr( void ) const {return (this->_lenAddr);}
 
 const std::string	&Client::getNickname() const { return _nickname;}
 const std::string	&Client::getUsername() const { return _username;}
+const std::string	&Client::getPass() const { return _pass;}
 
 void	Client::setNickname(const std::string name) {_nickname = name;}
 void	Client::setUsername(const std::string name) {_username = name;}
+void	Client::setPass(const std::string pass) {_pass = pass;}
 
 /* ************************************************************************** */
 /*                           Public member functions                          */
