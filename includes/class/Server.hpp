@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 17:53:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:37:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class Server
 {
 	public:
 
-		Server( u_short port, const std::string &password);
+		Server( const std::string &port, const std::string &password);
 		~Server( void );
 
 		Server	&operator=( const Server &src );
@@ -66,6 +66,24 @@ class Server
 
 		/* stop will stop the server */
 		static void	stop( int signal );
+
+		class BadPort : public std::exception
+		{
+			public:
+				virtual const char	*what() const throw();
+		};
+
+		class BadPassword : public std::exception
+		{
+			public:
+				virtual const char	*what() const throw();
+		};
+
+		class PasswordTooLong : public std::exception
+		{
+			public:
+				virtual const char	*what() const throw();
+		};
 
 		class FailedToCreateSocket : public std::exception
 		{

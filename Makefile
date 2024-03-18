@@ -1,14 +1,14 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/17 17:44:23 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/18 09:36:50 by llevasse         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 .PHONY: all clean fclean re
 .SILENT:
@@ -62,12 +62,11 @@ CLASS_FILES		=	Server.cpp\
 
 ALL_FILES		+= $(addprefix $(CLASS_DIR), $(CLASS_FILES))
 
-
 # SOCKET_DIR	= socket/
 # SOCKET_FILES	= Socket.cpp
 # ALL_FILES		+= $(addprefix $(SOCKET_DIR), $(SOCKET_FILES))
 
-COMMAND_DIR		= command/
+COMMAND_DIR		=	command/
 COMMAND_FILES	=	Invite.cpp\
 					Join.cpp\
 					Kick.cpp\
@@ -115,10 +114,10 @@ fclean: clean
 re: fclean all
 
 run: all
-	./$(NAME)
+	./$(NAME) 4343 Password
 
 leaks: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME) 4343 Password
 
 $(ALL_OBJS_DIR):
 	mkdir -p $@

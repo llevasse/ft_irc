@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 17:53:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:37:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,25 @@
 /*                         Constructors & Destructors                         */
 /* ************************************************************************** */
 
-Server::Server( u_short port, const std::string &password) : _port(port), _password(password)
+Server::Server( const std::string &port, const std::string &password)
 {
-	this->_addr.sin_port = htons(port);
+	long	portInt = std::strtol(port.c_str(), NULL, 10);
+
+	if (portInt < 1024 || portInt > std::numeric_limits<unsigned short>::max())
+		throw Server::BadPort();
+
+	this->_port = portInt;
+
+	if (password.size() > 32)
+		throw Server::PasswordTooLong();
+
+	for (std::string::const_iterator it = password.begin(); it != password.end(); it++)
+	{
+		if (!std::isprint(*it))
+			throw Server::BadPassword();
+	}
+
+	this->_addr.sin_port = htons(this->_port);
 	this->_addr.sin_family = PF_INET;
 	this->_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
@@ -27,6 +43,7 @@ Server::Server( u_short port, const std::string &password) : _port(port), _passw
 
 Server::~Server( void )
 {
+	this->clear();
 }
 
 /* ************************************************************************** */
@@ -122,15 +139,16 @@ void	Server::clear( void )
 	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
 		delete it->second;
 
-	if (this->_pollfds[0].fd != -1)
+	if (this->_pollfds.size() > 0 && this->_pollfds[0].fd != -1)
+	{
 		close(this->_pollfds[0].fd);
+		this->_pollfds[0].fd = -1;
+	}
 
 	this->_clients.clear();
 	this->_pollfds.clear();
 
 	Server::_loop = true;
-
-	std::cout << "Server stopped" << std::endl;
 }
 
 void	Server::clientAction( int index )
@@ -180,12 +198,27 @@ void	Server::stop( int signal )
 
 	Server::_loop = false;
 
-	std::cout << std::endl;
+	std::cout << std::endl << "Server stopped" << std::endl;
 }
 
 /* ************************************************************************** */
 /*                             Exceptions classes                             */
 /* ************************************************************************** */
+
+const char	*Server::BadPort::what() const throw()
+{
+	return ("invalid port");
+}
+
+const char	*Server::BadPassword::what() const throw()
+{
+	return ("invalid password");
+}
+
+const char	*Server::PasswordTooLong::what() const throw()
+{
+	return ("Password too long");
+}
 
 const char	*Server::FailedToCreateSocket::what() const throw()
 {
