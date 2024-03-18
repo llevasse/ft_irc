@@ -40,8 +40,10 @@ User::User( Server *server, Client *client, std::string param){
 	std::string	name = param.substr(0, nameDel);
 	std::cout << "(" << socket << ") :USER " << param << std::endl;
 	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
-		if (it->second->getUsername() == name || it->second->getNickname() == name)
-			throw (std::runtime_error("Username already in use"));
+		if (it->second->getUsername() == name){
+			reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 462 " + client->getNickname() +  " :Username already in use\r\n";
+			client->sendData(reply);
+		}
 	}
 	client->setUsername(name);
 	if (client->getNickname() == "")
