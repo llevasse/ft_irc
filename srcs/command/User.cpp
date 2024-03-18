@@ -10,6 +10,8 @@
 
 User::User( Server *server, Client *client, std::string param){
 	int socket = client->getFd();
+
+	//check for not enough parameters
 	size_t nameDel = param.find(" ");
 	size_t	modeDel = param.find(" ", nameDel + 1);
 	size_t	unusedDel = param.find(" ", modeDel + 1);
@@ -27,27 +29,31 @@ User::User( Server *server, Client *client, std::string param){
 			return ;
 		}
 	}
+
+	//check for correct password
 	if (server->getPassword() != client->getPass()){
 		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 464 " + client->getNickname() +  " :Password Incorrect\r\n";
 		client->sendData(reply);
 		return ;
 	}
+	//check if user is already registered
 	if (client->getUsername() != ""){
 		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 462 " + client->getNickname() +  " :You may not register\r\n";
 		client->sendData(reply);
 		return ;
 	}
+
 	std::string	name = param.substr(0, nameDel);
 	std::cout << "(" << socket << ") :USER " << param << std::endl;
+	//check if username is already taken
 	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
 		if (it->second->getUsername() == name){
 			reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 462 " + client->getNickname() +  " :Username already in use\r\n";
 			client->sendData(reply);
 		}
 	}
+	//set username
 	client->setUsername(name);
-	if (client->getNickname() == "")
-		client->setNickname(name);
 }
 
 User::User( User const &obj){

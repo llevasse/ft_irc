@@ -2,7 +2,7 @@
 
 Message::Message(Server *server, Client *client, const std::string message ){
 	_server = server;
-	int	sep = message.find(" ");
+	int	sep = message.find_first_of(" \n\r");
 	_command = message.substr(0,sep);
 	_param = message.substr(sep + 1);
 	if (_command == "NICK")
