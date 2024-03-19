@@ -1,10 +1,10 @@
 #include "Channel.hpp"
 
-Channel::Channel( std::string name) : _name(name), _password(NULL), _topic(NULL), _pwd(false), _topicmode(false)
+Channel::Channel( std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false)
 {
 }
 
-Channel::Channel( std::string name, std::string password) : _name(name), _password(password), _topic(NULL), _pwd(true), _topicmode(false)
+Channel::Channel( std::string name, std::string password) : _name(name), _password(password), _topic(""), _pwd(true), _topicmode(false)
 {
 }
 
@@ -44,10 +44,9 @@ Channel &Channel::operator= ( Channel const &obj)
 	return *this;
 }
 
-void Channel::mode(std::string cmd, std::string param, int socket)
+void Channel::mode(Client *client, std::string param)
 {
-	(void) cmd;
-	(void) socket;
+	(void)client;
 	if (param == "i")
 	{
 		if (_inviteonly == false)
@@ -82,12 +81,11 @@ void Channel::mode(std::string cmd, std::string param, int socket)
 	}
 }
 
-void Channel::topic(std::string cmd, std::string param, int socket)
+void Channel::topic(Client *client, std::string param)
 {
-	(void) cmd;
 	if (param == "")
 	{
-		send(socket, _topic.c_str(), _topic.length(), 0);
+		client->sendData(this->_topic);
 	}
 	else
 	{
