@@ -1,11 +1,9 @@
 #include "Nick.hpp"
 
 Nick::Nick( Server *server, Client *client, std::string param){
-	int socket	= client->getFd();
 	size_t del	= param.find_first_of(" \r\n");
 	bool found	= 0;
 	
-	std::cout << "(" << socket << ") :NICK " << param;
 	std::string	reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 461 " + client->getNickname() +  " :Not enough parameters\r\n";
 	for (std::string::reverse_iterator rit=param.rbegin(); rit!=param.rend(); rit++){
 		if (!isspace(*rit)){
@@ -22,7 +20,6 @@ Nick::Nick( Server *server, Client *client, std::string param){
 		return ;
 	}
 	std::string	name = param.substr(0, del);
-	reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost NICK :" + param;
 	//check if nickname is already in use
 	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
 		if (it->second->getNickname() == name){
@@ -31,9 +28,9 @@ Nick::Nick( Server *server, Client *client, std::string param){
 			return ;
 		}
 	}
+	reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost NICK " + name + "\r\n";
 	client->setNickname(name);
 	if (client->getUsername() != ""){
-		std::cout << reply << std::endl;
 		client->sendData(reply);
 	}
 }

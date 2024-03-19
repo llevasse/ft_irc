@@ -9,7 +9,6 @@
 //TODO handle not enough argument error
 
 User::User( Server *server, Client *client, std::string param){
-	int socket = client->getFd();
 	std::string	reply;
 
 	if (this->split(client, param))
@@ -27,7 +26,6 @@ User::User( Server *server, Client *client, std::string param){
 		return ;
 	}
 
-	std::cout << "(" << socket << ") :USER " << param << std::endl;
 	//check if username is already taken
 	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
 		if (it->second->getUsername() == _name){
@@ -37,10 +35,6 @@ User::User( Server *server, Client *client, std::string param){
 	}
 	//set username
 	client->setUsername(_name);
-	if (client->getNickname() != ""){
-		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost NICK :" + client->getNickname();
-		client->sendData(reply);
-	}
 }
 
 int	User::split(Client *client, std::string param){

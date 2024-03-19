@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 17:57:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:32:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 Client::Client( int serverSocket )
 {
-	std::cout << "Client constructor called" << std::endl;
+//	std::cout << "Client constructor called" << std::endl;
 
 	this->_lenAddr = sizeof(this->_addr);
 
@@ -30,7 +30,7 @@ Client::Client( int serverSocket )
 
 Client::~Client( void )
 {
-	std::cout << "Client destructor called" << std::endl;
+//	std::cout << "Client destructor called" << std::endl;
 
 	close(this->_fd);
 }
@@ -83,7 +83,8 @@ std::string	Client::receiveData( void )
 }
 
 void	Client::sendData( const std::string &data ) const
-{
+{ 
+	std::cout << "Reply " << data;
 	if (send(this->_fd, data.c_str(), data.size(), 0) == -1)
 		throw Client::FailedToSendData();
 }
