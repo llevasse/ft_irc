@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 16:33:19 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/19 17:33:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class Server
 		unsigned int							getNbClients() const;
 		const std::map<int, Client *>			&getClientsMap() const;
 		const std::string						&getPassword() const;
-		const std::map<std::string, Channel>	&getChannels() const;
+		const std::map<std::string, Channel *>	&getChannels() const;
 
 		/* run is the main function of the server, it will create the socket,
 		bind it, listen to it and then loop to accept new clients
@@ -116,7 +116,7 @@ class Server
 		sockaddr_in						_addr;
 		std::map< int, Client * >		_clients;
 		std::vector< pollfd > 			_pollfds;
-		std::map<std::string, Channel>	_channels;
+		std::map<std::string, Channel *>	_channels;
 
 		static bool					_loop;
 };

@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 16:35:47 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/19 17:34:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ const std::map<int, Client *>	&Server::getClientsMap( void ) const { return (thi
 
 const std::string	&Server::getPassword( void ) const { return (this->_password); }
 
-const std::map<std::string, Channel>	&Server::getChannels( void ) const { return (this->_channels); }
+const std::map<std::string, Channel *>	&Server::getChannels( void ) const { return (this->_channels); }
 
 /* ************************************************************************** */
 /*                           Public member functions                          */
