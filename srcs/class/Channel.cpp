@@ -44,10 +44,9 @@ Channel &Channel::operator= ( Channel const &obj)
 	return *this;
 }
 
-void Channel::mode(std::string cmd, std::string param, int socket)
+void Channel::mode(Client *client, std::string param)
 {
-	(void) cmd;
-	(void) socket;
+	(void)client;
 	if (param == "i")
 	{
 		if (_inviteonly == false)
@@ -82,9 +81,9 @@ void Channel::mode(std::string cmd, std::string param, int socket)
 	}
 }
 
-void Channel::topic(std::string cmd, std::string param, int socket)
+void Channel::topic(Client *client, std::string param)
 {
-	(void) cmd;
+	int socket = client->getFd();
 	if (param == "")
 	{
 		send(socket, _topic.c_str(), _topic.length(), 0);

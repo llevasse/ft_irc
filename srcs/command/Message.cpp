@@ -6,6 +6,7 @@ Message::Message(Server *server, Client *client, const std::string message ){
 	int	sep = message.find_first_of(" \n");
 	_command = message.substr(0,sep);
 	_param = message.substr(sep + 1);
+	Channel *channel = new Channel("temp"); // to delete
 	if (_command == "NICK")
 		this->nick();
 	else if (_command == "USER")
@@ -14,18 +15,18 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		this->pass();
 	else if (_command == "PRIVMSG")
 		this->privmsg();
-//	server->channels[name]->topic()
+	else if (_command == "TOPIC")
+		channel->topic(client, _param);
+	else if (_command == "MODE")
+		channel->mode(client, _param);
 /*	else if (_command == "JOIN")
 		Join(_command, _param, socket);
 	else if (_command == "KICK")
 		Kick(_command, _param, socket);
 	else if (_command == "INVITE")
 		Invite(_command, _param, socket);
-	else if (_command == "TOPIC")
-		Topic(_command, _param, socket);
-	else if (_command == "MODE")
-		Mode(_command, _param, socket);
-*/}
+*/	delete channel;
+}
 
 Message::Message( Message const &obj){
 	if (this != &obj)

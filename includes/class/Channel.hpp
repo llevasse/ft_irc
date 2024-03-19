@@ -1,4 +1,5 @@
 #include "tools.hpp"
+#include "Client.hpp"
 
 class Channel
 {
@@ -24,6 +25,6 @@ class Channel
 		std::string		getPassword( void ) const;
 		std::string		getTopic( void ) const;
 
-		void 			mode(std::string cmd, std::string param, int socket);
-		void 			topic(std::string cmd, std::string param, int socket);
+		void 			mode(Client *client, std::string param);
+		void 			topic(Client *client, std::string param);
 };

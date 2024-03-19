@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 14:08:40 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:23:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ class Client
 		std::string _username;
 		std::string _data;
 		std::string _pass;
+		std::string _currChannel;
 		std::map<std::string, bool> _permissions;
 };
 

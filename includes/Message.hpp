@@ -10,6 +10,7 @@
 # include "Invite.hpp"
 # include "Server.hpp"
 # include "Client.hpp"
+# include "Channel.hpp"
 
 class Server;
 
