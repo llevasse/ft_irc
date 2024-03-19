@@ -54,6 +54,10 @@ User::User( Server *server, Client *client, std::string param){
 	}
 	//set username
 	client->setUsername(name);
+	if (client->getNickname() != ""){
+		reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost NICK :" + client->getNickname();
+		client->sendData(reply);
+	}
 }
 
 User::User( User const &obj){

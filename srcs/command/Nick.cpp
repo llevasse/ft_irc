@@ -2,7 +2,7 @@
 
 Nick::Nick( Server *server, Client *client, std::string param){
 	int socket	= client->getFd();
-	size_t del	= param.find(" ");
+	size_t del	= param.find_first_of(" \r\n");
 	bool found	= 0;
 	
 	std::cout << "(" << socket << ") :NICK '" << param << "'" << std::endl;
@@ -26,12 +26,17 @@ Nick::Nick( Server *server, Client *client, std::string param){
 	reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost NICK :" + param;
 	//check if nickname is already in use
 	for (std::map< int, Client * >::iterator it = server->getClientsMap().begin(); it != server->getClientsMap().end(); it++){
-		if (it->second->getNickname() == name)
-			throw (std::runtime_error("Nickname already in use"));
+		if (it->second->getNickname() == name){
+			reply = ":" + client->getNickname() + "!" + client->getUsername() + "@localhost 432 " + client->getNickname() + " " + name + " :Nickname already in use\r\n";
+			client->sendData(reply);
+			return ;
+		}
 	}
-	std::cout << reply << std::endl;
-	server->getClientsMap()[socket]->setNickname(name);
-	client->sendData(reply);
+	client->setNickname(name);
+	if (client->getUsername() != ""){
+		std::cout << reply << std::endl;
+		client->sendData(reply);
+	}
 }
 
 Nick::Nick( Nick const &obj){
