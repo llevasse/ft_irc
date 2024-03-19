@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 14:45:21 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:37:44 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ Client::~Client( void )
 }
 
 /* ************************************************************************** */
-/*                                 Accessors                                  */
+/*                                  Getters                                   */
 /* ************************************************************************** */
 
 int	Client::getFd( void ) const {return (this->_fd);}
@@ -45,11 +45,31 @@ const sockaddr_in	&Client::getAddr( void ) const {return (this->_addr);}
 
 const socklen_t	&Client::getLenAddr( void ) const {return (this->_lenAddr);}
 
-const std::string	&Client::getNickname() const { return _nickname;}
-const std::string	&Client::getUsername() const { return _username;}
+const std::string	&Client::getNickname() const { return (this->_nickname);}
+
+const std::string	&Client::getUsername() const { return (this->_username);}
+
+bool	Client::getPermission(const std::string &channel) const
+{
+	std::map<std::string, bool>::const_iterator it = this->_permissions.find(channel);
+
+	if (it == this->_permissions.end())
+		return (false);
+
+	return (it->second);
+}
+
+/* ************************************************************************** */
+/*                                  Setters                                   */
+/* ************************************************************************** */
 
 void	Client::setNickname(const std::string name) {_nickname = name;}
+
 void	Client::setUsername(const std::string name) {_username = name;}
+
+void	Client::setPermission(const std::string &channel, bool permission) {this->_permissions[channel] = permission;}
+
+void	Client::removePermission(const std::string &channel) {this->_permissions.erase(channel);}
 
 /* ************************************************************************** */
 /*                           Public member functions                          */

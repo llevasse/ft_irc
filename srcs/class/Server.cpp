@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 17:57:10 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:45:18 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ Server::Server( const std::string &port, const std::string &password)
 		if (!std::isprint(*it))
 			throw Server::BadPassword();
 	}
+
+	this->_password = password;
 
 	this->_addr.sin_port = htons(this->_port);
 	this->_addr.sin_family = PF_INET;
