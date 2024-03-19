@@ -4,7 +4,6 @@
 
 # include <iostream>
 # include "Join.hpp"
-# include "Privmsg.hpp"
 # include "Topic.hpp"
 # include "Mode.hpp"
 # include "Kick.hpp"
@@ -29,6 +28,7 @@ class Message{
 		void nick();
 		void user();
 		void pass();
+		void privmsg();
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);

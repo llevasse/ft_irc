@@ -14,6 +14,7 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		this->pass();
 	else if (_command == "PRIVMSG")
 		this->privmsg();
+//	server->channels[name]->topic()
 /*	else if (_command == "JOIN")
 		Join(_command, _param, socket);
 	else if (_command == "KICK")
