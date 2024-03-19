@@ -12,10 +12,10 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		this->user();
 	else if (_command == "PASS")
 		this->pass();
+	else if (_command == "PRIVMSG")
+		this->privmsg();
 /*	else if (_command == "JOIN")
 		Join(_command, _param, socket);
-	else if (_command == "PRIVMSG")
-		Privmsg(_command, _param, socket);
 	else if (_command == "KICK")
 		Kick(_command, _param, socket);
 	else if (_command == "INVITE")
