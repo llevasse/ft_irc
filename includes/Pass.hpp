@@ -6,10 +6,15 @@
 # ifndef MUTE
 #  define MUTE 0
 # endif
+# include "Server.hpp"
+# include "Client.hpp"
+
+class Server;
+class Client;
 
 class Pass{
 	public:
-		Pass( std::string command, std::string param, int socket );
+		Pass( Server *server, Client *client, std::string param);
 		Pass( Pass const &obj );
 		Pass &operator= ( Pass const &obj );
 		~Pass( void );

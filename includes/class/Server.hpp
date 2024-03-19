@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/17 17:45:24 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/18 09:37:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ class Server
 		unsigned int	getNbClients();
 
 		std::map<int, Client *>	&getClientsMap();
+
+		std::string	getPassword();
 
 		/* loop will loop to accept new clients and handle them
 		loop can throw the following exceptions:

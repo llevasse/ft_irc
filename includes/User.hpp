@@ -1,5 +1,5 @@
-#ifndef USER_HPP
-# define USER_HPP
+#ifndef USERCMD_HPP
+# define USERCMD_HPP
 
 # include <iostream>
 
@@ -7,23 +7,23 @@
 #  define MUTE 0
 # endif
 
+# include "Message.hpp"
+
+class Server;
+class Client;
+
 class User{
 	private:
-		int	_socket;
-		std::string _nickname;
-		std::string _username;
+		std::string _name;
+		std::string _mode;
+		std::string _unused;
+		std::string _realname;
 	public:
-		User( int _socket );
+		User( Server *server, Client *client, std::string param);
 		User( User const &obj );
 		User &operator= ( User const &obj );
 		~User( void );
-
-		int	getSocket();
-		std::string	getNickname();
-		std::string	getUsername();
-
-		void	setNickname(std::string name);
-		void	setUsername(std::string name);
+		int split(Client *client, std::string param);
 };
 
 std::ostream &operator << (std::ostream &out, const User &obj);

@@ -2,16 +2,16 @@
 
 Message::Message(Server *server, Client *client, const std::string message ){
 	_server = server;
-	int	sep = message.find(" ");
+	int	sep = message.find_first_of(" \n\r");
 	_command = message.substr(0,sep);
 	_param = message.substr(sep + 1);
 	if (_command == "NICK")
 		Nick(server, client, _param);
 	else if (_command == "USER")
-		UserCmd(server, client, _param);
-/*	else if (_command == "PASS")
-		Pass(_command, _param, socket);
-	else if (_command == "JOIN")
+		User(server, client, _param);
+	else if (_command == "PASS")
+		Pass(server, client, _param);
+/*	else if (_command == "JOIN")
 		Join(_command, _param, socket);
 	else if (_command == "PRIVMSG")
 		Privmsg(_command, _param, socket);

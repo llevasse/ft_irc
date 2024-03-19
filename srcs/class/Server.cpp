@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 13:45:18 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/19 14:08:59 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	Server::removeClient( int fd, int index )
 
 unsigned int	Server::getNbClients(){ return _clients.size();}
 std::map< int, Client*>	&Server::getClientsMap(){return _clients;}
+std::string		Server::getPassword(){ return _password;}
 
 void	Server::loop( void )
 {
@@ -170,13 +171,17 @@ void	Server::clientAction( int index )
 
 		std::size_t found = data.find("\r\n");
 		std::size_t prev = 0;
-		while (found != std::string::npos){
-			tmp = data.substr(prev, found + 2);
-			std::cout << "Client " << client->getFd() << " sent: " << tmp;
-			prev = found + 2;
-			found = data.find("\r\n", found + 2);
-			Message(this, client, tmp);
+		if (found != std::string::npos){
+			while (found != std::string::npos){		//to split hexchat connect command
+				tmp = data.substr(prev, found + 2);
+				std::cout << "Client " << client->getFd() << " sent: " << tmp;
+				prev = found + 2;
+				found = data.find("\r\n", found + 2);
+				Message(this, client, tmp);
+			}
 		}
+		else
+			Message(this, client, data);
 	}
 	catch (const std::exception &e)
 	{

@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 13:33:13 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/19 14:08:40 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ class Client
 		const socklen_t		&getLenAddr( void ) const;
 		const std::string	&getNickname() const;
 		const std::string	&getUsername() const;
+		const std::string	&getPass() const;
 		bool				getPermission(const std::string &channel) const;
 
 		void				setNickname(const std::string name);
 		void				setUsername(const std::string name);
 		void				setPermission(const std::string &channel, bool permission);
+		void				setPass(const std::string pass);
 		void				removePermission(const std::string &channel);
 
 		/* receiveData will receive data from the client
@@ -71,6 +73,7 @@ class Client
 		std::string _nickname;
 		std::string _username;
 		std::string _data;
+		std::string _pass;
 		std::map<std::string, bool> _permissions;
 };
 

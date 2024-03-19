@@ -4,7 +4,7 @@
 
 # include <iostream>
 # include "Nick.hpp"
-# include "UserCmd.hpp"
+# include "User.hpp"
 # include "Pass.hpp"
 # include "Join.hpp"
 # include "Privmsg.hpp"
