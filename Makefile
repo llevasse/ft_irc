@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/18 09:36:50 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/19 14:09:46 by naterrie         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(DEFAULT)done on $(YELLOW)$(sh
 
 CLASS_DIR		=	class/
 CLASS_FILES		=	Server.cpp\
-					Client.cpp
+					Client.cpp\
+					Channel.cpp\
 
 ALL_FILES		+= $(addprefix $(CLASS_DIR), $(CLASS_FILES))
 
