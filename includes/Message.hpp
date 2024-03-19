@@ -3,9 +3,6 @@
 # define MESSAGE_HPP
 
 # include <iostream>
-# include "Nick.hpp"
-# include "User.hpp"
-# include "Pass.hpp"
 # include "Join.hpp"
 # include "Privmsg.hpp"
 # include "Topic.hpp"
@@ -22,11 +19,16 @@ class Message{
 		std::string _command;
 		std::string _param;
 		Server*		_server;
+		Client*		_client;
 	public:
 		Message(Server *server, Client *client, const std::string message );
 		Message( Message const &obj );
 		Message &operator= ( Message const &obj );
 		~Message( void );
+
+		void nick();
+		void user();
+		void pass();
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);
