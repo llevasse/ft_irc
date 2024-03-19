@@ -46,38 +46,35 @@ Channel &Channel::operator= ( Channel const &obj)
 
 void Channel::mode(Client *client, std::string param)
 {
-	(void)client;
-	if (param == "i")
+	if (param.at(0) == '+')
 	{
-		if (_inviteonly == false)
-			_inviteonly = true;
-		else
-			_inviteonly = false;
-	}
-	else if (param == "t")
-	{
-		if (_topicmode == false)
+		if (param.at(1) == 't')
 			_topicmode = true;
-		else
-			_topicmode = false;
-	}
-	else if (param == "k")
-	{
-		if (_pwd == false)
+		else if (param.at(1) == 'i')
+			_inviteonly = true;
+		else if (param.at(1) == 'l')
+			_limit = true;
+		else if (param.at(1) == 'k')
 			_pwd = true;
-		else
+		else if (param.at(1) == 'o')
+		{
+			
+		}
+	}
+	else if (param.at(0) == '-')
+	{
+		if (param.at(1) == 't')
+			_topicmode = false;
+		else if (param.at(1) == 'i')
+			_inviteonly = false;
+		else if (param.at(1) == 'l')
+			_limit = false;
+		else if (param.at(1) == 'k')
 			_pwd = false;
 	}
-	else if (param == "l")
+	else
 	{
-		if (_limit == false)
-			_limit = true;
-		else
-			_limit = false;
-	}
-	else if (param == "o")
-	{
-		// give or remove operator status
+		// error
 	}
 }
 

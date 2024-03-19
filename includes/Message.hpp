@@ -4,10 +4,10 @@
 
 # include <iostream>
 # include "Join.hpp"
-# include "Privmsg.hpp"
 # include "Invite.hpp"
 # include "Server.hpp"
 # include "Client.hpp"
+# include "Channel.hpp"
 
 class Server;
 
@@ -26,6 +26,7 @@ class Message{
 		void nick();
 		void user();
 		void pass();
+		void privmsg();
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);

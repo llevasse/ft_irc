@@ -1,32 +1,14 @@
-#include "Privmsg.hpp"
+#include "Message.hpp"
 
-Privmsg::Privmsg( std::string command, std::string param, int socket ){
-	(void)command;
-	(void)socket;
-	(void)param;
-}
+void Message::privmsg(){
+	size_t del	= _param.find_first_of(" ");
+	std::string	name = _param.substr(0, del);
+	std::string mess = _param.substr(del + 1);
 
-Privmsg::Privmsg( Privmsg const &obj){
-	if (!MUTE)
-		std::cout << "Privmsg copy \033[32mconstructor\033[0m called!" << std::endl;
-	if (this != &obj)
-		*this = obj;
-}
-
-Privmsg &Privmsg::operator= ( Privmsg const &obj){
-	if (!MUTE)
-		std::cout << "Privmsg copy assignment operator called!" << std::endl;
-	(void)obj;
-	return (*this);
-}
-
-Privmsg::~Privmsg( void ){
-	if (!MUTE)
-		std::cout << "Privmsg \033[31mdestructor\033[0m called!" << std::endl;
-}
-
-std::ostream &operator << (std::ostream &out, const Privmsg &obj){
-	out << "Privmsg";
-	(void)obj;
-	return (out);
+	for (std::map< int, Client * >::iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
+		if (it->second->getNickname() == name){
+			it->second->sendData(mess);
+			return ;
+		}
+	}
 }
