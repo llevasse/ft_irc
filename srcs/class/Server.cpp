@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 14:23:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:35:47 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ Server	&Server::operator=( const Server &src )
 }
 
 /* ************************************************************************** */
+/*                                 Getters                                    */
+/* ************************************************************************** */
+
+unsigned int	Server::getNbClients( void ) const { return (this->_clients.size()); }
+
+const std::map<int, Client *>	&Server::getClientsMap( void ) const { return (this->_clients); }
+
+const std::string	&Server::getPassword( void ) const { return (this->_password); }
+
+const std::map<std::string, Channel>	&Server::getChannels( void ) const { return (this->_channels); }
+
+/* ************************************************************************** */
 /*                           Public member functions                          */
 /* ************************************************************************** */
 
@@ -111,10 +123,6 @@ void	Server::removeClient( int fd, int index )
 
 	std::cout << "Client " << fd << " disconnected" << std::endl;
 }
-
-unsigned int	Server::getNbClients(){ return _clients.size();}
-std::map< int, Client*>	&Server::getClientsMap(){return _clients;}
-std::string		Server::getPassword(){ return _password;}
 
 void	Server::loop( void )
 {
