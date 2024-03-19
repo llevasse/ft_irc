@@ -11,9 +11,11 @@ class Channel
 		bool			_inviteonly;
 		bool			_limit;
 
+
 	public:
 		Channel( void );
 		Channel( std::string name);
+		Channel( std::string name, std::string password);
 		Channel( Channel const &obj);
 		Channel &operator= ( Channel const &obj);
 		~Channel( void );
@@ -22,7 +24,6 @@ class Channel
 		std::string		getPassword( void ) const;
 		std::string		getTopic( void ) const;
 
-		void 			pwd(std::string cmd, std::string param, int socket);
 		void 			mode(std::string cmd, std::string param, int socket);
 		void 			topic(std::string cmd, std::string param, int socket);
 };
