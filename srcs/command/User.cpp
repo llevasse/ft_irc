@@ -3,7 +3,7 @@
 
 // typical USER command example
 //
-// USER guest 0 * : realname 
+// USER guest 0 * : realname
 
 
 void Message::user(){
@@ -47,7 +47,7 @@ void Message::user(){
 	}
 
 	//check if username is already taken
-	for (std::map< int, Client * >::iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
+	for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
 		if (it->second->getUsername() == _name){
 			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 462 " + _client->getNickname() +  " :Username already in use\r\n";
 			_client->sendData(reply);
