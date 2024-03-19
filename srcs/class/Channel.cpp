@@ -1,6 +1,6 @@
 #include "Channel.hpp"
 
-Channel::Channel( std::string name) : _name(name), _password(NULL), _topic(NULL), _pwd(false), _topicmode(false)
+Channel::Channel( std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false)
 {
 }
 
