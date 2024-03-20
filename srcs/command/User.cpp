@@ -8,7 +8,7 @@
 
 void Message::user(){
 
-	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough _parameters\r\n";
+	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough _parameters";
 
 	size_t 		nameDel = _param.find(" ");
 	size_t		modeDel = _param.find(" ", nameDel + 1);
@@ -35,13 +35,13 @@ void Message::user(){
 	}
 	//check for correct password
 	if (_server->getPassword() != _client->getPass()){
-		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 464 " + _client->getNickname() +  " :Password Incorrect\r\n";
+		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 464 " + _client->getNickname() +  " :Password Incorrect";
 		_client->sendData(reply);
 		return ;
 	}
 	//check if user is already registered
 	if (_client->getUsername() != ""){
-		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 462 " + _client->getNickname() +  " :You may not register\r\n";
+		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 462 " + _client->getNickname() +  " :You may not register";
 		_client->sendData(reply);
 		return ;
 	}
@@ -49,7 +49,7 @@ void Message::user(){
 	//check if username is already taken
 	for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
 		if (it->second->getUsername() == _name){
-			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 462 " + _client->getNickname() +  " :Username already in use\r\n";
+			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 462 " + _client->getNickname() +  " :Username already in use";
 			_client->sendData(reply);
 		}
 	}
