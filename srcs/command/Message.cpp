@@ -3,9 +3,13 @@
 Message::Message(Server *server, Client *client, const std::string message ){
 	_server = server;
 	_client = client;
-	int	sep = message.find_first_of(" \n");
-	_command = message.substr(0,sep);
-	_param = message.substr(sep + 1);
+	size_t	sep = message.find(" ");
+	size_t	returnSep = message.find_last_not_of("\r\n");
+	if (sep == std::string::npos)
+		sep = returnSep;
+	_command = message.substr(0, sep);
+	_param = message.substr(sep + 1, returnSep - sep);
+	client->sendData(_param);
 	std::map<std::string, Channel *> channels = server->getChannels();
 	Channel *channel = channels[client->getChannel()];
 	if (_command == "NICK")

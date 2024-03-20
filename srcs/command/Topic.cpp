@@ -8,7 +8,7 @@ void Message::topic(){
 	size_t		beg		= _param.find("#");
 	if (beg == std::string::npos)
 		return ;
-	size_t		nameDel = _param.find_first_of(" \n\r");
+	size_t		nameDel = _param.find(" ");
 	std::string name = _param.substr(beg + 1, nameDel - beg);
 	channels[name]->topic(_client, _param.substr(nameDel + 1));
 }
