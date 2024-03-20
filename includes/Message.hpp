@@ -30,6 +30,7 @@ class Message{
 		void user();
 		void pass();
 		void privmsg();
+		void topic();
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);

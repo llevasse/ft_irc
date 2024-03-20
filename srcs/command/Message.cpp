@@ -17,7 +17,7 @@ Message::Message(Server *server, Client *client, const std::string message ){
 	else if (_command == "PRIVMSG")
 		this->privmsg();
 	else if (_command == "TOPIC")
-		channel->topic(client, _param);
+		this->topic();
 	else if (_command == "MODE")
 		channel->mode(client, _param);
 /*	else if (_command == "JOIN")

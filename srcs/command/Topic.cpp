@@ -1,26 +1,14 @@
-#include "Topic.hpp"
+#include "Message.hpp"
 
-Topic::Topic( std::string command, std::string param, int socket ){
-	(void)command;
-	(void)socket;
-	(void)param;
-}
+//either	TOPIC #channel topic
+//or		TOPIC #channel
 
-Topic::Topic( Topic const &obj){
-	if (this != &obj)
-		*this = obj;
-}
-
-Topic &Topic::operator= ( Topic const &obj){
-	(void)obj;
-	return (*this);
-}
-
-Topic::~Topic( void ){
-}
-
-std::ostream &operator << (std::ostream &out, const Topic &obj){
-	out << "Topic";
-	(void)obj;
-	return (out);
+void Message::topic(){
+	std::map<std::string, Channel *> channels = _server->getChannels();
+	size_t		beg		= _param.find("#");
+	if (beg == std::string::npos)
+		return ;
+	size_t		nameDel = _param.find_first_of(" \n\r");
+	std::string name = _param.substr(beg + 1, nameDel - beg);
+	channels[name]->topic(_client, _param.substr(nameDel + 1));
 }
