@@ -47,16 +47,10 @@ Channel &Channel::operator= ( Channel const &obj)
 void Channel::mode(Client *client, std::string param)
 {
 	if (param.length() < 2)
-	{
 		client->sendData("MODE " + _name + " :" + param + " :Not enough parameters");
-		return ;
-	}
-	if (client->getPermission(this->_name) == false)
-	{
+	 else if (client->getPermission(this->_name) == false)
 		client->sendData("MODE " + _name + " :" + param + " :Permission denied");
-		return ;
-	}
-	if (param.at(0) == '+')
+	 else if (param.at(0) == '+')
 	{
 		if (param.at(1) == 't')
 			_topicmode = true;
@@ -82,15 +76,19 @@ void Channel::mode(Client *client, std::string param)
 
 void Channel::topic(Client *client, std::string param)
 {
-	if (this->_topicmode == false)
-		client->sendData(":localhost 331 " + client->getNickname() + " " + _name + " :Topic is off");
-	if (this->_clients[client->getUsername()])
-		client->sendData(":localhost 442 " + client->getNickname() + " " + _name + " :You're not on that channel");
-	else if (client->getPermission(this->_name) == false)
+	if (!this->_clients[client->getUsername()])
 	{
-		client->sendData(":localhost 482 " + client->getNickname() + " " + _name + " :You're not channel operator");
+		client->sendData(":localhost 442 " + client->getNickname() + " " + _name + " :You're not on that channel");
 		return ;
 	}
+	if (param == "")
+		client->sendData(":localhost 461 " + client->getNickname() + " TOPIC :Not enough parameters");
+	else if (this->_topicmode == false)
+		client->sendData(":localhost 331 " + client->getNickname() + " " + _name + " :Topic is off");
+	else if (this->_clients[client->getUsername()])
+		client->sendData(":localhost 442 " + client->getNickname() + " " + _name + " :You're not on that channel");
+	else if (client->getPermission(this->_name) == false)
+		client->sendData(":localhost 482 " + client->getNickname() + " " + _name + " :You're not channel operator");
 	else if (_topic == "")
 		client->sendData(":localhost 331 " + client->getNickname() + " " + _name + " :No topic is set");
 	else if (param == "")
