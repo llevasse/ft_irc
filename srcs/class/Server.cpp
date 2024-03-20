@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 17:37:22 by naterrie         ###   ########lyon.fr   */
+/*   Updated: 2024/03/20 21:56:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ void	Server::loop( void )
 void	Server::clear( void )
 {
 	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+		delete it->second;
+	for (std::map< std::string, Channel * >::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
 		delete it->second;
 
 	if (this->_pollfds.size() > 0 && this->_pollfds[0].fd != -1)
