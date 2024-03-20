@@ -17,5 +17,12 @@ void Message::topic(){
 		_client->sendData(reply);
 		return ;
 	}
+	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 442 " + _client->getNickname() +  " :Your not on that channel.";
+	std::map<std::string, Client * >	clients = channels[name]->getClientMap();
+	if (clients.find(_client->getUsername()) == clients.end()){
+		_client->sendData(reply);
+		return ;
+	}
+	
 	channels[name]->topic(_client, _param.substr(nameDel + 1));
 }

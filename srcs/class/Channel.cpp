@@ -32,6 +32,8 @@ std::string		Channel::getTopic( void ) const
 	return _topic;
 }
 
+const std::map<std::string, Client *>	Channel::getClientMap( void ) const { return (this->_clients); }
+
 Channel &Channel::operator= ( Channel const &obj)
 {
 	_name = obj._name;

@@ -27,6 +27,7 @@ class Channel
 		std::string		getName( void ) const;
 		std::string		getPassword( void ) const;
 		std::string		getTopic( void ) const;
+		const std::map<std::string, Client * > getClientMap( void ) const;
 
 		void 			mode(Client *client, std::string param);
 		void 			topic(Client *client, std::string param);
