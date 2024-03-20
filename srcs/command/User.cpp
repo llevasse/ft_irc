@@ -55,4 +55,8 @@ void Message::user(){
 	}
 	//set username
 	_client->setUsername(_name);
+	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost NICK :" + _client->getNickname();
+	if (_client->getNickname() != ""){
+		_client->sendData(reply);
+	}
 }

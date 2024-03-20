@@ -14,5 +14,9 @@ void Message::join(){
 		clients[_client->getUsername()] = _client;
 		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost JOIN " + name;
 		_client->sendData(reply);
+		reply = ":localhost 353 " + _client->getNickname() + " = " + name + " :@" + _client->getNickname();
+		_client->sendData(reply);
+		reply = ":localhost 366 " + _client->getNickname() + " " + name + " :End of /NAMES list.";
+		_client->sendData(reply);
 	}
 }

@@ -28,7 +28,7 @@ void Message::nick(){
 			return ;
 		}
 	}
-	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost NICK " + name;
+	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost NICK :" + name;
 	_client->setNickname(name);
 	if (_client->getUsername() != ""){
 		_client->sendData(reply);
