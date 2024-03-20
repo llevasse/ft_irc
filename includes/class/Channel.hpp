@@ -13,10 +13,11 @@ class Channel
 		bool			_topicmode;
 		bool			_inviteonly;
 		bool			_limit;
+		std::string		_owner;
+		std::map<std::string, Client * >	_clients;
 
 
 	public:
-		Channel( void );
 		Channel( std::string name);
 		Channel( std::string name, std::string password);
 		Channel( Channel const &obj);

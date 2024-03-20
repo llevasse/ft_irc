@@ -4,9 +4,6 @@
 
 # include <iostream>
 # include "Join.hpp"
-# include "Topic.hpp"
-# include "Mode.hpp"
-# include "Kick.hpp"
 # include "Invite.hpp"
 # include "Server.hpp"
 # include "Client.hpp"
