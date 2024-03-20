@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 17:27:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:01:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,9 @@ std::string	Client::receiveData( void )
 
 void	Client::sendData( const std::string &data ) const
 { 
-	std::cout << "Reply " << data;
-	if (send(this->_fd, data.c_str(), data.size(), 0) == -1)
+	std::string reply = data + "\r\n";
+	std::cout << "Reply " << reply;
+	if (send(this->_fd, reply.c_str(), data.size(), 0) == -1)
 		throw Client::FailedToSendData();
 }
 

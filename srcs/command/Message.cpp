@@ -9,7 +9,6 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		sep = returnSep;
 	_command = message.substr(0, sep);
 	_param = message.substr(sep + 1, returnSep - sep);
-	client->sendData(_param);
 	std::map<std::string, Channel *> channels = server->getChannels();
 	Channel *channel = channels[client->getChannel()];
 	if (_command == "NICK")
