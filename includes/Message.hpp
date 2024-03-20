@@ -28,6 +28,7 @@ class Message{
 		void pass();
 		void privmsg();
 		void topic();
+		void mode();
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);

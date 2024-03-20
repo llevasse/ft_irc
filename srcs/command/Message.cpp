@@ -9,8 +9,6 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		sep = returnSep;
 	_command = message.substr(0, sep);
 	_param = message.substr(sep + 1, returnSep - sep);
-	std::map<std::string, Channel *> channels = server->getChannels();
-	Channel *channel = channels[client->getChannel()];
 	if (_command == "NICK")
 		this->nick();
 	else if (_command == "USER")
@@ -22,7 +20,7 @@ Message::Message(Server *server, Client *client, const std::string message ){
 	else if (_command == "TOPIC")
 		this->topic();
 	else if (_command == "MODE")
-		channel->mode(client, _param);
+		this->mode();
 /*	else if (_command == "JOIN")
 		Join(_command, _param, socket);
 	else if (_command == "KICK")

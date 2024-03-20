@@ -4,7 +4,7 @@ void Message::nick(){
 	size_t del	= _param.find(" ");
 	bool found	= 0;
 	
-	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough _parameters";
+	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough parameters";
 	for (std::string::reverse_iterator rit=_param.rbegin(); rit!=_param.rend(); rit++){
 		if (!isspace(*rit)){
 			found = 1;

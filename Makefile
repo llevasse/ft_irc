@@ -6,7 +6,7 @@
 #    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/20 16:53:39 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/20 17:22:23 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ COMMAND_FILES	=	Invite.cpp\
 					Pass.cpp\
 					Privmsg.cpp\
 					Topic.cpp \
+					Mode.cpp \
 					User.cpp
 
 ALL_FILES		+= $(addprefix $(COMMAND_DIR), $(COMMAND_FILES))
