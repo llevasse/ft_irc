@@ -1,3 +1,5 @@
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 #include "tools.hpp"
 #include "Client.hpp"
 
@@ -29,3 +31,5 @@ class Channel
 		void 			mode(Client *client, std::string param);
 		void 			topic(Client *client, std::string param);
 };
+
+#endif

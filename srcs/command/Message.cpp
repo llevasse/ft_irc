@@ -6,7 +6,8 @@ Message::Message(Server *server, Client *client, const std::string message ){
 	int	sep = message.find_first_of(" \n");
 	_command = message.substr(0,sep);
 	_param = message.substr(sep + 1);
-	Channel *channel = new Channel("temp"); // to delete
+	std::map<std::string, Channel *> channels = server->getChannels();
+	Channel *channel = channels[client->getChannel()];
 	if (_command == "NICK")
 		this->nick();
 	else if (_command == "USER")
@@ -25,8 +26,7 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		Kick(_command, _param, socket);
 	else if (_command == "INVITE")
 		Invite(_command, _param, socket);
-*/	delete channel;
-}
+*/}
 
 Message::Message( Message const &obj){
 	if (this != &obj)

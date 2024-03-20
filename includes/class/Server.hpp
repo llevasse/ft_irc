@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/18 09:37:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:33:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "tools.hpp"
 # include "Client.hpp"
 # include "Message.hpp"
+# include "Channel.hpp"
 
 class Server
 {
@@ -26,6 +27,12 @@ class Server
 		~Server( void );
 
 		Server	&operator=( const Server &src );
+
+		/* return size of _clients */
+		unsigned int							getNbClients() const;
+		const std::map<int, Client *>			&getClientsMap() const;
+		const std::string						&getPassword() const;
+		const std::map<std::string, Channel *>	&getChannels() const;
 
 		/* run is the main function of the server, it will create the socket,
 		bind it, listen to it and then loop to accept new clients
@@ -44,13 +51,6 @@ class Server
 
 		/* removeClient will remove a client from the clients map */
 		void	removeClient( int fd, int index );
-
-		/* return size of _clients */
-		unsigned int	getNbClients();
-
-		std::map<int, Client *>	&getClientsMap();
-
-		std::string	getPassword();
 
 		/* loop will loop to accept new clients and handle them
 		loop can throw the following exceptions:
@@ -111,11 +111,12 @@ class Server
 
 	private:
 
-		u_short						_port;
-		std::string					_password;
-		sockaddr_in					_addr;
-		std::map< int, Client * >	_clients;
-		std::vector< pollfd > 		_pollfds;
+		u_short							_port;
+		std::string						_password;
+		sockaddr_in						_addr;
+		std::map< int, Client * >		_clients;
+		std::vector< pollfd > 			_pollfds;
+		std::map<std::string, Channel *>	_channels;
 
 		static bool					_loop;
 };
