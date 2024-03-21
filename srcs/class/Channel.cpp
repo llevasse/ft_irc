@@ -32,16 +32,47 @@ std::string		Channel::getTopic( void ) const
 	return _topic;
 }
 
-Channel &Channel::operator= ( Channel const &obj)
+void Channel::topic(Client *client, std::string param)
 {
-	_name = obj._name;
-	_password = obj._password;
-	_topic = obj._topic;
-	_pwd = obj._pwd;
-	_topicmode = obj._topicmode;
-	_inviteonly = obj._inviteonly;
-	_limit = obj._limit;
-	return *this;
+	if (param == "")
+		this->error(client, "461", "Not enough parameters", _name);
+	else if (this->_topicmode == false)
+		this->error(client, "331", "No topic is set", _name);
+	else if (this->_clients[client->getUsername()])
+		this->error(client, "442", "You're not on that channel", _name);
+	else if (client->getPermission(this->_name) == false)
+		this->error(client, "482", "You're not channel operator", _name);
+	else if (_topic == "")
+		this->error(client, "331", "No topic is set", _name);
+	else if (param == "")
+		this->error(client, "332", _topic, _name);
+	else
+	{
+		_topic = param;
+		(client->getNickname() + "!" + client->getUsername() + "@localhost TOPIC" + _name + " :" + param);
+	}
+}
+
+void Channel::kick(Client *client, std::string param)
+{
+	if (!this->_clients[client->getUsername()])
+		this->error(client, "442", "You're not on that channel", _name);
+	else if (client->getPermission(this->_name) == false)
+		this->error(client, "482", "You're not channel operator", _name);
+	else if (param == "")
+		this->error(client, "461", "Not enough parameters", _name);
+	else
+	{
+		std::string nickname = param.substr(0, param.find(" "));
+		std::string reason = param.substr(param.find(":") + 1);
+		if (this->_clients[nickname])
+		{
+			this->_clients[nickname]->sendData(":" + client->getNickname() + "!" + client->getUsername() + "@localhost KICK " + _name + " " + nickname + " :" + reason);
+			this->_clients.erase(nickname);
+		}
+		else
+			this->error(client, "441", "They aren't on that channel", _name);
+	}
 }
 
 void Channel::mode(Client *client, std::string param)
@@ -57,9 +88,14 @@ void Channel::mode(Client *client, std::string param)
 		else if (param.at(1) == 'i')
 			_inviteonly = true;
 		else if (param.at(1) == 'l')
-			_limit = true;
+		{
+
+		}
 		else if (param.at(1) == 'k')
+		{
 			_pwd = true;
+
+		}
 	}
 	else if (param.at(0) == '-')
 	{
@@ -74,28 +110,7 @@ void Channel::mode(Client *client, std::string param)
 	}
 }
 
-void Channel::topic(Client *client, std::string param)
+void Channel::error(Client *client, std::string code, std::string msg, std::string channel)
 {
-	if (!this->_clients[client->getUsername()])
-	{
-		client->sendData(":localhost 442 " + client->getNickname() + " " + _name + " :You're not on that channel");
-		return ;
-	}
-	if (param == "")
-		client->sendData(":localhost 461 " + client->getNickname() + " TOPIC :Not enough parameters");
-	else if (this->_topicmode == false)
-		client->sendData(":localhost 331 " + client->getNickname() + " " + _name + " :Topic is off");
-	else if (this->_clients[client->getUsername()])
-		client->sendData(":localhost 442 " + client->getNickname() + " " + _name + " :You're not on that channel");
-	else if (client->getPermission(this->_name) == false)
-		client->sendData(":localhost 482 " + client->getNickname() + " " + _name + " :You're not channel operator");
-	else if (_topic == "")
-		client->sendData(":localhost 331 " + client->getNickname() + " " + _name + " :No topic is set");
-	else if (param == "")
-		client->sendData(":localhost 332 " + client->getNickname() + " " + _name + " :" + _topic);
-	else
-	{
-		_topic = param;
-		client->sendData(client->getNickname() + "!" + client->getUsername() + "@localhost TOPIC" + _name + " :" + param);
-	}
+	client->sendData(":localhost " + code + " " + client->getNickname() + " " + channel + " :" + msg);
 }

@@ -21,7 +21,6 @@ class Channel
 		Channel( std::string name);
 		Channel( std::string name, std::string password);
 		Channel( Channel const &obj);
-		Channel &operator= ( Channel const &obj);
 		~Channel( void );
 
 		std::string		getName( void ) const;
@@ -30,6 +29,9 @@ class Channel
 
 		void 			mode(Client *client, std::string param);
 		void 			topic(Client *client, std::string param);
+		void 			kick(Client *client, std::string param);
+
+		void 			error(Client *client, std::string code, std::string msg, std::string channel);
 };
 
 #endif
