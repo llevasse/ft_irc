@@ -1,10 +1,9 @@
 #include "Message.hpp"
 
 void Message::join(){
-	Channel *channel = this->_server->getChannel(this->_param);
 	std::string reply;
-
 	std::string name = this->_param.substr(0, this->_param.find(" "));
+	Channel *channel = this->_server->getChannel(name);
 
 	if (channel == NULL){
 		this->_server->newChannel(this->_client, name);
