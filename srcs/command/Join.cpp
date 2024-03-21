@@ -19,4 +19,17 @@ void Message::join(){
 		reply = ":localhost 366 " + _client->getNickname() + " " + name + " :End of /NAMES list.";
 		_client->sendData(reply);
 	}
+	else{
+		clients = channels[name]->getClientMap();
+		clients[_client->getUsername()] = _client;
+		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost JOIN " + name;
+		_client->sendData(reply);
+		for (std::map< std::string, Client * >::const_iterator it = clients.begin(); it != clients.end(); it++){
+			reply = ":localhost 353 " + it->second->getNickname() + " = " + name + " :@" + it->second->getNickname();
+			_client->sendData(reply);
+		}
+		reply = ":localhost 366 " + _client->getNickname() + " " + name + " :End of /NAMES list.";
+		_client->sendData(reply);
+	}
+	std::cout << *_server << std::endl;
 }

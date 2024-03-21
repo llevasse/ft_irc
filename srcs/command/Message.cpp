@@ -27,7 +27,8 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		Kick(_command, _param, socket);
 	else if (_command == "INVITE")
 		Invite(_command, _param, socket);
-*/}
+*/
+}
 
 Message::Message( Message const &obj){
 	if (this != &obj)

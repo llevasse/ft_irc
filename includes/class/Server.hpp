@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 17:33:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:23:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,7 @@ class Server
 
 		static bool					_loop;
 };
+
+std::ostream &operator << (std::ostream &out, const Server &obj);
 
 #endif

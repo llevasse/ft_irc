@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/21 09:28:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:35:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void	Server::clientAction( int index )
 		if (found != std::string::npos){
 			while (found != std::string::npos){		//to split hexchat connect command
 				tmp = data.substr(prev, found + 2);
-//				std::cout << "Client " << client->getFd() << " sent: " << tmp;
+				std::cout << "Client " << client->getFd() << " sent: " << tmp;
 				prev = found + 2;
 				found = data.find("\r\n", found + 2);
 				Message(this, client, tmp);
@@ -257,3 +257,17 @@ const char	*Server::FailedToPoll::what() const throw()
 /* ************************************************************************** */
 
 bool	Server::_loop = true;
+
+std::ostream &operator << (std::ostream &out, const Server &obj){
+	std::map<int, Client *> clients = obj.getClientsMap();
+	out << "clients : " << std::endl;
+	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++){
+		out << "\t:" << it->first << " : " << it->second->getNickname() << std::endl;
+	}
+	std::map<std::string, Channel *> channels = obj.getChannels();
+	out << "channels : " << std::endl;
+	for (std::map<std::string, Channel *>::iterator it = channels.begin(); it != channels.end(); it++){
+		out << "\t:" << it->first << std::endl;
+	}
+	return (out);
+}
