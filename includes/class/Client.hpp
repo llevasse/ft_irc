@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 17:28:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:40:21 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@
 
 class Client
 {
+	private:
+
+		int 		_fd;
+		sockaddr_in	_addr;
+		socklen_t	_lenAddr;
+		std::string _nickname;
+		std::string _username;
+		std::string _data;
+		std::string _pass;
+		std::string _channel;
+		std::map<std::string, bool> _permissions;
+
 	public:
 
 		Client( int serverSocket );
@@ -66,18 +78,6 @@ class Client
 			public:
 				virtual const char	*what() const throw();
 		};
-
-	private:
-
-		int 		_fd;
-		sockaddr_in	_addr;
-		socklen_t	_lenAddr;
-		std::string _nickname;
-		std::string _username;
-		std::string _data;
-		std::string _pass;
-		std::string _channel;
-		std::map<std::string, bool> _permissions;
 };
 
 #endif
