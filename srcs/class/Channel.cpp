@@ -1,11 +1,8 @@
 #include "Channel.hpp"
 
-Channel::Channel( std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false)
+Channel::Channel( Client *client, std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false), _inviteonly(false), _limit(false), _limitnum(0)
 {
-}
-
-Channel::Channel( std::string name, std::string password) : _name(name), _password(password), _topic(""), _pwd(true), _topicmode(false)
-{
+	this->_clients[client->getUsername()] = client;
 }
 
 Channel::Channel( Channel const &obj)
@@ -30,6 +27,11 @@ std::string		Channel::getPassword( void ) const
 std::string		Channel::getTopic( void ) const
 {
 	return _topic;
+}
+
+const std::map<std::string, Client *>	&Channel::getClientMap( void ) const
+{
+	return (this->_clients);
 }
 
 void Channel::topic(Client *client, std::string param)
@@ -75,6 +77,10 @@ void Channel::kick(Client *client, std::string param)
 	}
 }
 
+void Channel::addClient( Client *client ){
+	this->_clients[client->getUsername()] = client;
+}
+
 void Channel::mode(Client *client, std::string param)
 {
 	if (param.length() < 2)
@@ -114,4 +120,13 @@ void Channel::mode(Client *client, std::string param)
 void Channel::error(Client *client, std::string code, std::string msg, std::string channel)
 {
 	client->sendData(":localhost " + code + " " + client->getNickname() + " " + channel + " :" + msg);
+}
+
+std::ostream &operator << (std::ostream &out, const Channel &obj){
+	out << "Channel " << obj.getName() << " users :" << std::endl;
+	std::map<std::string, Client *> clients = obj.getClientMap();
+	for (std::map<std::string, Client *>::iterator it = clients.begin(); it != clients.end(); it++){
+		out << "\t:" << it->first << " : " << it->second->getNickname() << std::endl;
+	}
+	return (out);
 }

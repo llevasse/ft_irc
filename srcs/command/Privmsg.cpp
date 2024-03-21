@@ -1,7 +1,7 @@
 #include "Message.hpp"
 
 void Message::privmsg(){
-	size_t del	= _param.find_first_of(" ");
+	size_t del	= _param.find(" ");
 	std::string	name = _param.substr(0, del);
 	std::string mess = _param.substr(del + 1);
 

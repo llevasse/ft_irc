@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 17:37:22 by naterrie         ###   ########lyon.fr   */
+/*   Updated: 2024/03/21 14:30:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ void	Server::run( void )
 	this->loop();
 }
 
+void	Server::newChannel( std::string name ){
+	this->_channels[name] = new Channel(name);
+}
+
 void	Server::newClient( void )
 {
 	Client	*client = new Client(this->_pollfds[0].fd);
@@ -146,6 +150,8 @@ void	Server::loop( void )
 
 void	Server::clear( void )
 {
+	for (std::map< std::string, Channel * >::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+		delete it->second;
 	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
 		delete it->second;
 
@@ -255,3 +261,17 @@ const char	*Server::FailedToPoll::what() const throw()
 /* ************************************************************************** */
 
 bool	Server::_loop = true;
+
+std::ostream &operator << (std::ostream &out, const Server &obj){
+	std::map<int, Client *> clients = obj.getClientsMap();
+	out << "clients : " << std::endl;
+	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++){
+		out << "\t:" << it->first << " : " << it->second->getNickname() << std::endl;
+	}
+	std::map<std::string, Channel *> channels = obj.getChannels();
+	out << "channels : " << std::endl;
+	for (std::map<std::string, Channel *>::iterator it = channels.begin(); it != channels.end(); it++){
+		out << "\t:'" << it->first << "'" << std::endl;
+	}
+	return (out);
+}

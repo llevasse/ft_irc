@@ -15,19 +15,19 @@ class Channel
 		bool			_inviteonly;
 		bool			_limit;
 		int				_limitnum;
-		std::string		_owner;
 		std::map<std::string, Client * >	_clients;
 
 
 	public:
-		Channel( std::string name);
-		Channel( std::string name, std::string password);
+		Channel( Client *client, std::string name);
 		Channel( Channel const &obj);
 		~Channel( void );
 
 		std::string		getName( void ) const;
 		std::string		getPassword( void ) const;
 		std::string		getTopic( void ) const;
+		const std::map<std::string, Client * > &getClientMap( void ) const;
+		void			addClient( Client *client );
 
 		void 			mode(Client *client, std::string param);
 		void 			topic(Client *client, std::string param);
@@ -35,5 +35,6 @@ class Channel
 
 		void 			error(Client *client, std::string code, std::string msg, std::string channel);
 };
+std::ostream &operator << (std::ostream &out, const Channel &obj);
 
 #endif
