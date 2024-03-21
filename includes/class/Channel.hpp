@@ -19,6 +19,7 @@ class Channel
 
 
 	public:
+		Channel( std::string name);
 		Channel( Client *client, std::string name);
 		Channel( Channel const &obj);
 		~Channel( void );
@@ -30,11 +31,11 @@ class Channel
 
 		void			addClient( Client *client );
 
-		void 			mode(Client *client, std::string param);
-		void 			topic(Client *client, std::string param);
-		void 			kick(Client *client, std::string param);
+		void			mode(Client *client, std::string param);
+		void			topic(Client *client, std::string param);
+		void			kick(Client *client, std::string param);
 
-		void 			error(Client *client, std::string code, std::string msg, std::string channel);
+		void			error(Client *client, std::string code, std::string msg, std::string channel);
 };
 std::ostream &operator << (std::ostream &out, const Channel &obj);
 

@@ -1,5 +1,9 @@
 #include "Channel.hpp"
 
+Channel::Channel(std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false), _inviteonly(false), _limit(false), _limitnum(0)
+{
+}
+
 Channel::Channel( Client *client, std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false), _inviteonly(false), _limit(false), _limitnum(0)
 {
 	this->_clients[client->getUsername()] = client;
@@ -32,6 +36,11 @@ const std::string		&Channel::getTopic( void ) const
 const std::map<std::string, Client *>	&Channel::getClientMap( void ) const
 {
 	return (this->_clients);
+}
+
+void Channel::addClient( Client *client )
+{
+	this->_clients[client->getUsername()] = client;
 }
 
 void Channel::topic(Client *client, std::string param)
@@ -77,10 +86,6 @@ void Channel::kick(Client *client, std::string param)
 	}
 }
 
-void Channel::addClient( Client *client ){
-	this->_clients[client->getUsername()] = client;
-}
-
 void Channel::mode(Client *client, std::string param)
 {
 	if (param.length() < 2)
@@ -89,30 +94,30 @@ void Channel::mode(Client *client, std::string param)
 		client->sendData("MODE " + _name + " :" + param + " :Permission denied");
 	 else if (param.at(0) == '+')
 	{
-		if (param.at(1) == 't')
+		if (param.at(1) == 't' && param.size() == 2)
 			_topicmode = true;
-		else if (param.at(1) == 'i')
+		else if (param.at(1) == 'i' && param.size() == 2)
 			_inviteonly = true;
-		else if (param.at(1) == 'l')
+		else if (param.at(1) == 'l' && param.at(2) == ' ' && param.size() > 2)
 		{
 			// check si l'arg est valide, et le set
 			_limit = true;
 		}
-		else if (param.at(1) == 'k')
+		else if (param.at(1) == 'k' && param.at(2) == ' ' && param.size() > 2)
 		{
 			// check si l'arg est valide, et le set
 			_pwd = true;
 		}
 	}
-	else if (param.at(0) == '-')
+	else if (param.at(0) == '-' && param.size() == 2)
 	{
-		if (param.at(1) == 't')
+		if (param.at(1) == 't' && param.size() == 2)
 			_topicmode = false;
-		else if (param.at(1) == 'i')
+		else if (param.at(1) == 'i' && param.size() == 2)
 			_inviteonly = false;
-		else if (param.at(1) == 'l')
+		else if (param.at(1) == 'l' && param.size() == 2)
 			_limit = false;
-		else if (param.at(1) == 'k')
+		else if (param.at(1) == 'k' && param.size() == 2)
 			_pwd = false;
 	}
 }
@@ -122,7 +127,8 @@ void Channel::error(Client *client, std::string code, std::string msg, std::stri
 	client->sendData(":localhost " + code + " " + client->getNickname() + " " + channel + " :" + msg);
 }
 
-std::ostream &operator << (std::ostream &out, const Channel &obj){
+std::ostream &operator << (std::ostream &out, const Channel &obj)
+{
 	out << "Channel " << obj.getName() << " users :" << std::endl;
 	std::map<std::string, Client *> clients = obj.getClientMap();
 	for (std::map<std::string, Client *>::iterator it = clients.begin(); it != clients.end(); it++){
