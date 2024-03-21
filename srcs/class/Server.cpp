@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/20 21:56:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:28:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void	Server::clientAction( int index )
 		if (found != std::string::npos){
 			while (found != std::string::npos){		//to split hexchat connect command
 				tmp = data.substr(prev, found + 2);
-				std::cout << "Client " << client->getFd() << " sent: " << tmp;
+//				std::cout << "Client " << client->getFd() << " sent: " << tmp;
 				prev = found + 2;
 				found = data.find("\r\n", found + 2);
 				Message(this, client, tmp);
