@@ -1,4 +1,7 @@
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 #include "tools.hpp"
+#include "Client.hpp"
 
 class Channel
 {
@@ -10,10 +13,11 @@ class Channel
 		bool			_topicmode;
 		bool			_inviteonly;
 		bool			_limit;
+		std::string		_owner;
+		std::map<std::string, Client * >	_clients;
 
 
 	public:
-		Channel( void );
 		Channel( std::string name);
 		Channel( std::string name, std::string password);
 		Channel( Channel const &obj);
@@ -23,7 +27,10 @@ class Channel
 		std::string		getName( void ) const;
 		std::string		getPassword( void ) const;
 		std::string		getTopic( void ) const;
+		const std::map<std::string, Client * > &getClientMap( void ) const;
 
-		void 			mode(std::string cmd, std::string param, int socket);
-		void 			topic(std::string cmd, std::string param, int socket);
+		void 			mode(Client *client, std::string param);
+		void 			topic(Client *client, std::string param);
 };
+
+#endif

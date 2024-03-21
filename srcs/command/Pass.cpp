@@ -1,9 +1,9 @@
 #include "Message.hpp"
 
 void Message::pass(){
-	std::string	pass = _param.substr(0, _param.find_first_of(" \n\r\t"));
+	std::string	pass = _param.substr(0, _param.find_first_of(" "));
 	bool found	= 0;
-	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough _parameters\r\n";
+	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough _parameters";
 	for (std::string::reverse_iterator rit=_param.rbegin(); rit!=_param.rend(); rit++){
 		if (!isspace(*rit)){
 			found = 1;
