@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/21 10:35:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:30:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ void	Server::run( void )
 	this->loop();
 }
 
+void	Server::newChannel( std::string name ){
+	this->_channels[name] = new Channel(name);
+}
+
 void	Server::newClient( void )
 {
 	Client	*client = new Client(this->_pollfds[0].fd);
@@ -146,9 +150,9 @@ void	Server::loop( void )
 
 void	Server::clear( void )
 {
-	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
-		delete it->second;
 	for (std::map< std::string, Channel * >::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+		delete it->second;
+	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
 		delete it->second;
 
 	if (this->_pollfds.size() > 0 && this->_pollfds[0].fd != -1)
@@ -267,7 +271,7 @@ std::ostream &operator << (std::ostream &out, const Server &obj){
 	std::map<std::string, Channel *> channels = obj.getChannels();
 	out << "channels : " << std::endl;
 	for (std::map<std::string, Channel *>::iterator it = channels.begin(); it != channels.end(); it++){
-		out << "\t:" << it->first << std::endl;
+		out << "\t:'" << it->first << "'" << std::endl;
 	}
 	return (out);
 }

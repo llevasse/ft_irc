@@ -46,6 +46,10 @@ Channel &Channel::operator= ( Channel const &obj)
 	return *this;
 }
 
+void Channel::addClient( Client *client ){
+	this->_clients[client->getUsername()] = client; 
+}
+
 void Channel::mode(Client *client, std::string param)
 {
 	if (param.length() < 2)
@@ -102,4 +106,13 @@ void Channel::topic(Client *client, std::string param)
 		_topic = param;
 		client->sendData(client->getNickname() + "!" + client->getUsername() + "@localhost TOPIC" + _name + " :" + param);
 	}
+}
+
+std::ostream &operator << (std::ostream &out, const Channel &obj){
+	out << "Channel " << obj.getName() << " users :" << std::endl;
+	std::map<std::string, Client *> clients = obj.getClientMap();
+	for (std::map<std::string, Client *>::iterator it = clients.begin(); it != clients.end(); it++){
+		out << "\t:" << it->first << " : " << it->second->getNickname() << std::endl;
+	}
+	return (out);	
 }

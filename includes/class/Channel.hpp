@@ -28,9 +28,11 @@ class Channel
 		std::string		getPassword( void ) const;
 		std::string		getTopic( void ) const;
 		const std::map<std::string, Client * > &getClientMap( void ) const;
+		void			addClient( Client *client );
 
 		void 			mode(Client *client, std::string param);
 		void 			topic(Client *client, std::string param);
 };
+std::ostream &operator << (std::ostream &out, const Channel &obj);
 
 #endif

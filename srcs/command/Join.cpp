@@ -9,9 +9,9 @@ void Message::join(){
 
 	channels = _server->getChannels();
 	if (channels.find(name) == channels.end()){
-		channels[name] = new Channel(name);
-		clients = channels[name]->getClientMap();
-		clients[_client->getUsername()] = _client;
+		_server->newChannel(name);
+		channels = _server->getChannels();
+		channels[name]->addClient(_client);
 		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost JOIN " + name;
 		_client->sendData(reply);
 		reply = ":localhost 353 " + _client->getNickname() + " = " + name + " :@" + _client->getNickname();
@@ -20,8 +20,7 @@ void Message::join(){
 		_client->sendData(reply);
 	}
 	else{
-		clients = channels[name]->getClientMap();
-		clients[_client->getUsername()] = _client;
+		channels[name]->addClient(_client);
 		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost JOIN " + name;
 		_client->sendData(reply);
 		for (std::map< std::string, Client * >::const_iterator it = clients.begin(); it != clients.end(); it++){
@@ -31,5 +30,6 @@ void Message::join(){
 		reply = ":localhost 366 " + _client->getNickname() + " " + name + " :End of /NAMES list.";
 		_client->sendData(reply);
 	}
-	std::cout << *_server << std::endl;
+	std::cout << *channels[name] << std::endl;
+//	std::cout << *_server << std::endl;
 }
