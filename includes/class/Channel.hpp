@@ -23,10 +23,11 @@ class Channel
 		Channel( Channel const &obj);
 		~Channel( void );
 
-		std::string		getName( void ) const;
-		std::string		getPassword( void ) const;
-		std::string		getTopic( void ) const;
+		const std::string		&getName( void ) const;
+		const std::string		&getPassword( void ) const;
+		const std::string		&getTopic( void ) const;
 		const std::map<std::string, Client * > &getClientMap( void ) const;
+
 		void			addClient( Client *client );
 
 		void 			mode(Client *client, std::string param);

@@ -14,19 +14,19 @@ Channel::~Channel( void )
 {
 }
 
-std::string		Channel::getName( void ) const
+const std::string		&Channel::getName( void ) const
 {
-	return _name;
+	return this->_name;
 }
 
-std::string		Channel::getPassword( void ) const
+const std::string		&Channel::getPassword( void ) const
 {
-	return _password;
+	return this->_password;
 }
 
-std::string		Channel::getTopic( void ) const
+const std::string		&Channel::getTopic( void ) const
 {
-	return _topic;
+	return this->_topic;
 }
 
 const std::map<std::string, Client *>	&Channel::getClientMap( void ) const
