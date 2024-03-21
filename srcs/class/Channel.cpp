@@ -89,12 +89,13 @@ void Channel::mode(Client *client, std::string param)
 			_inviteonly = true;
 		else if (param.at(1) == 'l')
 		{
-
+			// check si l'arg est valide, et le set
+			_limit = true;
 		}
 		else if (param.at(1) == 'k')
 		{
+			// check si l'arg est valide, et le set
 			_pwd = true;
-
 		}
 	}
 	else if (param.at(0) == '-')

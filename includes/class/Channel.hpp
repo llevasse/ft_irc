@@ -2,6 +2,7 @@
 # define CHANNEL_HPP
 #include "tools.hpp"
 #include "Client.hpp"
+#include <string>
 
 class Channel
 {
@@ -13,6 +14,7 @@ class Channel
 		bool			_topicmode;
 		bool			_inviteonly;
 		bool			_limit;
+		int				_limitnum;
 		std::string		_owner;
 		std::map<std::string, Client * >	_clients;
 
