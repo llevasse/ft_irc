@@ -23,9 +23,9 @@ Message::Message(Server *server, Client *client, const std::string message ){
 		this->mode();
 	else if (_command == "JOIN")
 		this->join();
-/*	else if (_command == "KICK")
-		Kick(_command, _param, socket);
-	else if (_command == "INVITE")
+	else if (_command == "KICK")
+		this->kick();
+	/*else if (_command == "INVITE")
 		Invite(_command, _param, socket);
 */
 }

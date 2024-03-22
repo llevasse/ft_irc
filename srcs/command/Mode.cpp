@@ -5,7 +5,6 @@ void Message::mode(){
 	size_t		beg		= _param.find("#");
 	size_t		nameDel = _param.find(" ");
 	std::string name = _param.substr(0, nameDel - beg);
-	std::cout << "'" + name + "'" << std::endl;
 	if (beg == std::string::npos){	//user mode
 		if (name != _client->getNickname()){
 			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 502 " + _client->getNickname() + " MODE " + name + " :Cant change mode for other users";

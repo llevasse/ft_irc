@@ -30,6 +30,7 @@ class Message{
 		void topic();
 		void mode();
 		void join();
+		void kick();
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);
