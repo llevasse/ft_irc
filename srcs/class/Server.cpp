@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/22 10:13:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/22 10:22:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,14 +183,14 @@ void	Server::clientAction( int index )
 			return ;
 		}
 
-		std::size_t found = data.find("\r\n");
+		std::size_t found = data.find("\n");
 		std::size_t prev = 0;
 		if (found != std::string::npos){
 			while (found != std::string::npos){		//to split hexchat connect command
-				tmp = data.substr(prev, found + 2);
+				tmp = data.substr(prev, found);
 //				std::cout << "Client " << client->getFd() << " sent: " << tmp;
 				prev = found + 2;
-				found = data.find("\r\n", found + 2);
+				found = data.find("\n", found + 1);
 				Message(this, client, tmp);
 			}
 		}
