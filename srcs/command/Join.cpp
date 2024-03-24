@@ -36,5 +36,4 @@ void Message::join(){
 		_client->sendData(reply);
 	}
 	std::cout << *channels[name] << std::endl;
-//	std::cout << *_server << std::endl;
 }

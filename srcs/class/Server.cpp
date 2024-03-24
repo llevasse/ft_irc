@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/22 12:57:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:28:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,10 @@ void	Server::loop( void )
 
 void	Server::clear( void )
 {
-	for (std::map< std::string, Channel * >::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+	for (std::map< std::string, Channel * >::iterator it = this->_channels.begin(); it != this->_channels.end(); it++){
 		delete it->second;
+		it->second = NULL;
+	}
 	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
 		delete it->second;
 
@@ -202,6 +204,7 @@ void	Server::clientAction( int index )
 		std::cerr << "Error: Client:" << client->getFd() << ": " << e.what() << std::endl;
 		this->removeClient(client->getFd(), index);
 	}
+//	std::cout << *this << std::endl;
 }
 
 /* ************************************************************************** */

@@ -16,6 +16,8 @@ Channel::Channel( Channel const &obj)
 
 Channel::~Channel( void )
 {
+//	for (std::map< std::string, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+//		it->second = NULL;
 }
 
 const std::string		&Channel::getName( void ) const
