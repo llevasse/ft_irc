@@ -8,6 +8,11 @@ void Message::join(){
 	std::string name = _param.substr(0, _param.find(" "));
 
 	channels = _server->getChannels();
+	if (name[0] != '#'){
+		reply = ":localhost 476 " + _client->getNickname() + " " + name + " :Invalid channel name";
+		_client->sendData(reply);
+		return ;
+	}
 	if (channels.find(name) == channels.end()){
 		_server->newChannel(name);
 		channels = _server->getChannels();
