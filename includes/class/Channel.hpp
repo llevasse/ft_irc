@@ -2,6 +2,7 @@
 # define CHANNEL_HPP
 #include "tools.hpp"
 #include "Client.hpp"
+#include <string>
 
 class Channel
 {
@@ -13,25 +14,28 @@ class Channel
 		bool			_topicmode;
 		bool			_inviteonly;
 		bool			_limit;
-		std::string		_owner;
+		int				_limitnum;
 		std::map<std::string, Client * >	_clients;
 
 
 	public:
 		Channel( std::string name);
-		Channel( std::string name, std::string password);
+		Channel( Client *client, std::string name);
 		Channel( Channel const &obj);
-		Channel &operator= ( Channel const &obj);
 		~Channel( void );
 
-		std::string		getName( void ) const;
-		std::string		getPassword( void ) const;
-		std::string		getTopic( void ) const;
+		const std::string		&getName( void ) const;
+		const std::string		&getPassword( void ) const;
+		const std::string		&getTopic( void ) const;
 		const std::map<std::string, Client * > &getClientMap( void ) const;
+
 		void			addClient( Client *client );
 
-		void 			mode(Client *client, std::string param);
-		void 			topic(Client *client, std::string param);
+		void			mode(Client *client, std::string param);
+		void			topic(Client *client, std::string param);
+		void			kick(Client *client, std::string param);
+
+		void			error(Client *client, std::string code, std::string msg, std::string channel);
 };
 std::ostream &operator << (std::ostream &out, const Channel &obj);
 
