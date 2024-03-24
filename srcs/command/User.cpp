@@ -7,9 +7,7 @@
 
 
 void Message::user(){
-
-	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough _parameters";
-
+	std::string	reply;
 	size_t 		nameDel = _param.find(" ");
 	size_t		modeDel = _param.find(" ", nameDel + 1);
 	size_t		unusedDel = _param.find(" ", modeDel + 1);
@@ -18,18 +16,18 @@ void Message::user(){
 	std::string _mode = _param.substr(nameDel + 1, modeDel - nameDel - 1);
 	std::string _unused = _param.substr(modeDel + 1, unusedDel - modeDel - 1);
 	if ((_name.length() == 1 && isdigit(_name[0])) || (_mode.length() > 1 || !isdigit(_mode[0])) || (_unused[0] == ':')){
-		_client->sendData(reply);
+		_client->sendData(getReply(461, _client->getNickname() + " USER"));
 		return ;
 	}
 	if (nameDel == std::string::npos || modeDel == std::string::npos || unusedDel == std::string::npos || realnameDel == std::string::npos){
-		_client->sendData(reply);
+		_client->sendData(getReply(461, _client->getNickname() + " USER"));
 		return ;
 	}
 	for (std::string::reverse_iterator rit=_param.rbegin(); rit!=_param.rend(); rit++){
 		if (!isspace(*rit) && *rit != ':')
 			break ;
 		else if (*rit == ':'){
-			_client->sendData(reply);
+			_client->sendData(getReply(461, _client->getNickname() + " USER"));
 			return;
 		}
 	}
@@ -55,6 +53,7 @@ void Message::user(){
 	}
 	//set username
 	_client->setUsername(_name);
+	_client->setAsRegistered();
 	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost NICK :" + _client->getNickname();
 	if (_client->getNickname() != ""){
 		_client->sendData(reply);

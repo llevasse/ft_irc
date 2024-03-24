@@ -31,6 +31,8 @@ class Message{
 		void mode();
 		void join();
 		void kick();
+
+		std::string getReply(unsigned short code, std::string arg1);
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);
