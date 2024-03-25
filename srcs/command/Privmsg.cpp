@@ -11,4 +11,15 @@ void Message::privmsg(){
 			return ;
 		}
 	}
+	if (name[0] == '#'){
+		Channel *channel = this->_server->getChannel(name);
+		std::string reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost PRIVMSG " + name + " " + mess; 
+		if (channel){
+			const std::map<std::string, Client * >	&clients = channel->getClientMap();
+			for (std::map<std::string, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++){
+				if (it->second->getUsername() != this->_client->getUsername())
+					it->second->sendData(reply);
+			}
+		}
+	}
 }
