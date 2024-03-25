@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/25 14:33:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:53:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,12 @@ void	Server::newClient( void )
 
 void	Server::removeClient( int fd, int index )
 {
+	for (std::map<std::string, Channel *>::const_iterator it = _channels.begin(); it != _channels.end(); it++){
+		std::map<std::string, Client * > clients = it->second->getClientMap();
+		clients.erase(clients.find(this->_clients[fd]->getUsername()));
+	}	
+
+
 	delete this->_clients[fd];
 	this->_clients.erase(fd);
 	this->_pollfds.erase(this->_pollfds.begin() + index);
