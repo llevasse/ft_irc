@@ -11,10 +11,10 @@ void Message::nick(){
 			break ;
 		}
 		else if (rit == _param.rend())
-			return (_client->sendData(getReply(431, _client->getUsername())));
+			return (_client->sendData(getReply(431)));
 	}
 	if (!found)
-		return (_client->sendData(getReply(431, _client->getUsername())));
+		return (_client->sendData(getReply(431)));
 	std::string	name = _param.substr(0, del);
 	//check if nickname is already in use
 	for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){

@@ -6,21 +6,26 @@ std::string ERR_ERRONEUSNICKNAME( std::string arg1 ) { return ("432 " + arg1 + "
 std::string ERR_NICKNAMEINUSE( std::string arg1 ) { return ("433 " + arg1 + " :Nickname is already in use");}
 
 std::string Message::getReply(unsigned short code, std::string arg1){
-	std::string source = ":";
-	if (_client->isRegistered() && _client->getNickname() != "" )
-		source += _client->getNickname() + "!" + _client->getUsername() + "@localhost ";
-	else
-		source += "localhost ";
+	std::string prefix = ":";
+	std::string name;
+	if (_client->isRegistered() && _client->getNickname() != "" ){
+		prefix += _client->getNickname() + "!" + _client->getUsername() + "@localhost ";
+		name = _client->getNickname() " ";
+	}
+	else{
+		name = "* ";
+		prefix += "localhost ";
+	}
 
 	switch (code){
 		case 431:
-			return (source + ERR_NONICKNAMEGIVEN(arg1));
+			return (prefix + ERR_NONICKNAMEGIVEN(name));
 		case 432:
-			return (source + ERR_ERRONEUSNICKNAME(arg1));
+			return (prefix + ERR_ERRONEUSNICKNAME(name + arg1));
 		case 433:
-			return (source + ERR_NICKNAMEINUSE(arg1));
+			return (prefix + ERR_NICKNAMEINUSE(name + arg1));
 		case 461:
-			return (source + ERR_NEEDMOREPARAMS(arg1));
+			return (prefix + ERR_NEEDMOREPARAMS(name + arg1));
 	}
 	return ("NaC");
 

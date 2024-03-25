@@ -9,14 +9,10 @@ void Message::pass(){
 			found = 1;
 			break ;
 		}
-		else if (rit == _param.rend()){
-			_client->sendData(reply);
-			return ;
-		}
+		else if (rit == _param.rend())
+			return (_client->sendData(getReply(461, _client->getNickname() + " PASS")));
 	}
-	if (!found){
-		_client->sendData(reply);
-		return ;
-	}
+	if (!found)
+		return (_client->sendData(getReply(461, _client->getNickname() + " PASS")));
 	_client->setPass(pass);
 }
