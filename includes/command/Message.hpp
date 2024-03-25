@@ -34,6 +34,8 @@ class Message{
 
 		std::string getReply(unsigned short code);
 		std::string getReply(unsigned short code, std::string arg1);
+		std::string getReply(unsigned short code, std::string arg1, std::string arg2);
+		std::string getReply(unsigned short code, std::string arg1, std::string arg2, std::string arg3);
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);
