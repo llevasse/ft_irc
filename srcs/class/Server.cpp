@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/21 14:30:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:01:21 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,50 @@ const std::string	&Server::getPassword( void ) const { return (this->_password);
 
 const std::map<std::string, Channel *>	&Server::getChannels( void ) const { return (this->_channels); }
 
+Channel	*Server::getChannel( const std::string &name ) const
+{
+	std::map<std::string, Channel *>::const_iterator it = this->_channels.find(name);
+
+	if (it == this->_channels.end())
+		return (NULL);
+
+	return (it->second);
+}
+
+/* ************************************************************************** */
+/*                                 Setters                                    */
+/* ************************************************************************** */
+
+void	Server::newClient( void )
+{
+	Client	*client = new Client(this->_pollfds[0].fd);
+	pollfd	pollfd;
+
+	this->_clients[client->getFd()] = client;
+
+	pollfd.fd = client->getFd();
+	pollfd.events = POLLIN;
+	pollfd.revents = 0;
+
+	this->_pollfds.push_back(pollfd);
+
+	std::cout << "New client " << client->getFd() << " connected" << std::endl;
+}
+
+void	Server::removeClient( int fd, int index )
+{
+	delete this->_clients[fd];
+	this->_clients.erase(fd);
+	this->_pollfds.erase(this->_pollfds.begin() + index);
+
+	std::cout << "Client " << fd << " disconnected" << std::endl;
+}
+
+void Server::newChannel( Client *client, const std::string &name )
+{
+	this->_channels[name] =  new Channel(client, name);
+}
+
 /* ************************************************************************** */
 /*                           Public member functions                          */
 /* ************************************************************************** */
@@ -97,35 +141,6 @@ void	Server::run( void )
 	std::cout << "Server started on port " << this->_port << std::endl;
 
 	this->loop();
-}
-
-void	Server::newChannel( std::string name ){
-	this->_channels[name] = new Channel(name);
-}
-
-void	Server::newClient( void )
-{
-	Client	*client = new Client(this->_pollfds[0].fd);
-	pollfd	pollfd;
-
-	this->_clients[client->getFd()] = client;
-
-	pollfd.fd = client->getFd();
-	pollfd.events = POLLIN;
-	pollfd.revents = 0;
-
-	this->_pollfds.push_back(pollfd);
-
-	std::cout << "New client " << client->getFd() << " connected" << std::endl;
-}
-
-void	Server::removeClient( int fd, int index )
-{
-	delete this->_clients[fd];
-	this->_clients.erase(fd);
-	this->_pollfds.erase(this->_pollfds.begin() + index);
-
-	std::cout << "Client " << fd << " disconnected" << std::endl;
 }
 
 void	Server::loop( void )
@@ -163,6 +178,7 @@ void	Server::clear( void )
 
 	this->_clients.clear();
 	this->_pollfds.clear();
+	this->_channels.clear();
 
 	Server::_loop = true;
 }
