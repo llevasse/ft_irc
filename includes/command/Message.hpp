@@ -32,6 +32,7 @@ class Message{
 		void join();
 		void kick();
 
+		std::string getReply(unsigned short code);
 		std::string getReply(unsigned short code, std::string arg1);
 };
 

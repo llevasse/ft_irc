@@ -3,16 +3,15 @@
 void Message::pass(){
 	std::string	pass = _param.substr(0, _param.find_first_of(" "));
 	bool found	= 0;
-	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough _parameters";
 	for (std::string::reverse_iterator rit=_param.rbegin(); rit!=_param.rend(); rit++){
 		if (!isspace(*rit)){
 			found = 1;
 			break ;
 		}
 		else if (rit == _param.rend())
-			return (_client->sendData(getReply(461, _client->getNickname() + " PASS")));
+			return (_client->sendData(getReply(461, "PASS")));
 	}
 	if (!found)
-		return (_client->sendData(getReply(461, _client->getNickname() + " PASS")));
+		return (_client->sendData(getReply(461, "PASS")));
 	_client->setPass(pass);
 }
