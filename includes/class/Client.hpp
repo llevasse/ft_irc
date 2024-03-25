@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/21 18:40:21 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:39:24 by naterrie         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 class Client
 {
-	private:
+	protected:
 
 		int 		_fd;
 		sockaddr_in	_addr;
@@ -32,6 +32,7 @@ class Client
 
 	public:
 
+		Client();
 		Client( int serverSocket );
 		~Client( void );
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/21 09:45:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:18:52 by naterrie         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 /* ************************************************************************** */
 /*                         Constructors & Destructors                         */
 /* ************************************************************************** */
+
+Client::Client( void ): _fd(-1)
+{
+}
 
 Client::Client( int serverSocket )
 {
@@ -31,8 +35,8 @@ Client::Client( int serverSocket )
 Client::~Client( void )
 {
 //	std::cout << "Client destructor called" << std::endl;
-
-	close(this->_fd);
+	if (this->_fd != -1)
+		close(this->_fd);
 }
 
 /* ************************************************************************** */
@@ -108,7 +112,7 @@ std::string	Client::receiveData( void )
 }
 
 void	Client::sendData( const std::string &data ) const
-{ 
+{
 	std::string reply = data + "\r\n";
 	if (send(this->_fd, reply.c_str(), reply.size(), 0) == -1)
 		throw Client::FailedToSendData();

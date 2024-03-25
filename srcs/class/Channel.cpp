@@ -45,6 +45,7 @@ void Channel::addClient( Client *client )
 
 void Channel::topic(Client *client, std::string param)
 {
+	(void)_limitnum;
 	if (param == "")
 		this->error(client, "461", "Not enough parameters", _name);
 	else if (this->_topicmode == false)
