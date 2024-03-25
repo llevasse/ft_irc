@@ -17,7 +17,8 @@ void Message::join(){
 
 		channel->addClient(this->_client);
 		reply = ":" + this->_client->getNickname() + "!" + this->_client->getUsername() + "@localhost JOIN " + name;
-		this->_client->sendData(reply);
+		for (std::map<std::string, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
+			it->second->sendData(reply);
 		for (std::map<std::string, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
 			this->_client->sendData(getReply(353, it->second->getNickname(), " = ", name));
 	}
