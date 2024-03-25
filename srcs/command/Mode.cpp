@@ -6,20 +6,41 @@ void Message::mode(){
 	size_t		nameDel = _param.find(" ");
 	std::string name = _param.substr(0, nameDel - beg);
 	if (beg == std::string::npos){	//user mode
-		if (name != _client->getNickname()){
-			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 502 " + _client->getNickname() + " MODE " + name + " :Cant change mode for other users";
-			_client->sendData(reply);
-			return ;
-		}
+		if (name != _client->getNickname())
+			return (_client->sendData(getReply(502)));
 		for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
-			if (it->second->getNickname() == name){
-				reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 401 " + _client->getNickname() + " MODE " + name + " :No such nickname";
-				_client->sendData(reply);
-				return ;
+			if (it->second->getNickname() != name)
+				return (_client->sendData(getReply(401, name)));
+		}
+		std::map<char, bool> modes = _client->getModesMap();
+		if (_param.find_first_of("+-") != std::string::npos){
+			for (std::string::iterator it = _param.begin() + nameDel; it != _param.end(); it++){
+				if (*it == '+'){
+					*it++;
+					while (it != _param.end() && !isspace(*it) && *it != '-' && *it != '+'){
+						modes[*it] = true;
+						it++;
+					}
+				}
+				if (*it == '-'){
+					*it++;
+					while (it != _param.end() && !isspace(*it) && *it != '-' && *it != '+'){
+						modes[*it] = false;
+						it++;
+					}
+				}
 			}
 		}
+		else{
+			std::string modeStr = "+";
+			for (std::map<char,bool>::iterator it = modes.begin(); it != modes.end(); it++){
+				if (it->second)
+					modeStr += it->first;
+			}
+			_client->sendData(getReply(221, modeStr));
+		}
 	}
-	else{	//channel mode
+/*	else{	//channel mode
 		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 403 " + _client->getNickname() +  " :No such channel.";
 		std::map<std::string, Channel *> channels = _server->getChannels();
 		if (channels.find(name) == channels.end()){
@@ -35,5 +56,5 @@ void Message::mode(){
 		}
 		
 		channels[name]->mode(_client, _param.substr(nameDel + 1));
-	}
+	}*/
 }

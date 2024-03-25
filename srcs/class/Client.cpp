@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/24 23:39:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:35:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ bool	Client::getPermission(const std::string &channel) const
 
 	return (it->second);
 }
+
+const std::map<char, bool> &Client::getModesMap() const { return (this->_modes);}
 
 bool	Client::isRegistered() const { return (this->_registered);}
 

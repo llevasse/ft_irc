@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/25 14:31:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:22:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ class Client
 		std::string _channel;
 		bool		_registered;
 		std::map<std::string, bool> _permissions;
+		std::map<char, bool> _modes;
 
 	public:
 
@@ -43,8 +44,10 @@ class Client
 		const std::string	&getUsername() const;
 		const std::string	&getPass() const;
 		const std::string	&getChannel() const;
+		const std::map<char, bool> &getModesMap() const;
 		bool				getPermission(const std::string &channel) const;
 		bool				isRegistered() const;
+
 
 		void				setNickname(const std::string name);
 		void				setUsername(const std::string name);
