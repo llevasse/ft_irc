@@ -5,6 +5,8 @@ std::string RPL_ENDOFNAMES( std::string arg1, std::string arg2 ) { return ("366 
 
 
 std::string ERR_NONICKNAMEGIVEN( std::string arg1 ) { return ("431 " + arg1 + ":No nickname given");}
+std::string ERR_NOSUCHCHANNEL( std::string arg1, std::string arg2 ) { return ("403 " + arg1 + arg2 + ":No such channel");}
+std::string ERR_NOTONCHANNEL( std::string arg1, std::string arg2 ) { return ("442 " + arg1 + arg2 + ":You're not on that channel");}
 std::string ERR_ERRONEUSNICKNAME( std::string arg1 ) { return ("432 " + arg1 + " :Erroneus nickname");}
 std::string ERR_NICKNAMEINUSE( std::string arg1 ) { return ("433 " + arg1 + " :Nickname is already in use");}
 std::string ERR_NEEDMOREPARAMS( std::string arg1 ) { return ("461 " + arg1 + " :Not enough parameters");}
@@ -28,12 +30,16 @@ std::string Message::getReply(unsigned short code, std::string arg1, std::string
 			return (prefix + RPL_NAMREPLY(arg1, arg2, arg3));
 		case 366:
 			return (prefix + RPL_ENDOFNAMES(arg1, arg2));
+		case 403:
+			return (prefix + ERR_NOSUCHCHANNEL(name, arg1));
 		case 431:
 			return (prefix + ERR_NONICKNAMEGIVEN(name));
 		case 432:
 			return (prefix + ERR_ERRONEUSNICKNAME(name + arg1));
 		case 433:
 			return (prefix + ERR_NICKNAMEINUSE(name + arg1));
+		case 442:
+			return (prefix + ERR_NOTONCHANNEL(name, arg1));
 		case 461:
 			return (prefix + ERR_NEEDMOREPARAMS(name + arg1));
 		case 462:

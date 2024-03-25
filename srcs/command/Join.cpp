@@ -12,6 +12,7 @@ void Message::join(){
 		this->_client->sendData(getReply(353, this->_client->getNickname(), " = ", name));
 	}
 	else{
+		//need implement reply 332 && 333
 		const std::map<std::string, Client * >	&clients = channel->getClientMap();
 
 		channel->addClient(this->_client);
