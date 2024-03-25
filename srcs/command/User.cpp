@@ -54,7 +54,7 @@ void Message::user(){
 	//set username
 	_client->setUsername(_name);
 	_client->setAsRegistered();
-	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost NICK :" + _client->getNickname();
+	reply = ":localhost NICK :" + _client->getNickname();
 	if (_client->getNickname() != ""){
 		_client->sendData(reply);
 	}
