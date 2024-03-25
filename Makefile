@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/24 23:43:28 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/25 14:30:15 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
