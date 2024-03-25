@@ -43,6 +43,16 @@ void Channel::addClient( Client *client )
 	this->_clients[client->getUsername()] = client;
 }
 
+void	Channel::sendMessage(Client *client, std::string msg)
+{
+	std::map<std::string, Client *>::iterator it;
+	for (it = this->_clients.begin(); it != this->_clients.end(); it++)
+	{
+		if (it->second != client)
+			it->second->sendData(":" + client->getNickname() + "!" + client->getUsername() + "@localhost PRIVMSG " + _name + " :" + msg);
+	}
+}
+
 void Channel::topic(Client *client, std::string param)
 {
 	if (param == "")

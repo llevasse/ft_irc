@@ -30,6 +30,7 @@ class Channel
 		const std::map<std::string, Client * > &getClientMap( void ) const;
 
 		void			addClient( Client *client );
+		void			sendMessage(Client *client, std::string msg);
 
 		void			mode(Client *client, std::string param);
 		void			topic(Client *client, std::string param);
