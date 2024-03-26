@@ -15,12 +15,16 @@ void Message::join(){
 		//need implement reply 332 && 333
 		const std::map<std::string, Client * >	&clients = channel->getClientMap();
 
-		channel->addClient(this->_client);
-		reply = ":" + this->_client->getNickname() + "!" + this->_client->getUsername() + "@localhost JOIN " + name;
-		for (std::map<std::string, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
-			it->second->sendData(reply);
-		for (std::map<std::string, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
-			this->_client->sendData(getReply(353, it->second->getNickname(), " = ", name));
+		if ((*channel)['i'] == false || ((*channel)['i'] == true && static_cast<int>(clients.size()) < channel->getClientLimit())){
+			channel->addClient(this->_client);
+			reply = ":" + this->_client->getNickname() + "!" + this->_client->getUsername() + "@localhost JOIN " + name;
+			for (std::map<std::string, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
+				it->second->sendData(reply);
+			for (std::map<std::string, Client *>::const_iterator it = clients.begin(); it != clients.end(); it++)
+				this->_client->sendData(getReply(353, it->second->getNickname(), " = ", name));
+		}
+		else
+			return (this->_client->sendData(getReply(471, name)));
 	}
 	this->_client->sendData(getReply(366,this->_client->getNickname(), name));
 }

@@ -16,8 +16,16 @@ void Message::mode(){
 		while (it != _param.end()){
 			if (*it == '+'){
 				it++;
-				while (*it == 'i' || *it == 't' || *it == 'k' || *it == 'o' || *it == 'l')
+				while (*it == 'i' || *it == 't' || *it == 'k' || *it == 'o' || *it == 'l'){
 					(*channels[name])[*it++] = true;
+					if (*(it - 1) == 'i'){
+						std::stringstream ss;
+						ss << _param.substr(it - _param.begin());
+						int limit;
+						ss >> limit;
+						channels[name]->setClientLimit(limit);
+					}
+				}
 			}
 			else if (*it == '-'){
 				it++;

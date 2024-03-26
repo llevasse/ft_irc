@@ -14,6 +14,7 @@ std::string ERR_NOTONCHANNEL( std::string arg1, std::string arg2 ) { return ("44
 std::string ERR_NEEDMOREPARAMS( std::string arg1 ) { return ("461 " + arg1 + " :Not enough parameters");}
 std::string ERR_ALREADYREGISTERED( std::string arg1 ) { return ("462 " + arg1 + ":You may not register");}
 std::string ERR_PASSWDMISMATCH( std::string arg1 ) { return ("464 " + arg1 + ":Password incorrect");}
+std::string ERR_CHANNELISFULL( std::string arg1, std::string arg2) { return ("471 " + arg1 + arg2 + " :Cannot join channel (+l)");}
 std::string ERR_USERDONTMATCH( std::string arg1 ) { return ("502 " + arg1 + ":Cant change mode for other users");}
 
 std::string Message::getReply(unsigned short code, std::string arg1, std::string arg2, std::string arg3){
@@ -53,6 +54,8 @@ std::string Message::getReply(unsigned short code, std::string arg1, std::string
 			return (prefix + ERR_ALREADYREGISTERED(name));
 		case 464:
 			return (prefix + ERR_PASSWDMISMATCH(name));
+		case 471:
+			return (prefix + ERR_CHANNELISFULL(name, arg1));
 		case 502:
 			return (prefix + ERR_USERDONTMATCH(name));
 	}
