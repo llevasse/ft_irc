@@ -17,17 +17,13 @@ void Message::mode(){
 			for (std::string::iterator it = _param.begin() + nameDel; it != _param.end(); it++){
 				if (*it == '+'){
 					*it++;
-					while (it != _param.end() && !isspace(*it) && *it != '-' && *it != '+'){
-						modes[*it] = true;
-						it++;
-					}
+					while (it != _param.end() && !isspace(*it) && *it != '-' && *it != '+')
+						(*_client)[*it++] = true;
 				}
 				if (*it == '-'){
 					*it++;
-					while (it != _param.end() && !isspace(*it) && *it != '-' && *it != '+'){
-						modes[*it] = false;
-						it++;
-					}
+					while (it != _param.end() && !isspace(*it) && *it != '-' && *it != '+')
+						(*_client)[*it++] = false;
 				}
 			}
 		}

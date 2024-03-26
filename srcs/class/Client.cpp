@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/25 22:35:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/26 09:29:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ void	Client::sendData( const std::string &data ) const
 		throw Client::FailedToSendData();
 	std::cout << "Reply '" << data << "'\n";
 }
+
+bool	&Client::operator []( char c) { return (_modes[c]);}
 
 /* ************************************************************************** */
 /*                             Exceptions classes                             */
