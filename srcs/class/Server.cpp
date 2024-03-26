@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/25 22:53:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:50:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ void	Server::removeClient( int fd, int index )
 {
 	for (std::map<std::string, Channel *>::const_iterator it = _channels.begin(); it != _channels.end(); it++){
 		std::map<std::string, Client * > clients = it->second->getClientMap();
-		clients.erase(clients.find(this->_clients[fd]->getUsername()));
+		if (clients.find(this->_clients[fd]->getUsername()) != clients.end())
+			clients.erase(clients.find(this->_clients[fd]->getUsername()));
 	}	
 
 
