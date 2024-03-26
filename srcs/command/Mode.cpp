@@ -13,25 +13,27 @@ void Message::mode(){
 		if (clients.find(_client->getUsername()) == clients.end())
 			return (_client->sendData(getReply(442, name)));
 		std::string::iterator it = _param.begin() + nameDel;
-		if (*it == '+'){
-			it++;
-			if (*it == 'l'){
-				(*channels[name])[*it++] = true;
-				std::stringstream ss;
-				ss << _param.substr(it - _param.begin());
-				int limit;
-				ss >> limit;
-				channels[name]->setClientLimit(limit);
+		while (it != _param.end()){
+			if (*it == '+'){
+				it++;
+				if (*it == 'l'){
+					(*channels[name])[*it++] = true;
+					std::stringstream ss;
+					ss << _param.substr(it - _param.begin());
+					int limit;
+					ss >> limit;
+					channels[name]->setClientLimit(limit);
+				}
+				else if (*it == 'i')
+					(*channels[name])[*it] = true;
 			}
-			else if (*it == 'i')
-				(*channels[name])[*it] = true;
+			else if (*it == '-'){
+				it++;
+				while (*it == 'i' || *it == 't' || *it == 'k' || *it == 'o' || *it == 'l')
+					(*channels[name])[*it++] = false;
+			}
+			else
+				it++;
 		}
-		else if (*it == '-'){
-			it++;
-			while (*it == 'i' || *it == 't' || *it == 'k' || *it == 'o' || *it == 'l')
-				(*channels[name])[*it++] = false;
-		}
-		else
-			it++;
 	}
 }
