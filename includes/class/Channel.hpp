@@ -16,6 +16,7 @@ class Channel
 		bool			_limit;
 		int				_limitnum;
 		std::map<std::string, Client * >	_clients;
+		std::map<char, bool>	_modes;
 
 
 	public:
@@ -28,6 +29,7 @@ class Channel
 		const std::string		&getPassword( void ) const;
 		const std::string		&getTopic( void ) const;
 		const std::map<std::string, Client * > &getClientMap( void ) const;
+		const std::map<char, bool>	&getModesMap( void ) const;
 
 		void			addClient( Client *client );
 
@@ -36,6 +38,9 @@ class Channel
 		void			kick(Client *client, std::string param);
 
 		void			error(Client *client, std::string code, std::string msg, std::string channel);
+
+		// return ref to _modes element with key c
+		bool	&operator [] (char c);
 };
 std::ostream &operator << (std::ostream &out, const Channel &obj);
 

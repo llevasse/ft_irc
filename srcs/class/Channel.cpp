@@ -16,8 +16,6 @@ Channel::Channel( Channel const &obj)
 
 Channel::~Channel( void )
 {
-//	for (std::map< std::string, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
-//		it->second = NULL;
 }
 
 const std::string		&Channel::getName( void ) const
@@ -38,6 +36,14 @@ const std::string		&Channel::getTopic( void ) const
 const std::map<std::string, Client *>	&Channel::getClientMap( void ) const
 {
 	return (this->_clients);
+}
+
+const std::map<char, bool>	&Channel::getModesMap( void ) const{
+	return (this->_modes);
+}
+
+bool	&Channel::operator [](char c){
+	return (this->_modes[c]);
 }
 
 void Channel::addClient( Client *client )

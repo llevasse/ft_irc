@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/26 09:29:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:43:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ bool	Client::getPermission(const std::string &channel) const
 	return (it->second);
 }
 
-const std::map<char, bool> &Client::getModesMap() const { return (this->_modes);}
-
 bool	Client::isRegistered() const { return (this->_registered);}
 
 /* ************************************************************************** */
@@ -121,8 +119,6 @@ void	Client::sendData( const std::string &data ) const
 		throw Client::FailedToSendData();
 	std::cout << "Reply '" << data << "'\n";
 }
-
-bool	&Client::operator []( char c) { return (_modes[c]);}
 
 /* ************************************************************************** */
 /*                             Exceptions classes                             */

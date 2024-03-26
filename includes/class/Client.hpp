@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/26 09:31:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:43:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ class Client
 		const std::string	&getUsername() const;
 		const std::string	&getPass() const;
 		const std::string	&getChannel() const;
-		const std::map<char, bool> &getModesMap() const;
 		bool				getPermission(const std::string &channel) const;
 		bool				isRegistered() const;
 
