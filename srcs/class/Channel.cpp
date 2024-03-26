@@ -42,6 +42,10 @@ const std::map<char, bool>	&Channel::getModesMap( void ) const{
 	return (this->_modes);
 }
 
+const std::map<std::string, bool>	&Channel::getInvitesMap( void ) const{
+	return (this->_invites);
+}
+
 const int	&Channel::getClientLimit( void ) const { return (this->_clientLimit);}
 
 bool	&Channel::operator [](char c){

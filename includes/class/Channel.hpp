@@ -12,6 +12,7 @@ class Channel
 		std::string		_topic;
 		int				_clientLimit;
 		std::map<std::string, Client * >	_clients;
+		std::map<std::string, bool >	_invites;
 		std::map<char, bool>	_modes;
 
 
@@ -26,6 +27,7 @@ class Channel
 		const std::string		&getTopic( void ) const;
 		const std::map<std::string, Client * > &getClientMap( void ) const;
 		const std::map<char, bool>	&getModesMap( void ) const;
+		const std::map<std::string, bool>	&getInvitesMap( void ) const;
 		const int	&getClientLimit(void) const;
 
 		void			setClientLimit(int limit);
