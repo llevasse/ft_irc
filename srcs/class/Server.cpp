@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/21 09:28:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:50:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,57 @@ const std::string	&Server::getPassword( void ) const { return (this->_password);
 
 const std::map<std::string, Channel *>	&Server::getChannels( void ) const { return (this->_channels); }
 
+Channel	*Server::getChannel( const std::string &name ) const
+{
+	std::map<std::string, Channel *>::const_iterator it = this->_channels.find(name);
+
+	if (it == this->_channels.end())
+		return (NULL);
+
+	return (it->second);
+}
+
+/* ************************************************************************** */
+/*                                 Setters                                    */
+/* ************************************************************************** */
+
+void	Server::newClient( void )
+{
+	Client	*client = new Client(this->_pollfds[0].fd);
+	pollfd	pollfd;
+
+	this->_clients[client->getFd()] = client;
+
+	pollfd.fd = client->getFd();
+	pollfd.events = POLLIN;
+	pollfd.revents = 0;
+
+	this->_pollfds.push_back(pollfd);
+
+	std::cout << "New client " << client->getFd() << " connected" << std::endl;
+}
+
+void	Server::removeClient( int fd, int index )
+{
+	for (std::map<std::string, Channel *>::const_iterator it = _channels.begin(); it != _channels.end(); it++){
+		std::map<std::string, Client * > clients = it->second->getClientMap();
+		if (clients.find(this->_clients[fd]->getUsername()) != clients.end())
+			clients.erase(clients.find(this->_clients[fd]->getUsername()));
+	}	
+
+
+	delete this->_clients[fd];
+	this->_clients.erase(fd);
+	this->_pollfds.erase(this->_pollfds.begin() + index);
+
+	std::cout << "Client " << fd << " disconnected" << std::endl;
+}
+
+void Server::newChannel( Client *client, const std::string &name )
+{
+	this->_channels[name] =  new Channel(client, name);
+}
+
 /* ************************************************************************** */
 /*                           Public member functions                          */
 /* ************************************************************************** */
@@ -99,31 +150,6 @@ void	Server::run( void )
 	this->loop();
 }
 
-void	Server::newClient( void )
-{
-	Client	*client = new Client(this->_pollfds[0].fd);
-	pollfd	pollfd;
-
-	this->_clients[client->getFd()] = client;
-
-	pollfd.fd = client->getFd();
-	pollfd.events = POLLIN;
-	pollfd.revents = 0;
-
-	this->_pollfds.push_back(pollfd);
-
-	std::cout << "New client " << client->getFd() << " connected" << std::endl;
-}
-
-void	Server::removeClient( int fd, int index )
-{
-	delete this->_clients[fd];
-	this->_clients.erase(fd);
-	this->_pollfds.erase(this->_pollfds.begin() + index);
-
-	std::cout << "Client " << fd << " disconnected" << std::endl;
-}
-
 void	Server::loop( void )
 {
 	while (Server::_loop)
@@ -146,9 +172,9 @@ void	Server::loop( void )
 
 void	Server::clear( void )
 {
-	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
-		delete it->second;
 	for (std::map< std::string, Channel * >::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+		delete it->second;
+	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
 		delete it->second;
 
 	if (this->_pollfds.size() > 0 && this->_pollfds[0].fd != -1)
@@ -159,6 +185,7 @@ void	Server::clear( void )
 
 	this->_clients.clear();
 	this->_pollfds.clear();
+	this->_channels.clear();
 
 	Server::_loop = true;
 }
@@ -179,14 +206,14 @@ void	Server::clientAction( int index )
 			return ;
 		}
 
-		std::size_t found = data.find("\r\n");
+		std::size_t found = data.find("\n");
 		std::size_t prev = 0;
+		std::cout << "Client " << client->getFd() << " sent: " << data;
 		if (found != std::string::npos){
 			while (found != std::string::npos){		//to split hexchat connect command
-				tmp = data.substr(prev, found + 2);
-//				std::cout << "Client " << client->getFd() << " sent: " << tmp;
-				prev = found + 2;
-				found = data.find("\r\n", found + 2);
+				tmp = data.substr(prev, found);
+				prev = found + 1;
+				found = data.find("\n", prev);
 				Message(this, client, tmp);
 			}
 		}
@@ -198,6 +225,7 @@ void	Server::clientAction( int index )
 		std::cerr << "Error: Client:" << client->getFd() << ": " << e.what() << std::endl;
 		this->removeClient(client->getFd(), index);
 	}
+//	std::cout << *this << std::endl;
 }
 
 /* ************************************************************************** */
@@ -257,3 +285,17 @@ const char	*Server::FailedToPoll::what() const throw()
 /* ************************************************************************** */
 
 bool	Server::_loop = true;
+
+std::ostream &operator << (std::ostream &out, const Server &obj){
+	std::map<int, Client *> clients = obj.getClientsMap();
+	out << "clients : " << std::endl;
+	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++){
+		out << "\t:" << it->first << " : " << it->second->getNickname() << std::endl;
+	}
+	std::map<std::string, Channel *> channels = obj.getChannels();
+	out << "channels : " << std::endl;
+	for (std::map<std::string, Channel *>::iterator it = channels.begin(); it != channels.end(); it++){
+		out << "\t:'" << it->first << "'" << std::endl;
+	}
+	return (out);
+}

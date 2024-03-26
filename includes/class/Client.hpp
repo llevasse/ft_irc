@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/19 17:28:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:43:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@
 
 class Client
 {
+	private:
+
+		int 		_fd;
+		sockaddr_in	_addr;
+		socklen_t	_lenAddr;
+		std::string _nickname;
+		std::string _username;
+		std::string _data;
+		std::string _pass;
+		std::string _channel;
+		bool		_registered;
+		std::map<std::string, bool> _permissions;
+		std::map<char, bool> _modes;
+
 	public:
 
 		Client( int serverSocket );
@@ -31,12 +45,15 @@ class Client
 		const std::string	&getPass() const;
 		const std::string	&getChannel() const;
 		bool				getPermission(const std::string &channel) const;
+		bool				isRegistered() const;
+
 
 		void				setNickname(const std::string name);
 		void				setUsername(const std::string name);
 		void				setPermission(const std::string &channel, bool permission);
 		void				setPass(const std::string pass);
 		void				setChannel(const std::string name);
+		void				setAsRegistered();
 		void				removePermission(const std::string &channel);
 
 		/* receiveData will receive data from the client
@@ -48,6 +65,9 @@ class Client
 		sendData can throw the following exceptions:
 		- FailedToSendData */
 		void		sendData( const std::string &data ) const;
+
+		/* return reference to element of _modes with key c	*/
+		bool	&operator [] (char c);
 
 		class FailedToAcceptClient : public std::exception
 		{
@@ -66,18 +86,6 @@ class Client
 			public:
 				virtual const char	*what() const throw();
 		};
-
-	private:
-
-		int 		_fd;
-		sockaddr_in	_addr;
-		socklen_t	_lenAddr;
-		std::string _nickname;
-		std::string _username;
-		std::string _data;
-		std::string _pass;
-		std::string _channel;
-		std::map<std::string, bool> _permissions;
 };
 
 #endif

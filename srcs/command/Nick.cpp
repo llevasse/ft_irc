@@ -4,28 +4,24 @@ void Message::nick(){
 	size_t del	= _param.find(" ");
 	bool found	= 0;
 
-	std::string	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 461 " + _client->getNickname() +  " :Not enough parameters";
+	std::string reply;
 	for (std::string::reverse_iterator rit=_param.rbegin(); rit!=_param.rend(); rit++){
 		if (!isspace(*rit)){
 			found = 1;
 			break ;
 		}
-		else if (rit == _param.rend()){
-			_client->sendData(reply);
-			return ;
-		}
+		else if (rit == _param.rend())
+			return (_client->sendData(getReply(431)));
 	}
-	if (!found){
-		_client->sendData(reply);
-		return ;
-	}
+	if (!found)
+		return (_client->sendData(getReply(431)));
 	std::string	name = _param.substr(0, del);
 	//check if nickname is already in use
 	for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
 		if (it->second->getNickname() == name){
-			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 432 " + _client->getNickname() + " " + name + " :Nickname already in use";
-			_client->sendData(reply);
-			return ;
+			if (_client->getNickname() != "")
+				return (_client->sendData(getReply(433, _client->getNickname() + " " + name)));
+			return (_client->sendData(getReply(433, "* " + name)));
 		}
 	}
 	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost NICK :" + name;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/04 18:16:30 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/20 17:22:23 by llevasse         ###   ########.fr        #
+#    Updated: 2024/03/25 14:30:15 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS_DIR	= srcs/
 INC_DIR		= includes/
 CC			= c++
 CFLAGS		= -Wall -Werror -Wextra -std=c++98 -g3
-INC			= -I $(INC_DIR) -I includes/class/
+INC			= -I $(INC_DIR) -I includes/class/ -I includes/command/
 RM			= rm -fr
 
 # **************************************************************************** #
@@ -76,7 +76,9 @@ COMMAND_FILES	=	Invite.cpp\
 					Privmsg.cpp\
 					Topic.cpp \
 					Mode.cpp \
-					User.cpp
+					Kick.cpp \
+					User.cpp \
+					Reply.cpp
 
 ALL_FILES		+= $(addprefix $(COMMAND_DIR), $(COMMAND_FILES))
 

@@ -4,35 +4,36 @@ void Message::mode(){
 	std::string	reply;
 	size_t		beg		= _param.find("#");
 	size_t		nameDel = _param.find(" ");
-	std::string name = _param.substr(beg + 1, nameDel - beg);
-	if (beg == std::string::npos){	//user mode
-		if (name != _client->getNickname()){
-			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 502 " + _client->getNickname() + " MODE " + name + " :Cant change mode for other users";
-			_client->sendData(reply);
-			return ;
-		}
-		for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
-			if (it->second->getNickname() == name){
-				reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 401 " + _client->getNickname() + " MODE " + name + " :No such nickname";
-				_client->sendData(reply);
-				return ;
-			}
-		}
-	}
-	else{	//channel mode
-		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 403 " + _client->getNickname() +  " :No such channel.";
+	std::string name = _param.substr(0, nameDel - beg);
+	if (beg != std::string::npos){	//user mode
 		std::map<std::string, Channel *> channels = _server->getChannels();
-		if (channels.find(name) == channels.end()){
-			_client->sendData(reply);
-			return ;
-		}
-		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 442 " + _client->getNickname() +  " :Your not on that channel.";
+		if (channels.find(name) == channels.end())
+			return (_client->sendData(getReply(403, name)));
 		std::map<std::string, Client * >	clients = channels[name]->getClientMap();
-		if (clients.find(_client->getUsername()) == clients.end()){
-			_client->sendData(reply);
-			return ;
+		if (clients.find(_client->getUsername()) == clients.end())
+			return (_client->sendData(getReply(442, name)));
+		std::string::iterator it = _param.begin() + nameDel;
+		while (it != _param.end()){
+			if (*it == '+'){
+				it++;
+				if (*it == 'l'){
+					(*channels[name])[*it++] = true;
+					std::stringstream ss;
+					ss << _param.substr(it - _param.begin());
+					int limit;
+					ss >> limit;
+					channels[name]->setClientLimit(limit);
+				}
+				else if (*it == 'i')
+					(*channels[name])[*it] = true;
+			}
+			else if (*it == '-'){
+				it++;
+				while (*it == 'i' || *it == 't' || *it == 'k' || *it == 'o' || *it == 'l')
+					(*channels[name])[*it++] = false;
+			}
+			else
+				it++;
 		}
-		
-		channels[name]->mode(_client, _param.substr(nameDel + 1));
 	}
 }
