@@ -15,9 +15,11 @@ void Message::join(){
 	std::string reply;
 	std::string name;
 	std::queue<std::string> nameQ;
+	std::queue<std::string> keyQ;
 
 	// push each channel passed in _param inside of queue
 	size_t	nameDel = this->_param.find_first_of(", ");
+	size_t	keyDel = this->_param.find(" ");
 	size_t	prev = 0;
 	while (nameDel != std::string::npos && this->_param[nameDel] == ','){
 		nameQ.push(this->_param.substr(prev, nameDel - prev));
@@ -25,7 +27,16 @@ void Message::join(){
 		nameDel = this->_param.find_first_of(", ", prev);
 	}
 	nameQ.push(this->_param.substr(prev, nameDel - prev));
-
+	prev = keyDel + 1;
+	if (keyDel != std::string::npos){
+		keyDel = this->_param.find(",", prev);
+		while (keyDel != std::string::npos){
+			keyQ.push(this->_param.substr(prev, keyDel - prev));
+			prev = keyDel + 1;
+			keyDel = this->_param.find(",", prev);
+		}
+		keyQ.push(this->_param.substr(prev, keyDel - prev));
+	}
 	while (!nameQ.empty()){
 		name = nameQ.front();
 		nameQ.pop();
@@ -33,9 +44,14 @@ void Message::join(){
 
 		if (channel == NULL){
 			this->_server->newChannel(this->_client, name);
+			if (!keyQ.empty()){
+				this->_server->getChannel(name)->setPassword(keyQ.front());
+				keyQ.pop();
+			}
 			reply = ":" + this->_client->getNickname() + "!" + this->_client->getUsername() + "@localhost JOIN " + name;
 			this->_client->sendData(reply);
 			this->_client->sendData(getReply(353, this->_client->getNickname(), " = ", name));
+			std::cout << "Create channel with name : " << name << " and key " << this->_server->getChannel(name)->getPassword() << std::endl;
 		}
 		else{
 			//need implement reply 332 && 333
