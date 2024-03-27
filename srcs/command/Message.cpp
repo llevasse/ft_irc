@@ -5,10 +5,8 @@ Message::Message(Server *server, Client *client, const std::string message ){
 	_client = client;
 	size_t	sep = message.find(" ");
 	size_t	returnSep = message.find_first_of("\r\n");
-	if (message[returnSep] == '\r')
+	if (message[returnSep] == '\r' || message[returnSep] == '\n')
 		returnSep--;
-	else if (message[returnSep] == '\n')
-		returnSep -= 2;
 	if (sep == std::string::npos)
 		sep = returnSep;
 	_command = message.substr(0, sep);

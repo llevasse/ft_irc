@@ -9,6 +9,7 @@
 # include "Client.hpp"
 # include "Channel.hpp"
 # include <sstream>
+# include <queue>
 
 class Server;
 
