@@ -26,8 +26,11 @@ void Message::mode(){
 				}
 				else if (*it == 'i')
 					(*channels[name])[*it] = true;
-				else if (*it == 'k')
+				else if (*it == 'k'){
+					beg = _param.find_first_not_of(" ", it - _param.begin() + 1);
 					(*channels[name])[*it] = true;
+					channels[name]->setPassword(_param.substr(beg));
+				}
 			}
 			else if (*it == '-'){
 				it++;
