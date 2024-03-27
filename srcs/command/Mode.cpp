@@ -26,6 +26,8 @@ void Message::mode(){
 				}
 				else if (*it == 'i')
 					(*channels[name])[*it] = true;
+				else if (*it == 'k')
+					(*channels[name])[*it] = true;
 			}
 			else if (*it == '-'){
 				it++;
