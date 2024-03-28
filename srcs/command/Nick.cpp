@@ -1,21 +1,10 @@
 #include "Message.hpp"
 
 void Message::nick(){
-	size_t del	= _param.find(" ");
-	bool found	= 0;
-
 	std::string reply;
-	for (std::string::reverse_iterator rit=_param.rbegin(); rit!=_param.rend(); rit++){
-		if (!isspace(*rit)){
-			found = 1;
-			break ;
-		}
-		else if (rit == _param.rend())
-			return (_client->sendData(getReply(431)));
-	}
-	if (!found)
+	if (_params.size() == 0)
 		return (_client->sendData(getReply(431)));
-	std::string	name = _param.substr(0, del);
+	std::string	name = _params[0];
 	//check if nickname is already in use
 	if (_server->getClient(name)){
 		if (_client->getNickname() != "")
