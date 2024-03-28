@@ -31,7 +31,6 @@ class Channel
 		const int	&getClientLimit(void) const;
 
 		void			setClientLimit(int limit);
-		void			setPassword(std::string pw);
 
 		void			addClient( Client *client );
 

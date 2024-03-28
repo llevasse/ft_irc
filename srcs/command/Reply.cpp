@@ -16,7 +16,6 @@ std::string ERR_ALREADYREGISTERED( std::string arg1 ) { return ("462 " + arg1 + 
 std::string ERR_PASSWDMISMATCH( std::string arg1 ) { return ("464 " + arg1 + ":Password incorrect");}
 std::string ERR_CHANNELISFULL( std::string arg1, std::string arg2) { return ("471 " + arg1 + arg2 + " :Cannot join channel (+l)");}
 std::string ERR_INVITEONLYCHAN( std::string arg1, std::string arg2) { return ("473 " + arg1 + arg2 + " :Cannot join channel (+i)");}
-std::string ERR_BADCHANNELKEY( std::string arg1, std::string arg2) { return ("475 " + arg1 + arg2 + " :Cannot join channel (+k)");}
 std::string ERR_USERDONTMATCH( std::string arg1 ) { return ("502 " + arg1 + ":Cant change mode for other users");}
 
 std::string Message::getReply(unsigned short code, std::string arg1, std::string arg2, std::string arg3){
@@ -60,8 +59,6 @@ std::string Message::getReply(unsigned short code, std::string arg1, std::string
 			return (prefix + ERR_CHANNELISFULL(name, arg1));
 		case 473:
 			return (prefix + ERR_INVITEONLYCHAN(name, arg1));
-		case 475:
-			return (prefix + ERR_BADCHANNELKEY(name, arg1));
 		case 502:
 			return (prefix + ERR_USERDONTMATCH(name));
 	}

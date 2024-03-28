@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/28 15:23:09 by eguelin          ###   ########.fr       */
+/*   Updated: 2024/03/28 17:03:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ void	Server::_clear( void )
 
 void	Server::_clientRequest( size_t &index )
 {
-	Client	*client = this->_clients[this->_pollfds[index].fd];
+	Client	*client = this->_clients[index - 1];
 	std::string	data;
 	std::string tmp;
 

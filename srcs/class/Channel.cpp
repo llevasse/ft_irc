@@ -54,8 +54,6 @@ bool	&Channel::operator [](char c){
 
 void	Channel::setClientLimit( int limit ) { this->_clientLimit = limit;}
 
-void	Channel::setPassword( std::string pw ) { this->_password = pw;}
-
 void Channel::addClient( Client *client )
 {
 	this->_clients[client->getUsername()] = client;

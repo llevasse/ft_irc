@@ -5,7 +5,7 @@ void Message::mode(){
 	size_t		beg		= _param.find("#");
 	size_t		nameDel = _param.find(" ");
 	std::string name = _param.substr(0, nameDel - beg);
-	if (beg != std::string::npos){
+	if (beg != std::string::npos){	//user mode
 		Channel *	channel = _server->getChannel(name);
 
 		if (!channel)
@@ -28,11 +28,6 @@ void Message::mode(){
 				}
 				else if (*it == 'i')
 					(*channel)[*it] = true;
-				else if (*it == 'k'){
-					beg = _param.find_first_not_of(" ", it - _param.begin() + 1);
-					(*channel)[*it] = true;
-					channel->setPassword(_param.substr(beg));
-				}
 			}
 			else if (*it == '-'){
 				it++;
