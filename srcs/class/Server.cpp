@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/28 17:07:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:22:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ const std::string	&Server::getPassword() const
 	return (this->_password);
 }
 
-Client				*Server::getClient( const std::string &nick ) const
+Client	*Server::getClient( const std::string &nick ) const
 {
 	std::map<std::string, Client *>::const_iterator it = this->_clientsNick.find(nick);
 
@@ -65,7 +65,7 @@ Client				*Server::getClient( const std::string &nick ) const
 	return (it->second);
 }
 
-Channel				*Server::getChannel( const std::string &name ) const
+Channel	*Server::getChannel( const std::string &name ) const
 {
 	std::map<std::string, Channel *>::const_iterator it = this->_channels.find(name);
 
@@ -118,7 +118,7 @@ void	Server::newClient( void )
 
 	this->_pollfds.push_back(pollfd);
 
-	std::cout << "New client " << client->getFd() << " connected" << std::endl;
+	std::cout << "Client " << client->getFd() << " connected" << std::endl;
 }
 
 void	Server::removeClient( size_t index )
@@ -128,8 +128,13 @@ void	Server::removeClient( size_t index )
 	this->_clients.erase(this->_clients.begin() + index - 1);
 	this->_pollfds.erase(this->_pollfds.begin() + index);
 
-	this->_clientsNick.erase(client->getNickname());
-	this->_usernames.erase(std::find(this->_usernames.begin(), this->_usernames.end(), client->getUsername()));
+
+	if (client->getNickname() != "")
+		this->_clientsNick.erase(client->getNickname());
+	if (client->getUsername() != "")
+		this->_usernames.erase(std::find(this->_usernames.begin(), this->_usernames.end(), client->getUsername()));
+
+	std::cout << "Client " << client->getFd() << " disconnected" << std::endl;
 
 	delete client;
 }

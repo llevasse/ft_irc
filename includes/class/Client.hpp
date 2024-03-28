@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/26 14:43:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:03:09 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include "tools.hpp"
+// # include "Channel.hpp"
 
 class Client
 {
@@ -89,3 +90,23 @@ class Client
 };
 
 #endif
+
+// # include "Channel.hpp"
+
+// class Client
+// {
+// 	private:
+
+// 		int 								_fd;
+// 		std::string 						_pass;
+// 		sockaddr_in							_addr;
+// 		socklen_t							_lenAddr;
+// 		std::string 						_nickname;
+// 		std::string 						_username;
+// 		std::string 						_data;
+// 		std::map< std::string, Channel * >	_channels;
+// 		bool								_registered;
+
+// 	public:
+
+// 		Client( int serverFd );
