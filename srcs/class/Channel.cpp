@@ -4,7 +4,7 @@ Channel::Channel(std::string name) : _name(name)
 {
 }
 
-Channel::Channel( Client *client, std::string name) : _name(name)
+Channel::Channel( Client *client, std::string name, std::string password) : _name(name), _password(password)
 {
 	this->_clients[client->getUsername()] = client;
 }

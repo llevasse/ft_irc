@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/26 16:50:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:23:09 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,23 @@
 /*                         Constructors & Destructors                         */
 /* ************************************************************************** */
 
+
 Server::Server( const std::string &port, const std::string &password)
 {
-	long	portInt = std::strtol(port.c_str(), NULL, 10);
+	this->_checkPort(port);
 
-	if (portInt < 1024 || portInt > std::numeric_limits<unsigned short>::max())
-		throw Server::BadPort();
-
-	this->_port = portInt;
-
-	if (password.size() > 32)
-		throw Server::PasswordTooLong();
-
-	for (std::string::const_iterator it = password.begin(); it != password.end(); it++)
-	{
-		if (!std::isprint(*it))
-			throw Server::BadPassword();
-	}
-
+	if (!Server::isValidPasswordSyntax(password))
+		throw Server::BadPassword();
 	this->_password = password;
 
 	this->_addr.sin_port = htons(this->_port);
 	this->_addr.sin_family = PF_INET;
-	this->_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-	signal(SIGINT, Server::stop);
+	this->_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 }
 
 Server::~Server( void )
 {
-	this->clear();
+	this->_clear();
 }
 
 /* ************************************************************************** */
@@ -63,15 +50,22 @@ Server	&Server::operator=( const Server &src )
 /*                                 Getters                                    */
 /* ************************************************************************** */
 
-unsigned int	Server::getNbClients( void ) const { return (this->_clients.size()); }
+const std::string	&Server::getPassword() const
+{
+	return (this->_password);
+}
 
-const std::map<int, Client *>	&Server::getClientsMap( void ) const { return (this->_clients); }
+Client				*Server::getClient( const std::string &nick ) const
+{
+	std::map<std::string, Client *>::const_iterator it = this->_clientsNick.find(nick);
 
-const std::string	&Server::getPassword( void ) const { return (this->_password); }
+	if (it == this->_clientsNick.end())
+		return (NULL);
 
-const std::map<std::string, Channel *>	&Server::getChannels( void ) const { return (this->_channels); }
+	return (it->second);
+}
 
-Channel	*Server::getChannel( const std::string &name ) const
+Channel				*Server::getChannel( const std::string &name ) const
 {
 	std::map<std::string, Channel *>::const_iterator it = this->_channels.find(name);
 
@@ -79,47 +73,6 @@ Channel	*Server::getChannel( const std::string &name ) const
 		return (NULL);
 
 	return (it->second);
-}
-
-/* ************************************************************************** */
-/*                                 Setters                                    */
-/* ************************************************************************** */
-
-void	Server::newClient( void )
-{
-	Client	*client = new Client(this->_pollfds[0].fd);
-	pollfd	pollfd;
-
-	this->_clients[client->getFd()] = client;
-
-	pollfd.fd = client->getFd();
-	pollfd.events = POLLIN;
-	pollfd.revents = 0;
-
-	this->_pollfds.push_back(pollfd);
-
-	std::cout << "New client " << client->getFd() << " connected" << std::endl;
-}
-
-void	Server::removeClient( int fd, int index )
-{
-	for (std::map<std::string, Channel *>::const_iterator it = _channels.begin(); it != _channels.end(); it++){
-		std::map<std::string, Client * > clients = it->second->getClientMap();
-		if (clients.find(this->_clients[fd]->getUsername()) != clients.end())
-			clients.erase(clients.find(this->_clients[fd]->getUsername()));
-	}	
-
-
-	delete this->_clients[fd];
-	this->_clients.erase(fd);
-	this->_pollfds.erase(this->_pollfds.begin() + index);
-
-	std::cout << "Client " << fd << " disconnected" << std::endl;
-}
-
-void Server::newChannel( Client *client, const std::string &name )
-{
-	this->_channels[name] =  new Channel(client, name);
 }
 
 /* ************************************************************************** */
@@ -147,14 +100,110 @@ void	Server::run( void )
 
 	std::cout << "Server started on port " << this->_port << std::endl;
 
-	this->loop();
+	signal(SIGINT, Server::stop);
+
+	this->_loop();
 }
 
-void	Server::loop( void )
+void	Server::newClient( void )
 {
-	while (Server::_loop)
+	Client	*client = new Client(this->_pollfds[0].fd);
+	pollfd	pollfd;
+
+	this->_clients.push_back(client);
+
+	pollfd.fd = client->getFd();
+	pollfd.events = POLLIN;
+	pollfd.revents = 0;
+
+	this->_pollfds.push_back(pollfd);
+
+	std::cout << "New client " << client->getFd() << " connected" << std::endl;
+}
+
+void	Server::removeClient( size_t index )
+{
+	Client	*client = this->_clients[index - 1];
+
+	this->_clients.erase(this->_clients.begin() + index - 1);
+	this->_pollfds.erase(this->_pollfds.begin() + index);
+
+	this->_clientsNick.erase(client->getNickname());
+	this->_usernames.erase(std::find(this->_usernames.begin(), this->_usernames.end(), client->getUsername()));
+
+	delete client;
+}
+
+void	Server::newChannel( Client *client, const std::string &name , const std::string &password)
+{
+	this->_channels[name] =  new Channel(client, name, password);
+}
+
+void	Server::removeChannel( const std::string &name )
+{
+	delete this->_channels[name];
+	this->_channels.erase(name);
+}
+
+void	Server::addClientNick( Client *client )
+{
+	this->_clientsNick[client->getNickname()] = client;
+}
+
+void	Server::changeClientNick( const std::string &oldNick, const std::string &newNick )
+{
+	Client	*client = this->_clientsNick[oldNick];
+
+	this->_clientsNick.erase(oldNick);
+	this->_clientsNick[newNick] = client;
+}
+
+void	Server::addUsername( const std::string &username )
+{
+	this->_usernames.push_back(username);
+}
+
+bool	Server::usernameExists( const std::string &username )
+{
+	return (std::find(this->_usernames.begin(), this->_usernames.end(), username) != this->_usernames.end());
+}
+
+/* ************************************************************************** */
+/*                           Static member functions                          */
+/* ************************************************************************** */
+
+bool	Server::isValidPasswordSyntax( const std::string &password )
+{
+	if (password.size() > 32)
+		return (false);
+
+	for (std::string::const_iterator it = password.begin(); it != password.end(); it++)
 	{
-		if (poll(this->_pollfds.data(), this->_pollfds.size(), -1) == -1 && Server::_loop)
+		if (!std::isalnum(*it) && std::string::npos == std::string("()_+-=[]{}',.<>/|\\\"").find(*it))
+			return (false);
+	}
+
+	return (true);
+}
+
+void	Server::stop( int signal )
+{
+	static_cast<void>(signal);
+
+	Server::_loop_flag = false;
+
+	std::cout << std::endl << "Server stopped" << std::endl;
+}
+
+/* ************************************************************************** */
+/*                            private member functions                        */
+/* ************************************************************************** */
+
+void	Server::_loop( void )
+{
+	while (Server::_loop_flag)
+	{
+		if (poll(this->_pollfds.data(), this->_pollfds.size(), -1) == -1 && Server::_loop_flag)
 			throw Server::FailedToPoll();
 
 		if (this->_pollfds[0].revents & POLLIN)
@@ -163,34 +212,31 @@ void	Server::loop( void )
 		for (size_t i = 1; i < this->_pollfds.size(); i++)
 		{
 			if (this->_pollfds[i].revents & POLLIN)
-				this->clientAction(i);
+				this->_clientRequest(i);
 		}
 	}
 
-	this->clear();
+	signal(SIGINT, SIG_DFL);
+
+	this->_clear();
 }
 
-void	Server::clear( void )
+void	Server::_clear( void )
 {
-	for (std::map< std::string, Channel * >::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
-		delete it->second;
-	for (std::map< int, Client * >::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
 		delete it->second;
 
-	if (this->_pollfds.size() > 0 && this->_pollfds[0].fd != -1)
-	{
-		close(this->_pollfds[0].fd);
-		this->_pollfds[0].fd = -1;
-	}
+	for (std::vector<Client *>::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+		delete *it;
 
 	this->_clients.clear();
 	this->_pollfds.clear();
 	this->_channels.clear();
 
-	Server::_loop = true;
 }
 
-void	Server::clientAction( int index )
+
+void	Server::_clientRequest( size_t &index )
 {
 	Client	*client = this->_clients[this->_pollfds[index].fd];
 	std::string	data;
@@ -202,7 +248,8 @@ void	Server::clientAction( int index )
 
 		if (data.empty())
 		{
-			this->removeClient(client->getFd(), index);
+			this->removeClient(index);
+			index--;
 			return ;
 		}
 
@@ -223,22 +270,19 @@ void	Server::clientAction( int index )
 	catch (const std::exception &e)
 	{
 		std::cerr << "Error: Client:" << client->getFd() << ": " << e.what() << std::endl;
-		this->removeClient(client->getFd(), index);
+		this->removeClient(index);
+		index--;
 	}
-//	std::cout << *this << std::endl;
 }
 
-/* ************************************************************************** */
-/*                           Static member functions                          */
-/* ************************************************************************** */
-
-void	Server::stop( int signal )
+void	Server::_checkPort( const std::string &port )
 {
-	static_cast<void>(signal);
+	long	portInt = std::strtol(port.c_str(), NULL, 10);
 
-	Server::_loop = false;
+	if (portInt < 1024 || portInt > std::numeric_limits<unsigned short>::max())
+		throw Server::BadPort();
 
-	std::cout << std::endl << "Server stopped" << std::endl;
+	this->_port = portInt;
 }
 
 /* ************************************************************************** */
@@ -284,18 +328,4 @@ const char	*Server::FailedToPoll::what() const throw()
 /*                           Static member variables                          */
 /* ************************************************************************** */
 
-bool	Server::_loop = true;
-
-std::ostream &operator << (std::ostream &out, const Server &obj){
-	std::map<int, Client *> clients = obj.getClientsMap();
-	out << "clients : " << std::endl;
-	for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); it++){
-		out << "\t:" << it->first << " : " << it->second->getNickname() << std::endl;
-	}
-	std::map<std::string, Channel *> channels = obj.getChannels();
-	out << "channels : " << std::endl;
-	for (std::map<std::string, Channel *>::iterator it = channels.begin(); it != channels.end(); it++){
-		out << "\t:'" << it->first << "'" << std::endl;
-	}
-	return (out);
-}
+bool	Server::_loop_flag = true;

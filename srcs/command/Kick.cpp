@@ -7,8 +7,8 @@ void Message::kick(){
 	std::string name = _param.substr(0, nameDel - beg);
 	if (beg == std::string::npos)
 		return (_client->sendData(getReply(461, "KICK")));
-	std::map<std::string, Channel *> channels = _server->getChannels();
-	std::map<std::string, Client * >	clients = channels[name]->getClientMap();
+	Channel *channel = _server->getChannel(name);
+	std::map<std::string, Client * >	clients = channel->getClientMap();
 //		std::cout << *channels[name] << std::endl;
 	if (clients.find(_client->getUsername()) == clients.end())
 		return (_client->sendData(getReply(442, name)));

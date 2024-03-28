@@ -18,7 +18,7 @@ class Channel
 
 	public:
 		Channel( std::string name);
-		Channel( Client *client, std::string name);
+		Channel( Client *client, std::string name, std::string password);
 		Channel( Channel const &obj);
 		~Channel( void );
 

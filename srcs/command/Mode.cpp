@@ -5,11 +5,13 @@ void Message::mode(){
 	size_t		beg		= _param.find("#");
 	size_t		nameDel = _param.find(" ");
 	std::string name = _param.substr(0, nameDel - beg);
-	if (beg != std::string::npos){	//user mode
-		std::map<std::string, Channel *> channels = _server->getChannels();
-		if (channels.find(name) == channels.end())
+	if (beg != std::string::npos){
+		Channel *	channel = _server->getChannel(name);
+
+		if (!channel)
 			return (_client->sendData(getReply(403, name)));
-		std::map<std::string, Client * >	clients = channels[name]->getClientMap();
+
+		std::map<std::string, Client * >	clients = channel->getClientMap();
 		if (clients.find(_client->getUsername()) == clients.end())
 			return (_client->sendData(getReply(442, name)));
 		std::string::iterator it = _param.begin() + nameDel;
@@ -17,25 +19,25 @@ void Message::mode(){
 			if (*it == '+'){
 				it++;
 				if (*it == 'l'){
-					(*channels[name])[*it++] = true;
+					(*channel)[*it++] = true;
 					std::stringstream ss;
 					ss << _param.substr(it - _param.begin());
 					int limit;
 					ss >> limit;
-					channels[name]->setClientLimit(limit);
+					channel->setClientLimit(limit);
 				}
 				else if (*it == 'i')
-					(*channels[name])[*it] = true;
+					(*channel)[*it] = true;
 				else if (*it == 'k'){
 					beg = _param.find_first_not_of(" ", it - _param.begin() + 1);
-					(*channels[name])[*it] = true;
-					channels[name]->setPassword(_param.substr(beg));
+					(*channel)[*it] = true;
+					channel->setPassword(_param.substr(beg));
 				}
 			}
 			else if (*it == '-'){
 				it++;
 				while (*it == 'i' || *it == 't' || *it == 'k' || *it == 'o' || *it == 'l')
-					(*channels[name])[*it++] = false;
+					(*channel)[*it++] = false;
 			}
 			else
 				it++;
