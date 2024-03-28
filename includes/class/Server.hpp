@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:50:47 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/25 22:49:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:00:41 by eguelin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,24 @@ class Server
 {
 	private:
 
-		u_short							_port;
-		std::string						_password;
-		sockaddr_in						_addr;
-		std::map< int, Client * >		_clients;
-		std::vector< pollfd > 			_pollfds;
-		std::map<std::string, Channel *>	_channels;
+		u_short								_port;
+		sockaddr_in							_addr;
+		std::string							_password;
 
-		static bool					_loop;
+		std::vector< Client * >				_clients;
+		std::vector< pollfd > 				_pollfds;
+
+		std::map< std::string, Client * >	_clientsNick;
+		std::map< std::string, Channel * >	_channels;
+
+		std::vector< std::string >			_usernames;
+
+		static bool							_loop_flag;
+
+		void	_loop( void );
+		void	_clear( void );
+		void	_clientRequest( size_t &index );
+		void	_checkPort( const std::string &port );
 
 	public:
 
@@ -39,21 +49,25 @@ class Server
 
 		Server	&operator=( const Server &src );
 
-		unsigned int							getNbClients() const;
-		const std::map<int, Client *>			&getClientsMap() const;
-		const std::string						&getPassword() const;
-		const std::map<std::string, Channel *>	&getChannels() const;
-		Channel									*getChannel( const std::string &name ) const;
-
-		void	newClient( void );
-		void	removeClient( int fd, int index );
-		void	newChannel( Client *client, const std::string &name );
+		const std::string	&getPassword() const;
+		Client				*getClient( const std::string &nick ) const;
+		Channel				*getChannel( const std::string &name ) const;
 
 		void	run( void );
-		void	clientAction( int index );
-		void	loop( void );
-		void	clear( void );
 
+		void	newClient( void );
+		void	removeClient( size_t index );
+
+		void	newChannel( Client *client, const std::string &name , const std::string &password = "");
+		void	removeChannel( const std::string &name );
+
+		void	addClientNick( Client *client );
+		void	changeClientNick( const std::string &oldNick, const std::string &newNick );
+
+		void	addUsername( const std::string &username );
+		bool	usernameExists( const std::string &username );
+
+		static bool	isValidPasswordSyntax( const std::string &password );
 		static void	stop( int signal );
 
 		class BadPort : public std::exception

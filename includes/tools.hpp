@@ -13,6 +13,7 @@
 # include <map>
 # include <vector>
 # include <limits>
+# include <algorithm>
 
 typedef struct sockaddr_in sockaddr_in;
 typedef struct sockaddr sockaddr;

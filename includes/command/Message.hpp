@@ -3,8 +3,6 @@
 # define MESSAGE_HPP
 
 # include <iostream>
-# include "Join.hpp"
-# include "Invite.hpp"
 # include "Server.hpp"
 # include "Client.hpp"
 # include "Channel.hpp"

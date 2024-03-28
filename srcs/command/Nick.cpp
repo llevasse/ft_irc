@@ -17,12 +17,10 @@ void Message::nick(){
 		return (_client->sendData(getReply(431)));
 	std::string	name = _param.substr(0, del);
 	//check if nickname is already in use
-	for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
-		if (it->second->getNickname() == name){
-			if (_client->getNickname() != "")
-				return (_client->sendData(getReply(433, _client->getNickname() + " " + name)));
-			return (_client->sendData(getReply(433, "* " + name)));
-		}
+	if (_server->getClient(name)){
+		if (_client->getNickname() != "")
+			return (_client->sendData(getReply(433, _client->getNickname() + " " + name)));
+		return (_client->sendData(getReply(433, "* " + name)));
 	}
 	reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost NICK :" + name;
 	_client->setNickname(name);

@@ -33,10 +33,9 @@ void Message::user(){
 		return (_client->sendData(getReply(462)));
 
 	//check if username is already taken
-	for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
-		if (it->second->getUsername() == _name)
-			return (_client->sendData(getReply(462)));
-	}
+	if (_server->usernameExists(_name))
+		return (_client->sendData(getReply(462)));
+
 	//set username
 	_client->setUsername(_name);
 	_client->setAsRegistered();
