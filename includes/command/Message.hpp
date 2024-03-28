@@ -10,6 +10,7 @@
 # include "Channel.hpp"
 # include <sstream>
 # include <queue>
+# include <vector>
 
 class Server;
 
@@ -19,8 +20,9 @@ class Message{
 		std::string _param;
 		Server*		_server;
 		Client*		_client;
+		std::vector<std::string> _params;
 	public:
-		Message(Server *server, Client *client, const std::string message );
+		Message(Server *server, Client *client, const std::string &message );
 		Message( Message const &obj );
 		Message &operator= ( Message const &obj );
 		~Message( void );
