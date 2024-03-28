@@ -1,10 +1,10 @@
 #include "Channel.hpp"
 
-Channel::Channel(std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false), _inviteonly(false), _limit(false), _limitnum(0)
+Channel::Channel(std::string name) : _name(name)
 {
 }
 
-Channel::Channel( Client *client, std::string name) : _name(name), _password(""), _topic(""), _pwd(false), _topicmode(false), _inviteonly(false), _limit(false), _limitnum(0)
+Channel::Channel( Client *client, std::string name, std::string password) : _name(name), _password(password)
 {
 	this->_clients[client->getUsername()] = client;
 }
@@ -38,6 +38,22 @@ const std::map<std::string, Client *>	&Channel::getClientMap( void ) const
 	return (this->_clients);
 }
 
+const std::map<char, bool>	&Channel::getModesMap( void ) const{
+	return (this->_modes);
+}
+
+const std::map<std::string, bool>	&Channel::getInvitesMap( void ) const{
+	return (this->_invites);
+}
+
+const int	&Channel::getClientLimit( void ) const { return (this->_clientLimit);}
+
+bool	&Channel::operator [](char c){
+	return (this->_modes[c]);
+}
+
+void	Channel::setClientLimit( int limit ) { this->_clientLimit = limit;}
+
 void Channel::addClient( Client *client )
 {
 	this->_clients[client->getUsername()] = client;
@@ -45,8 +61,9 @@ void Channel::addClient( Client *client )
 
 void Channel::topic(Client *client, std::string param)
 {
-	(void)_limitnum;
-	if (param == "")
+	(void)client;
+	(void)param;
+/*	if (param == "")
 		this->error(client, "461", "Not enough parameters", _name);
 	else if (this->_topicmode == false)
 		this->error(client, "331", "No topic is set", _name);
@@ -62,7 +79,7 @@ void Channel::topic(Client *client, std::string param)
 	{
 		_topic = param;
 		(client->getNickname() + "!" + client->getUsername() + "@localhost TOPIC" + _name + " :" + param);
-	}
+	}*/
 }
 
 void Channel::kick(Client *client, std::string param)
@@ -87,7 +104,7 @@ void Channel::kick(Client *client, std::string param)
 	}
 }
 
-void Channel::mode(Client *client, std::string param)
+/*void Channel::mode(Client *client, std::string param)
 {
 	if (param.length() < 2)
 		client->sendData("MODE " + _name + " :" + param + " :Not enough parameters");
@@ -122,7 +139,7 @@ void Channel::mode(Client *client, std::string param)
 			_pwd = false;
 	}
 }
-
+*/
 void Channel::error(Client *client, std::string code, std::string msg, std::string channel)
 {
 	client->sendData(":localhost " + code + " " + client->getNickname() + " " + channel + " :" + msg);

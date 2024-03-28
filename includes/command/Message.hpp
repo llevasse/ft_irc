@@ -3,11 +3,10 @@
 # define MESSAGE_HPP
 
 # include <iostream>
-# include "Join.hpp"
-# include "Invite.hpp"
 # include "Server.hpp"
 # include "Client.hpp"
 # include "Channel.hpp"
+# include <sstream>
 
 class Server;
 
@@ -30,6 +29,12 @@ class Message{
 		void topic();
 		void mode();
 		void join();
+		void kick();
+
+		std::string getReply(unsigned short code);
+		std::string getReply(unsigned short code, std::string arg1);
+		std::string getReply(unsigned short code, std::string arg1, std::string arg2);
+		std::string getReply(unsigned short code, std::string arg1, std::string arg2, std::string arg3);
 };
 
 std::ostream &operator << (std::ostream &out, const Message &obj);

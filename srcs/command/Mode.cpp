@@ -5,36 +5,37 @@ void Message::mode(){
 	size_t		beg		= _param.find("#");
 	size_t		nameDel = _param.find(" ");
 	std::string name = _param.substr(0, nameDel - beg);
-	std::cout << "'" + name + "'" << std::endl;
-	if (beg == std::string::npos){	//user mode
-		if (name != _client->getNickname()){
-			reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 502 " + _client->getNickname() + " MODE " + name + " :Cant change mode for other users";
-			_client->sendData(reply);
-			return ;
-		}
-		for (std::map< int, Client * >::const_iterator it = _server->getClientsMap().begin(); it != _server->getClientsMap().end(); it++){
-			if (it->second->getNickname() == name){
-				reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 401 " + _client->getNickname() + " MODE " + name + " :No such nickname";
-				_client->sendData(reply);
-				return ;
+	if (beg != std::string::npos){	//user mode
+		Channel *	channel = _server->getChannel(name);
+
+		if (!channel)
+			return (_client->sendData(getReply(403, name)));
+
+		std::map<std::string, Client * >	clients = channel->getClientMap();
+		if (clients.find(_client->getUsername()) == clients.end())
+			return (_client->sendData(getReply(442, name)));
+		std::string::iterator it = _param.begin() + nameDel;
+		while (it != _param.end()){
+			if (*it == '+'){
+				it++;
+				if (*it == 'l'){
+					(*channel)[*it++] = true;
+					std::stringstream ss;
+					ss << _param.substr(it - _param.begin());
+					int limit;
+					ss >> limit;
+					channel->setClientLimit(limit);
+				}
+				else if (*it == 'i')
+					(*channel)[*it] = true;
 			}
+			else if (*it == '-'){
+				it++;
+				while (*it == 'i' || *it == 't' || *it == 'k' || *it == 'o' || *it == 'l')
+					(*channel)[*it++] = false;
+			}
+			else
+				it++;
 		}
-	}
-	else{	//channel mode
-		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 403 " + _client->getNickname() +  " :No such channel.";
-		std::map<std::string, Channel *> channels = _server->getChannels();
-		if (channels.find(name) == channels.end()){
-			_client->sendData(reply);
-			return ;
-		}
-		reply = ":" + _client->getNickname() + "!" + _client->getUsername() + "@localhost 442 " + _client->getNickname() +  " :Your not on that channel.";
-		std::map<std::string, Client * >	clients = channels[name]->getClientMap();
-//		std::cout << *channels[name] << std::endl;
-		if (clients.find(_client->getUsername()) == clients.end()){
-			_client->sendData(reply);
-			return ;
-		}
-		
-		channels[name]->mode(_client, _param.substr(nameDel + 1));
 	}
 }

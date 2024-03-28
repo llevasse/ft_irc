@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/25 15:18:52 by naterrie         ###   ########lyon.fr   */
+/*   Updated: 2024/03/28 16:51:10 by naterrie         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ Client::Client( int serverSocket )
 
 	if (this->_fd == -1)
 		throw Client::FailedToAcceptClient();
+	_registered = false;
 }
 
 Client::~Client( void )
@@ -67,6 +68,8 @@ bool	Client::getPermission(const std::string &channel) const
 	return (it->second);
 }
 
+bool	Client::isRegistered() const { return (this->_registered);}
+
 /* ************************************************************************** */
 /*                                  Setters                                   */
 /* ************************************************************************** */
@@ -77,6 +80,8 @@ void	Client::setUsername(const std::string name) {_username = name;}
 void	Client::setPass(const std::string pass) {_pass = pass;}
 
 void	Client::setChannel(const std::string name) {_channel = name;}
+
+void	Client::setAsRegistered() {_registered = true;}
 
 void	Client::setPermission(const std::string &channel, bool permission) {this->_permissions[channel] = permission;}
 

@@ -6,7 +6,7 @@
 /*   By: naterrie <naterrie@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 10:49:53 by eguelin           #+#    #+#             */
-/*   Updated: 2024/03/25 14:39:24 by naterrie         ###   ########lyon.fr   */
+/*   Updated: 2024/03/28 16:50:55 by naterrie         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ class Client
 		std::string _data;
 		std::string _pass;
 		std::string _channel;
+		bool		_registered;
 		std::map<std::string, bool> _permissions;
+		std::map<char, bool> _modes;
 
 	public:
 
@@ -44,12 +46,15 @@ class Client
 		const std::string	&getPass() const;
 		const std::string	&getChannel() const;
 		bool				getPermission(const std::string &channel) const;
+		bool				isRegistered() const;
+
 
 		void				setNickname(const std::string name);
 		void				setUsername(const std::string name);
 		void				setPermission(const std::string &channel, bool permission);
 		void				setPass(const std::string pass);
 		void				setChannel(const std::string name);
+		void				setAsRegistered();
 		void				removePermission(const std::string &channel);
 
 		/* receiveData will receive data from the client
@@ -61,6 +66,9 @@ class Client
 		sendData can throw the following exceptions:
 		- FailedToSendData */
 		void		sendData( const std::string &data ) const;
+
+		/* return reference to element of _modes with key c	*/
+		bool	&operator [] (char c);
 
 		class FailedToAcceptClient : public std::exception
 		{
